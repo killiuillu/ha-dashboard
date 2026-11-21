@@ -29,7 +29,7 @@ export class EvccLoadpointCard extends EvccBaseCard {
     const knob =
       pct === null
         ? nothing
-        : html`<circle class="knob" cx="${g.knob.x}" cy="${g.knob.y}" r="11" /><circle cx="${g.knob.x}" cy="${g.knob.y}" r="4.5" fill="var(--tone)" />`;
+        : html`<circle class="knob" cx="${g.knob.x}" cy="${g.knob.y}" r="11" /><circle class="dot" cx="${g.knob.x}" cy="${g.knob.y}" r="4.5" />`;
     return html`
       <div class="lp" style="--tone:${tone}">
         <div class="top">

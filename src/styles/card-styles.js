@@ -205,6 +205,7 @@ export const cardStyles = css`
     stroke-width: 3;
     filter: var(--evc-shadow-knob);
   }
+  .dial .dot { fill: var(--tone); }
   .dial .fill.muted { stroke: var(--evc-color-status-off); filter: none; opacity: .5; }
   .dial .scale { font-size: 10px; fill: var(--evc-color-ha-textSecondary); }
   .dial .tlabel { font-size: 11px; font-weight: 600; fill: var(--tone); }
@@ -221,6 +222,7 @@ export const cardStyles = css`
   }
   .line {
     fill: none;
+    stroke: var(--c, var(--tone));
     stroke-width: 2.4;
     stroke-linecap: round;
     stroke-linejoin: round;
