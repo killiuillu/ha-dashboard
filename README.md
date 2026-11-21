@@ -12,14 +12,30 @@ Design-Tokens (Farben, Radien, Schatten, Typografie, Tooltip) liegen zentral in
 
 ```bash
 npm install
-npm run build        # baut dist/evcc-dashboard.js (esbuild)
+npm run build        # baut dist/ha-dashboard.js (esbuild)
 npm run dev          # Watch-Build + Dev-Server: http://127.0.0.1:8123/dev/
 ```
 
 Die Dev-Seite (`dev/index.html`) lädt das Bundle mit einem Mock-`hass` (Fixture
 `dev/fixture.json`, Entities `sensor.evcc_*`) und zeigt die Token-Übersicht sowie alle
-registrierten `custom:evcc-*`-Karten. In Home Assistant wird das Bundle als
-Lovelace-Ressource eingebunden (`/evcc-dashboard/dist/evcc-dashboard.js`).
+registrierten `custom:evcc-*`-Karten.
+
+## Installation in Home Assistant
+
+### Über den Marketplace (HACS) – empfohlen
+Ab HA 2026.11 ist HACS direkt als **Marketplace** eingebaut, davor als HACS-Integration.
+
+1. Marketplace/HACS öffnen → ⋮ (oben rechts) → **Benutzerdefinierte Repositories**
+2. URL `https://github.com/killiuillu/ha-dashboard` eintragen, Kategorie **Dashboard** wählen → Hinzufügen
+3. „evcc Dashboard“ installieren (lädt das Release-Asset `ha-dashboard.js`)
+4. HACS fügt die Lovelace-Ressource automatisch hinzu: `/hacsfiles/ha-dashboard/ha-dashboard.js?hacstag=…`
+5. Browser-Tab neu laden – die Karten erscheinen im Karten-Picker, die Strategie im „Dashboard hinzufügen“-Dialog (ab HA 2026.5 unter *Community-Dashboards*)
+
+### Manuell (ohne HACS)
+1. `dist/ha-dashboard.js` aus einem [Release](https://github.com/killiuillu/ha-dashboard/releases) laden (oder lokal `npm ci && npm run build`)
+2. Datei nach `config/www/evcc-dashboard/ha-dashboard.js` kopieren (`/local/` = `config/www/`)
+3. **Einstellungen → Dashboards → ⋮ → Ressourcen → Ressource hinzufügen:** URL `/local/evcc-dashboard/ha-dashboard.js?v=0.1.0`, Typ **JavaScript-Modul**
+4. Browser-Tab neu laden (YAML-Modus stattdessen: `lovelace: resources: - url: /local/evcc-dashboard/ha-dashboard.js type: module`, dann `lovelace.reload_resources` oder Neustart)
 
 ## Tests
 
@@ -47,7 +63,7 @@ Das ganze Dashboard automatisch aus den evcc-Entities aufbauen lassen:
 ```yaml
 title: evcc
 strategy:
-  type: evcc
+  type: custom:evcc
   prefix: evcc   # optional, Default "evcc"
 ```
 
