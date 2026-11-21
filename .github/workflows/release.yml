@@ -23,5 +23,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
+            hacs.json
             dist/ha-dashboard.js
             dist/ha-dashboard.js.gz
