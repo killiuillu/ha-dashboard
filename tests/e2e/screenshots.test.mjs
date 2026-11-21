@@ -1,6 +1,27 @@
-import { mkdirSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { test } from "@playwright/test";
 import { openDevPage } from "../helpers.mjs";
+
+async function probe(page, file, points) {
+  const b64 = readFileSync(file).toString("base64");
+  return page.evaluate(
+    async ({ b64, points }) => {
+      const img = new Image();
+      img.src = "data:image/png;base64," + b64;
+      await img.decode();
+      const c = document.createElement("canvas");
+      c.width = img.width;
+      c.height = img.height;
+      const g = c.getContext("2d");
+      g.drawImage(img, 0, 0);
+      return {
+        size: [img.width, img.height],
+        px: points.map(([x, y]) => [x, y, ...g.getImageData(Math.round(x), Math.round(y), 1, 1).data]),
+      };
+    },
+    { b64, points },
+  );
+}
 
 const SHOTS = "shots";
 const TAGS = ["evcc-overview-card", "evcc-loadpoint-card", "evcc-vehicle-card", "evcc-history-card", "evcc-energy-card"];
@@ -19,9 +40,11 @@ test("Screenshots aller evcc-Karten für den Optik-Vergleich", async ({ page, br
   const ctx = await browser.newContext({ viewport: { width: 480, height: 900 }, deviceScaleFactor: 2 });
   const p2 = await ctx.newPage();
   await openDevPage(p2);
-  await p2.waitForTimeout(500);
+  await p2.waitForTimeout(700);
   await p2.locator("#cards evcc-loadpoint-card .lp .dial").screenshot({ path: `${SHOTS}/dial-zoom.png` });
   await p2.locator("#cards evcc-history-card .chart").screenshot({ path: `${SHOTS}/chart-zoom.png` });
+  const dialProbe = await probe(p2, `${SHOTS}/dial-zoom.png`, [[240, 24], [277, 28], [99, 365], [381, 365], [240, 190]]);
+  const chartProbe = await probe(p2, `${SHOTS}/chart-zoom.png`, [[323, 100], [323, 200], [440, 240], [100, 400]]);
   await ctx.close();
 
   const diag = await page.evaluate(() => {
@@ -44,7 +67,14 @@ test("Screenshots aller evcc-Karten für den Optik-Vergleich", async ({ page, br
       firstStroke: paths[0] ? getComputedStyle(paths[0]).stroke : null,
       firstWidth: paths[0] ? getComputedStyle(paths[0]).strokeWidth : null,
     };
+    out.dial.fillStroke = dialSvg?.querySelector(".fill") ? getComputedStyle(dialSvg.querySelector(".fill")).stroke : null;
+    out.dial.dotFill = dialSvg?.querySelector(".dot") ? getComputedStyle(dialSvg.querySelector(".dot")).fill : null;
+    await document.fonts.load('16px "Material Design Icons"').catch(() => {});
     out.mdiFont = document.fonts.check('16px "Material Design Icons"');
+    out.fontsLoaded = document.fonts.size;
+    out.mdiCss = await fetch("/dev/vendor/mdi/materialdesignicons.min.css").then((r) => r.status).catch(() => "fetch-error");
+    out.dialProbe = dialProbe;
+    out.chartProbe = chartProbe;
     out.evcVar = getComputedStyle(document.documentElement).getPropertyValue("--evc-color-status-ok").trim();
     return out;
   });
