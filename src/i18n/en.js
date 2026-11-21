@@ -51,4 +51,8 @@ export const EN = {
     "History of PV, grid, home and battery for today (recorder statistics, 5-minute means). Display only – nothing is controlled.",
   "Energie und Kosten heute. Preise über entities.price und entities.feed_in_price, z. B. aus dem HA-Energy-Dashboard. Nur Anzeige – es wird nichts gesteuert.":
     "Energy and costs for today. Prices via entities.price and entities.feed_in_price, e.g. from the HA energy dashboard. Display only – nothing is controlled.",
+  Übersicht: "Overview",
+  Verlauf: "History",
+  Ladepunkte: "Charge points",
+  "Baut das Dashboard automatisch aus den evcc-Entities auf": "Builds the dashboard automatically from the evcc entities",
 };
