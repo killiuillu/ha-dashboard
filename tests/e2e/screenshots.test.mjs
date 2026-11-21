@@ -76,7 +76,8 @@ test("Screenshots aller evcc-Karten für den Optik-Vergleich", async ({ page, br
   const iconPx = await countColor(p2, `${SHOTS}/loadpoint-zoom.png`, [60, 60, 60], 60);
   await ctx.close();
 
-  const diag = await page.evaluate(async ({ dialProbe, chartProbe }) => {
+  const pixelCounts = { fillPx, trackPx, greenPx, bluePx, iconPx };
+  const diag = await page.evaluate(async ({ dialProbe, chartProbe, pixelCounts }) => {
     const out = {};
     const lp = document.querySelector("#cards evcc-loadpoint-card");
     const dialSvg = lp?.shadowRoot?.querySelector(".dial svg");
@@ -104,9 +105,9 @@ test("Screenshots aller evcc-Karten für den Optik-Vergleich", async ({ page, br
     out.mdiCss = await fetch("/dev/vendor/mdi/materialdesignicons.min.css").then((r) => r.status).catch(() => "fetch-error");
     out.dialProbe = dialProbe;
     out.chartProbe = chartProbe;
-    out.pixelCounts = { fillPx, trackPx, greenPx, bluePx, iconPx };
+    out.pixelCounts = pixelCounts;
     out.evcVar = getComputedStyle(document.documentElement).getPropertyValue("--evc-color-status-ok").trim();
     return out;
-  }, { dialProbe, chartProbe });
+  }, { dialProbe, chartProbe, pixelCounts });
   writeFileSync(`${SHOTS}/diagnostics.json`, JSON.stringify(diag, null, 2));
 });
