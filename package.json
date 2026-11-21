@@ -1,0 +1,22 @@
+{
+  "name": "ha-dashboard-evcc",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Lovelace-Custom-Cards und Dashboard-Strategie für evcc im visuellen Stil von Raumklima 2 – reine Anzeige, keine Steuerung",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "watch": "node scripts/build.mjs --watch",
+    "check": "node scripts/build.mjs --check",
+    "dev": "node scripts/dev.mjs",
+    "test": "playwright test",
+    "test:unit": "node --test tests/unit/*.test.mjs"
+  },
+  "dependencies": {
+    "lit": "^3.2.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.49.1",
+    "esbuild": "^0.25.0"
+  }
+}
