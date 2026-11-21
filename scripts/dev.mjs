@@ -15,7 +15,7 @@ const ctx = await esbuild.context({
   legalComments: "none",
   charset: "utf8",
   define: { __APP_VERSION__: JSON.stringify(pkg.version) },
-  outfile: resolve(root, "dist/evcc-dashboard.js"),
+  outfile: resolve(root, "dist/ha-dashboard.js"),
   logLevel: "info",
 });
 await ctx.watch();

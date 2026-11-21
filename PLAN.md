@@ -29,7 +29,7 @@ Ampelfarben, „?“-Erklärungen) – **reine Anzeige, keine Steuerung**.
 ├── package.json                Scripts: build / watch / check / dev / test / test:unit
 ├── playwright.config.mjs       E2E-Tests gegen lokalen Dev-Server (127.0.0.1:8123)
 ├── scripts/
-│   ├── build.mjs               esbuild: src/index.js → dist/evcc-dashboard.js (iife, es2022)
+│   ├── build.mjs               esbuild: src/index.js → dist/ha-dashboard.js (iife, es2022)
 │   ├── dev.mjs                 esbuild-Watch + Dev-Server
 │   └── serve.mjs               statischer Server nur auf 127.0.0.1 (Dev/Test)
 ├── src/
@@ -61,7 +61,7 @@ Ampelfarben, „?“-Erklärungen) – **reine Anzeige, keine Steuerung**.
 
 ## Tools
 
-- **esbuild** (wie Raumklima 2): ein Bundle `dist/evcc-dashboard.js`, `format: iife`, `target: es2022`
+- **esbuild** (wie Raumklima 2): ein Bundle `dist/ha-dashboard.js`, `format: iife`, `target: es2022`
 - **Lit** für die HA-Cards (`EvccBaseCard extends LitElement`; HA-Standard: `setConfig`, `hass`, `getCardSize`, `getGridOptions`, `getStubConfig`, Registrierung über `customElements` + `window.customCards`)
 - **Dev-Setup**: lokales HA-Test-Dashboard unter `npm run dev` → http://127.0.0.1:8123/dev/ mit Mock-`hass` (Fixture), statt haf-lighthouse – so ist der Look ohne laufende HA-Instanz prüfbar
 - **Playwright** (Chromium) für E2E-Tests je Karte, wie `frontend/test/render.mjs` in Raumklima 2: Bundle in echte Browser-Seite laden, `pageerror`/Konsolenfehler assertieren, gerendertes HTML/DOM prüfen
@@ -114,13 +114,22 @@ Dashboard-Strategie (M6):
 ```yaml
 title: evcc
 strategy:
-  type: evcc
+  type: custom:evcc
   prefix: evcc   # optional, Default "evcc"
 ```
 
 `ll-strategy-dashboard-evcc` erkennt die Entities am Präfix (`sensor.<prefix>_pv_power`, `_grid_power`,
 `_home_power`, `_battery_soc`, `_battery_power`, `_<x>_today`, `_price`, `_loadpoint_<n>_*`) und baut
 „Übersicht" (Overview-, Ladepunkt-, Energie-Karte) sowie „Verlauf" (History) automatisch auf.
+
+## HACS/Marketplace-Verpackung (M7)
+
+- `hacs.json` im Repo-Root; Build-Artefakt heißt wie das Repo: `dist/ha-dashboard.js` (HACS sucht für
+  Dashboard-Plugins nach `dist/<repo-name>.js` bzw. im neuesten Release)
+- `.github/workflows/release.yml`: bei Tag `v*` baut CI das Bundle und hängt `ha-dashboard.js` +
+  `ha-dashboard.js.gz` an das GitHub-Release (HACS lädt von dort, Ressource `/hacsfiles/ha-dashboard/ha-dashboard.js`)
+- Installation: HACS/Marketplace → benutzerdefiniertes Repository `https://github.com/killiuillu/ha-dashboard`,
+  Kategorie **Dashboard**
 
 ## Meilensteine
 

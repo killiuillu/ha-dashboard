@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 
-export const bundle = () => readFileSync(resolve(root, "dist/evcc-dashboard.js"), "utf8");
+export const bundle = () => readFileSync(resolve(root, "dist/ha-dashboard.js"), "utf8");
 export const fixture = () => JSON.parse(readFileSync(resolve(root, "dev/fixture.json"), "utf8"));
 
 export async function openDevPage(page, lang = "de") {

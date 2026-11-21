@@ -24,11 +24,11 @@ const options = {
 };
 
 if (mode === "watch") {
-  const ctx = await esbuild.context({ ...options, outfile: resolve(root, "dist/evcc-dashboard.js") });
+  const ctx = await esbuild.context({ ...options, outfile: resolve(root, "dist/ha-dashboard.js") });
   await ctx.watch();
 } else if (mode === "check") {
   await esbuild.build({ ...options, write: false, logLevel: "warning" });
   console.log("Build ok");
 } else {
-  await esbuild.build({ ...options, outfile: resolve(root, "dist/evcc-dashboard.js") });
+  await esbuild.build({ ...options, outfile: resolve(root, "dist/ha-dashboard.js") });
 }
