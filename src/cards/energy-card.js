@@ -41,7 +41,7 @@ export class EvccEnergyCard extends EvccBaseCard {
     const title = cfg.title || t("evcc Dashboard");
     const kwh = (v) => (v === null ? "–" : fmt(v, 1));
     return html`
-      <ha-card style="--tone:${tone}">
+      <ha-card class="rcard" style="--tone:${tone};--accent:${tone}">
         <div class="top">
           <div class="name">${title}</div>
           <button class="qm" style="--g:${tone}" title="?" aria-label="?" @click=${() => (this._help = !this._help)}>?</button>

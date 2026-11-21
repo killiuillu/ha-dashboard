@@ -142,7 +142,7 @@ export class EvccHistoryCard extends EvccBaseCard {
         </div>`;
     }
     return html`
-      <ha-card style="--tone:${tone}">
+      <ha-card class="rcard" style="--tone:${tone};--accent:${tone}">
         <div class="top">
           <div class="name">${title}</div>
           <button class="qm" style="--g:${tone}" title="?" aria-label="?" @click=${() => (this._help = !this._help)}>?</button>

@@ -41,7 +41,7 @@ export class EvccVehicleCard extends EvccBaseCard {
       ? html`<img class="carimg" src="${cfg.image}" alt="${title}" />`
       : html`<ha-icon class="caricon" icon="mdi:car-electric"></ha-icon>`;
     return html`
-      <ha-card style="--tone:${tone}">
+      <ha-card class="rcard" style="--tone:${tone};--accent:${tone}">
         <div class="top">
           <div class="name">${title}</div>
           <button class="qm" style="--g:${tone}" title="?" aria-label="?" @click=${() => (this._help = !this._help)}>?</button>

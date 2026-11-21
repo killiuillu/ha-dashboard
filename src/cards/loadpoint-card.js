@@ -4,7 +4,7 @@ import { t } from "../i18n/index.js";
 import { toneVar } from "../tokens/apply-tokens.js";
 import { fmtInt, num } from "../util/format.js";
 import { stateOf, unitOf } from "../util/hass.js";
-import { DIAL_ARC, knobPos, loadpointStatus, normalizeLoadpoints, splitPower } from "../util/evcc.js";
+import { dialGeometry, loadpointStatus, normalizeLoadpoints, splitPower } from "../util/evcc.js";
 
 export class EvccLoadpointCard extends EvccBaseCard {
   static properties = { ...EvccBaseCard.properties, _help: { state: true } };
@@ -25,7 +25,11 @@ export class EvccLoadpointCard extends EvccBaseCard {
     const tone = toneVar(st.tone);
     const main = splitPower(cp, unitOf(this.hass, lp.charge_power));
     const pct = soc === null ? null : Math.max(0, Math.min(100, soc));
-    const knob = pct === null ? nothing : html`<circle class="knob" cx="${knobPos(pct).x}" cy="${knobPos(pct).y}" r="4.5" />`;
+    const g = dialGeometry(pct === null ? 0 : pct / 100);
+    const knob =
+      pct === null
+        ? nothing
+        : html`<circle class="knob" cx="${g.knob.x}" cy="${g.knob.y}" r="11" /><circle cx="${g.knob.x}" cy="${g.knob.y}" r="4.5" fill="var(--tone)" />`;
     return html`
       <div class="lp" style="--tone:${tone}">
         <div class="top">
@@ -33,18 +37,12 @@ export class EvccLoadpointCard extends EvccBaseCard {
           <span class="chip compact"><ha-icon icon="${st.icon}"></ha-icon>${st.label}</span>
         </div>
         <div class="dial">
-          <svg viewBox="0 0 100 100">
-            <path class="track" d="${DIAL_ARC}" pathLength="100" fill="none" stroke-width="8" stroke-linecap="round" />
-            <path
-              class="fill${pct === null ? " muted" : ""}"
-              d="${DIAL_ARC}"
-              pathLength="100"
-              stroke-dasharray="${pct === null ? 0 : pct} 100"
-              fill="none"
-              stroke-width="8"
-              stroke-linecap="round"
-            />
+          <svg viewBox="${g.viewBox}" aria-hidden="true">
+            <path class="track" d="${g.track}" stroke-width="14" fill="none" stroke-linecap="round" />
+            ${pct === null ? nothing : html`<path class="fill" d="${g.fill}" stroke-width="14" fill="none" stroke-linecap="round" />`}
             ${knob}
+            <text x="${g.scaleStart.x}" y="${g.scaleStart.y}" text-anchor="middle" class="scale">0</text>
+            <text x="${g.scaleEnd.x}" y="${g.scaleEnd.y}" text-anchor="middle" class="scale">100</text>
           </svg>
           <div class="center">
             <div class="now">${main.v}<small>${main.u}</small></div>
@@ -67,7 +65,7 @@ export class EvccLoadpointCard extends EvccBaseCard {
     );
     const tone = toneVar(first.tone);
     return html`
-      <ha-card style="--tone:${tone}">
+      <ha-card class="rcard" style="--tone:${tone};--accent:${tone}">
         <div class="top">
           <div class="name">${title}</div>
           <button class="qm" style="--g:${tone}" title="?" aria-label="?" @click=${() => (this._help = !this._help)}>?</button>

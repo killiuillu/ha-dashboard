@@ -42,7 +42,7 @@ export class EvccOverviewCard extends EvccBaseCard {
     const pvTone = pv !== null && pv > 0 ? toneVar("ok") : "";
     const batTone = bat !== null && bat !== 0 ? toneVar(bat > 0 ? "heat" : "air") : "";
     return html`
-      <ha-card style="--tone:${tone}">
+      <ha-card class="rcard" style="--tone:${tone};--accent:${tone}">
         <div class="top">
           <div class="name">${title}</div>
           <button class="qm" style="--g:${tone}" title="?" aria-label="?" @click=${() => (this._help = !this._help)}>?</button>

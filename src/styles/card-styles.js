@@ -27,6 +27,10 @@ export const cardStyles = css`
     opacity: var(--evc-color-tint-cardGlowOpacity, .18);
     transition: background .6s;
   }
+  ha-card.rcard { border-top: 4px solid var(--accent, var(--tone, transparent)); }
+  ha-card.rcard {
+    background-image: linear-gradient(color-mix(in srgb, var(--accent, var(--tone, transparent)) 7%, transparent), transparent 120px);
+  }
   .top {
     display: flex;
     align-items: center;
@@ -249,7 +253,7 @@ export const cardStyles = css`
     margin-top: 10px;
   }
   .lp { min-width: 0; }
-  .center { text-align: center; z-index: 1; max-width: 62%; min-width: 0; }
+  .center { text-align: center; z-index: 1; margin-top: -6px; max-width: 58%; min-width: 0; }
   .gridline { stroke: color-mix(in srgb, var(--primary-text-color) 8%, transparent); stroke-dasharray: 3 5; }
   .ylabh {
     position: absolute;
