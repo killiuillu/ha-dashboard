@@ -82,7 +82,30 @@ entities:
   battery_power: sensor.evcc_battery_power # W, positiv = lädt
 ```
 
-Ladepunkt-Karte nimmt `entities.loadpoints` als Liste (`name`, `charge_power`, `vehicle_soc`, `status`).
+Ladepunkt-Karte – ein Ladepunkt flach oder mehrere als Liste:
+
+```yaml
+type: custom:evcc-loadpoint-card
+title: Wallbox
+entities:
+  charge_power: sensor.evcc_loadpoint_1_charge_power  # W
+  vehicle_soc: sensor.evcc_loadpoint_1_vehicle_soc    # %
+  status: sensor.evcc_loadpoint_1_status              # evcc: A/B/C/F oder paused
+```
+
+```yaml
+type: custom:evcc-loadpoint-card
+title: Wallboxen
+entities:
+  loadpoints:
+    - name: Wallbox 1
+      charge_power: sensor.evcc_loadpoint_1_charge_power
+      vehicle_soc: sensor.evcc_loadpoint_1_vehicle_soc
+      status: sensor.evcc_loadpoint_1_status
+    - name: Wallbox 2
+      charge_power: sensor.evcc_loadpoint_2_charge_power
+```
+
 Energie/Kosten-Karte liest optional `entities.price` (Strompreis) und die Tageszähler; Preise aus dem
 HA-Energy-Dashboard werden angezeigt, wenn als Entity konfiguriert.
 
@@ -90,8 +113,8 @@ HA-Energy-Dashboard werden angezeigt, wenn als Entity konfiguriert.
 
 - **M1 – Setup:** erledigt in PR #1 (Referenz klonen, Tokens extrahieren, PLAN.md, package.json, Build, Dev-Server, i18n-Grundgerüst, Testgerüst)
 - **M2 – Dev-Setup grün:** erledigt in PR #1 (Build, Unit-Tests, Dev-Server, Playwright-Gerüst; CI-Workflow `.github/workflows/ci.yml`)
-- **M3 – Karte 1 `custom:evcc-overview-card`:** große Übersichtskachel PV/Netz/Haus/Batterie im Stil der Raumkarte (Kopf mit Titel + Status-Chip + „?“, großer Live-Wert Netz, Stat-Kacheln, Ampelfarbe via `--tone`), Ampel-Logik in `src/util/evcc.js`, Playwright-Test
-- **M4 – `custom:evcc-loadpoint-card`:** Ladepunkt(e) mit Ladeleistung, Fahrzeug-SoC, Status; konfigurierbare Liste; Playwright-Test
+- **M3 – Karte 1 `custom:evcc-overview-card`:** erledigt in PR #2 (große Übersichtskachel PV/Netz/Haus/Batterie: Titel + „?“, Status-Chip, großer Live-Wert Netz, Stat-Kacheln, Ampelfarbe via `--tone`; Logik in `src/util/evcc.js`; Playwright-Test)
+- **M4 – `custom:evcc-loadpoint-card`:** Ladepunkt(e) mit Ladeleistung (großer Wert), Fahrzeug-SoC als Ring-Dial wie die Raumkarte, Status-Chip; ein Ladepunkt flach (`entities.charge_power/vehicle_soc/status`) oder mehrere über `entities.loadpoints: [...]`; evcc-Statuscodes (A/B/C/F/paused) + Leistungs-Schwelle; Playwright-Test
 - **M5 – `custom:evcc-history-card` (Tagesverlauf als SVG-Chart mit Tooltip wie Raumklima) und `custom:evcc-energy-card` (Energie heute, Kosten, Preis aus HA-Energy-Dashboard falls vorhanden); je ein Playwright-Test
 - **M6 – Dashboard-Strategie `ll-strategy-dashboard-evcc`:** baut das Dashboard automatisch aus den konfigurierten evcc-Entities auf; Doku in README
 

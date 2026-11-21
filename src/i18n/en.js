@@ -42,4 +42,6 @@ export const EN = {
   "Zeigt die Live-Leistung von PV, Netz, Haus und Batterie. Nur Anzeige – es wird nichts gesteuert.":
     "Shows the live power of PV, grid, home and battery. Display only – nothing is controlled.",
   "Batterie-Leistung": "Battery power",
+  "Zeigt Ladeleistung und Fahrzeug-Ladestand am Ladepunkt. Nur Anzeige – es wird nichts gesteuert.":
+    "Shows charging power and vehicle charge level at the charge point. Display only – nothing is controlled.",
 };
