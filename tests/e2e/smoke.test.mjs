@@ -16,6 +16,6 @@ test("Bundle lädt fehlerfrei und setzt die Design-Tokens als CSS-Variablen", as
 test("Dev-Seite zeigt die Status-Farben aus den Tokens an", async ({ page }) => {
   await page.goto("/dev/");
   await page.waitForSelector(".swatch");
-  const names = await page.$$eval(".swatch .n", (els) => els.map((e) => e.textContent.split("\n")[0]));
+  const names = await page.$$eval(".swatch .n", (els) => els.map((e) => e.childNodes[0].textContent.trim()));
   expect(names).toEqual(expect.arrayContaining(["heat", "ok", "air", "warn", "cold", "off", "eco"]));
 });
