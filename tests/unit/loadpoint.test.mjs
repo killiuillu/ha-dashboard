@@ -47,10 +47,12 @@ test("Dial-Geometrie wie Raumklima (viewBox 240x200, R=100, 135°+270°)", () =>
   assert.equal(g0.viewBox, "0 0 240 200");
   assert.ok(g0.track.startsWith("M "));
   assert.ok(g0.track.includes("A 100 100 0 1 1"));
+  const g0k = dialGeometry(0);
+  assert.ok(Math.abs(g0k.knob.x - 49.3) < 0.5 && Math.abs(g0k.knob.y - 182.7) < 0.5);
   const g50 = dialGeometry(0.5);
   assert.ok(Math.abs(g50.knob.x - 120) < 0.5 && Math.abs(g50.knob.y - 12) < 0.5);
   const g100 = dialGeometry(1);
-  assert.ok(Math.abs(g100.knob.x - 220) < 0.5 && Math.abs(g100.knob.y - 112) < 0.5);
+  assert.ok(Math.abs(g100.knob.x - 190.7) < 0.5 && Math.abs(g100.knob.y - 182.7) < 0.5);
   assert.deepEqual(dialGeometry(1.5), g100);
   assert.ok(g0.fill.length < g100.fill.length || g0.fill !== g100.fill);
 });
