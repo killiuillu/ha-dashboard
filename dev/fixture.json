@@ -14,5 +14,36 @@
     "sensor.evcc_home_today": { "state": "11.6", "attributes": { "unit_of_measurement": "kWh", "friendly_name": "Hausverbrauch heute" }, "last_changed": "2026-11-21T12:00:00+00:00" },
     "sensor.evcc_price": { "state": "0.2987", "attributes": { "unit_of_measurement": "EUR/kWh", "friendly_name": "Strompreis" }, "last_changed": "2026-11-21T12:00:00+00:00" }
   },
-  "entities": {}
+  "entities": {},
+  "ws": {
+    "recorder/statistics_during_period": {
+      "sensor.evcc_pv_power": [
+        { "start": "2026-11-21T06:00:00+00:00", "mean": 0 },
+        { "start": "2026-11-21T08:00:00+00:00", "mean": 800 },
+        { "start": "2026-11-21T10:00:00+00:00", "mean": 2600 },
+        { "start": "2026-11-21T12:00:00+00:00", "mean": 3800 },
+        { "start": "2026-11-21T14:00:00+00:00", "mean": 3400 },
+        { "start": "2026-11-21T16:00:00+00:00", "mean": 1800 },
+        { "start": "2026-11-21T18:00:00+00:00", "mean": 200 }
+      ],
+      "sensor.evcc_grid_power": [
+        { "start": "2026-11-21T06:00:00+00:00", "mean": 400 },
+        { "start": "2026-11-21T08:00:00+00:00", "mean": 300 },
+        { "start": "2026-11-21T10:00:00+00:00", "mean": -1200 },
+        { "start": "2026-11-21T12:00:00+00:00", "mean": -2600 },
+        { "start": "2026-11-21T14:00:00+00:00", "mean": -2200 },
+        { "start": "2026-11-21T16:00:00+00:00", "mean": -900 },
+        { "start": "2026-11-21T18:00:00+00:00", "mean": 250 }
+      ],
+      "sensor.evcc_home_power": [
+        { "start": "2026-11-21T06:00:00+00:00", "mean": 600 },
+        { "start": "2026-11-21T08:00:00+00:00", "mean": 800 },
+        { "start": "2026-11-21T10:00:00+00:00", "mean": 1400 },
+        { "start": "2026-11-21T12:00:00+00:00", "mean": 1200 },
+        { "start": "2026-11-21T14:00:00+00:00", "mean": 1300 },
+        { "start": "2026-11-21T16:00:00+00:00", "mean": 2200 },
+        { "start": "2026-11-21T18:00:00+00:00", "mean": 1800 }
+      ]
+    }
+  }
 }

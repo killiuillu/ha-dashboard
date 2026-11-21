@@ -35,7 +35,7 @@ npm test             # E2E: Rendern der Karten mit Fixture im Chromium, Konsolen
 | --- | --- | --- |
 | `custom:evcc-overview-card` | Übersicht PV / Netz / Haus / Batterie mit Ampel und „?“-Erklärung | gebaut (M3) |
 | `custom:evcc-loadpoint-card` | Ladepunkt(e): Ladeleistung, Fahrzeug-SoC als Ring, Status | gebaut (M4) |
-| `custom:evcc-history-card` | Tagesverlauf als Chart mit Tooltip | geplant (M5) |
-| `custom:evcc-energy-card` | Energie & Kosten (inkl. Preis aus dem HA-Energy-Dashboard) | geplant (M5) |
+| `custom:evcc-history-card` | Tagesverlauf PV/Netz/Haus als Chart mit Tooltip (Recorder-Statistiken) | gebaut (M5) |
+| `custom:evcc-energy-card` | Autarkie, Energie & Kosten heute (inkl. Preis aus dem HA-Energy-Dashboard) | gebaut (M5) |
 
 Alle Entities werden in der Card-Config gesetzt, siehe Beispiel in [PLAN.md](PLAN.md).
