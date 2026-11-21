@@ -14,11 +14,12 @@ export function detectEvcc(states, prefix = "evcc") {
   for (const k of LIVE_KEYS) out[k] = find(k);
   for (const k of TODAY_KEYS) out[k] = find(k);
   const lps = {};
-  const re = new RegExp(`^sensor\\.${prefix}_loadpoint_(\\d+)_(charge_power|vehicle_soc|status)$`);
+  const re = new RegExp(`^sensor\\.${prefix}_loadpoint_(\\d+)_(charge_power|vehicle_soc|status|range|vehicle_range)$`);
   for (const id of Object.keys(states)) {
     const m = id.match(re);
     if (!m) continue;
-    const [, idx, key] = m;
+    const [, idx, rawKey] = m;
+    const key = rawKey === "vehicle_range" ? "range" : rawKey;
     lps[idx] = lps[idx] || { name: `${t("Ladepunkt")} ${idx}` };
     lps[idx][key] = id;
   }
@@ -53,6 +54,17 @@ export class EvccDashboardStrategy extends StrategyBase {
         entities: { loadpoints: det.loadpoints },
         grid_options: { columns: "full" },
       });
+      const veh = det.loadpoints.find((lp) => lp.vehicle_soc);
+      if (veh) {
+        cards.push({
+          type: "custom:evcc-vehicle-card",
+          title: veh.name || t("Auto"),
+          image: config.image,
+          capacity_kwh: config.capacity_kwh,
+          entities: { vehicle_soc: veh.vehicle_soc, range: veh.range, charge_power: veh.charge_power, status: veh.status },
+          grid_options: { columns: "full" },
+        });
+      }
     }
     if (Object.keys(energyEntities).length) {
       cards.push({ type: "custom:evcc-energy-card", title: t("Energie & Kosten"), entities: energyEntities, grid_options: { columns: "full" } });

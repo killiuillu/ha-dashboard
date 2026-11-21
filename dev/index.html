@@ -94,6 +94,15 @@
           home_power: "sensor.evcc_home_power",
         },
       },
+      "custom:evcc-vehicle-card": {
+        title: "Mein Auto",
+        entities: {
+          vehicle_soc: "sensor.evcc_loadpoint_1_vehicle_soc",
+          range: "sensor.evcc_loadpoint_1_vehicle_range",
+          charge_power: "sensor.evcc_loadpoint_1_charge_power",
+          status: "sensor.evcc_loadpoint_1_status",
+        },
+      },
       "custom:evcc-energy-card": {
         title: "Energie & Kosten",
         entities: {

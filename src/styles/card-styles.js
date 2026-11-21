@@ -272,4 +272,25 @@ export const cardStyles = css`
   .tleg { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 14px; font-size: .78rem; color: var(--evc-color-ha-textSecondary); }
   .tleg span { display: inline-flex; align-items: center; gap: 6px; }
   .tleg i { width: 14px; height: 10px; border-radius: 3px; background: var(--c); }
+  .carwrap { display: flex; align-items: center; gap: 18px; margin-top: 14px; }
+  .carimg {
+    width: 132px;
+    height: 88px;
+    object-fit: cover;
+    border-radius: var(--evc-radius-xl);
+    flex: none;
+    background: color-mix(in srgb, var(--primary-text-color) 5%, transparent);
+  }
+  .caricon { --mdc-icon-size: 84px; color: var(--tone); flex: none; }
+  .carinfo { min-width: 0; flex: 1; }
+  .range {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -.02em;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+    color: var(--evc-color-ha-textPrimary);
+    margin-top: 6px;
+  }
+  .range small { font-size: .5em; font-weight: 500; color: var(--evc-color-ha-textSecondary); margin-left: 2px; }
 `;

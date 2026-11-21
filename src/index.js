@@ -5,6 +5,7 @@ import { EvccLoadpointCard } from "./cards/loadpoint-card.js";
 import { EvccHistoryCard } from "./cards/history-card.js";
 import { EvccEnergyCard } from "./cards/energy-card.js";
 import { EvccDashboardStrategy } from "./cards/strategy.js";
+import { EvccVehicleCard } from "./cards/vehicle-card.js";
 
 applyTokens();
 
@@ -20,6 +21,7 @@ if (!customElements.get("evcc-overview-card")) customElements.define("evcc-overv
 if (!customElements.get("evcc-loadpoint-card")) customElements.define("evcc-loadpoint-card", EvccLoadpointCard);
 if (!customElements.get("evcc-history-card")) customElements.define("evcc-history-card", EvccHistoryCard);
 if (!customElements.get("evcc-energy-card")) customElements.define("evcc-energy-card", EvccEnergyCard);
+if (!customElements.get("evcc-vehicle-card")) customElements.define("evcc-vehicle-card", EvccVehicleCard);
 if (!customElements.get("ll-strategy-dashboard-evcc")) customElements.define("ll-strategy-dashboard-evcc", EvccDashboardStrategy);
 
 window.customCards = window.customCards || [];
@@ -52,6 +54,14 @@ if (!window.customCards.find((c) => c.type === "custom:evcc-energy-card")) {
     type: "custom:evcc-energy-card",
     name: t("evcc – Energie & Kosten"),
     description: t("Energie heute und Preise/Kosten aus dem HA-Energy-Dashboard"),
+    preview: true,
+  });
+}
+if (!window.customCards.find((c) => c.type === "custom:evcc-vehicle-card")) {
+  window.customCards.push({
+    type: "custom:evcc-vehicle-card",
+    name: t("evcc – Fahrzeug"),
+    description: t("Fahrzeugbild mit Ladestand und Reichweite"),
     preview: true,
   });
 }

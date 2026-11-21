@@ -138,7 +138,9 @@ strategy:
 - **M3 – Karte 1 `custom:evcc-overview-card`:** erledigt in PR #2 (große Übersichtskachel PV/Netz/Haus/Batterie: Titel + „?“, Status-Chip, großer Live-Wert Netz, Stat-Kacheln, Ampelfarbe via `--tone`; Logik in `src/util/evcc.js`; Playwright-Test)
 - **M4 – `custom:evcc-loadpoint-card`:** erledigt in PR #3 (Ladeleistung als großer Wert, Fahrzeug-SoC als Ring-Dial wie die Raumkarte, Status-Chip; ein Ladepunkt flach oder mehrere über `entities.loadpoints: [...]`; evcc-Statuscodes + Leistungs-Schwelle; Playwright-Test)
 - **M5 – `custom:evcc-history-card` und `custom:evcc-energy-card`:** Verlaufskarte liest read-only Recorder-Statistiken (`recorder/statistics_during_period`, 5-Minuten-Mittel ab 00:00) über `hass.callWS` und zeichnet SVG-Linien mit Grid, Achsen-Labels und Hover-Tooltip im Raumklima-Stil (`src/util/chart.js`); Energie-Karte zeigt Autarkie groß + Tages-kWh (PV/Bezug/Einspeisung/Haus), Eigenverbrauch, Kosten (`entities.price`, optional `entities.feed_in_price`) und Strompreis; je Playwright-Test – erledigt in PR #4
-- **M6 – Dashboard-Strategie `ll-strategy-dashboard-evcc`:** `static generate(config, hass)` wie die Referenz (`ll-strategy-dashboard-raumklima`), Entity-Autoerkennung via Präfix in `src/cards/strategy.js` (`detectEvcc`), Views „Übersicht" + „Verlauf", Registrierung über `window.customStrategies`; Unit- + Playwright-Tests, Doku in README
+- **M6 – Dashboard-Strategie `ll-strategy-dashboard-evcc`:** erledigt in PR #5 (`static generate(config, hass)` wie die Referenz, Entity-Autoerkennung via Präfix in `detectEvcc`, Views „Übersicht" + „Verlauf", `window.customStrategies`; Unit- + Playwright-Tests)
+- **M7 – HACS/Marketplace-Verpackung:** erledigt in PR #6/#7 (`hacs.json`, Release-Workflow liefert `hacs.json` + `ha-dashboard.js`(+`.gz`) als Assets, Artefakt heißt wie das Repo)
+- **M8 – `custom:evcc-vehicle-card`:** Fahrzeug-Karte mit Bild (`image:` konfigurierbar, Fallback `mdi:car-electric`), großem SoC, Reichweite in km (`entities.range` oder SoC × `capacity_kwh`), Status-Chip; in der Strategie automatisch, wenn ein Ladepunkt `vehicle_soc` hat; Unit- + Playwright-Tests
 
 ## Randbedingungen
 
