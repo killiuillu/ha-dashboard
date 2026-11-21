@@ -44,7 +44,7 @@ test("Mit image-Config wird das Bild angezeigt", async ({ page }) => {
     const el = document.createElement("evcc-vehicle-card");
     el.setConfig({
       title: "Auto mit Bild",
-      image: "/local/evcc/auto.png",
+      image: "/dev/pixel.png",
       entities: { vehicle_soc: "sensor.evcc_loadpoint_1_vehicle_soc", range: "sensor.evcc_loadpoint_1_vehicle_range" },
     });
     el.hass = window.__hass;
@@ -54,7 +54,7 @@ test("Mit image-Config wird das Bild angezeigt", async ({ page }) => {
   const imgs = await page.locator("#cards evcc-vehicle-card .carimg").count();
   expect(imgs).toBe(1);
   const src = await page.locator("#cards evcc-vehicle-card .carimg").last().getAttribute("src");
-  expect(src).toBe("/local/evcc/auto.png");
+  expect(src).toBe("/dev/pixel.png");
   expect(errors).toEqual([]);
 });
 
