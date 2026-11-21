@@ -242,4 +242,12 @@ export const cardStyles = css`
     background: color-mix(in srgb, var(--g, var(--evc-color-status-air)) 10%, var(--ha-card-background, var(--card-background-color)));
     border-left: 3px solid var(--g, var(--evc-color-status-air));
   }
+  .lps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 12px;
+    margin-top: 10px;
+  }
+  .lp { min-width: 0; }
+  .center { text-align: center; z-index: 1; max-width: 62%; min-width: 0; }
 `;
