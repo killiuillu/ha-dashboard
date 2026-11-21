@@ -35,4 +35,14 @@ test("Referenz-Screenshot: Raumklima-2 Demo-Karte (nur wenn Referenz geklont)", 
   });
   await page.waitForTimeout(800);
   await page.locator("raumklima-demo-card").screenshot({ path: "shots/raumklima-demo.png" });
+
+  await page.evaluate(() => {
+    const el = document.createElement("raumklima-card");
+    el.setConfig({ entity: "climate.bad" });
+    el.hass = window.__hass;
+    el.style.width = "440px";
+    document.body.appendChild(el);
+  });
+  await page.waitForTimeout(800);
+  await page.locator("raumklima-card").screenshot({ path: "shots/raumklima-room.png" });
 });
