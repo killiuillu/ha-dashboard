@@ -4,6 +4,7 @@ import { EvccOverviewCard } from "./cards/overview-card.js";
 import { EvccLoadpointCard } from "./cards/loadpoint-card.js";
 import { EvccHistoryCard } from "./cards/history-card.js";
 import { EvccEnergyCard } from "./cards/energy-card.js";
+import { EvccDashboardStrategy } from "./cards/strategy.js";
 
 applyTokens();
 
@@ -19,6 +20,7 @@ if (!customElements.get("evcc-overview-card")) customElements.define("evcc-overv
 if (!customElements.get("evcc-loadpoint-card")) customElements.define("evcc-loadpoint-card", EvccLoadpointCard);
 if (!customElements.get("evcc-history-card")) customElements.define("evcc-history-card", EvccHistoryCard);
 if (!customElements.get("evcc-energy-card")) customElements.define("evcc-energy-card", EvccEnergyCard);
+if (!customElements.get("ll-strategy-dashboard-evcc")) customElements.define("ll-strategy-dashboard-evcc", EvccDashboardStrategy);
 
 window.customCards = window.customCards || [];
 if (!window.customCards.find((c) => c.type === "custom:evcc-overview-card")) {
@@ -51,6 +53,17 @@ if (!window.customCards.find((c) => c.type === "custom:evcc-energy-card")) {
     name: t("evcc – Energie & Kosten"),
     description: t("Energie heute und Preise/Kosten aus dem HA-Energy-Dashboard"),
     preview: true,
+  });
+}
+
+window.customStrategies = window.customStrategies || [];
+if (!window.customStrategies.find((x) => x.type === "evcc")) {
+  window.customStrategies.push({
+    type: "evcc",
+    strategyType: "dashboard",
+    name: t("evcc Dashboard"),
+    description: t("Baut das Dashboard automatisch aus den evcc-Entities auf"),
+    documentationURL: "https://github.com/killiuillu/ha-dashboard",
   });
 }
 

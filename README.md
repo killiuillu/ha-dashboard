@@ -38,4 +38,19 @@ npm test             # E2E: Rendern der Karten mit Fixture im Chromium, Konsolen
 | `custom:evcc-history-card` | Tagesverlauf PV/Netz/Haus als Chart mit Tooltip (Recorder-Statistiken) | gebaut (M5) |
 | `custom:evcc-energy-card` | Autarkie, Energie & Kosten heute (inkl. Preis aus dem HA-Energy-Dashboard) | gebaut (M5) |
 
-Alle Entities werden in der Card-Config gesetzt, siehe Beispiel in [PLAN.md](PLAN.md).
+Alle Entities werden in der Card-Config gesetzt, siehe Beispiele in [PLAN.md](PLAN.md).
+
+## Dashboard-Strategie (M6)
+
+Das ganze Dashboard automatisch aus den evcc-Entities aufbauen lassen:
+
+```yaml
+title: evcc
+strategy:
+  type: evcc
+  prefix: evcc   # optional, Default "evcc"
+```
+
+`ll-strategy-dashboard-evcc` erkennt `sensor.<prefix>_*` (PV/Netz/Haus/Batterie, Tageswerte, Preis,
+`loadpoint_<n>_*`) und erzeugt die Views **Übersicht** (Übersichtskarte, Ladepunkt-Karte, Energie &
+Kosten) und **Verlauf** (Tagesverlauf). Reine Anzeige.
