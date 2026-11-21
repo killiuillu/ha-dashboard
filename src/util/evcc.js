@@ -55,6 +55,12 @@ export function energyStats({ pv, imp, exp, home, price, feedin }) {
   return { autarky, selfc, costs };
 }
 
+export function vehicleRange(soc, rangeKm, capacityKwh) {
+  if (rangeKm !== null && rangeKm !== undefined && isFinite(rangeKm)) return rangeKm;
+  if (soc !== null && capacityKwh) return (soc / 100) * Number(capacityKwh);
+  return null;
+}
+
 export function autarkyTone(autarky) {
   if (autarky === null || autarky === undefined) return "off";
   if (autarky >= 0.7) return "ok";

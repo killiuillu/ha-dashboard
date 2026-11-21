@@ -55,4 +55,10 @@ export const EN = {
   Verlauf: "History",
   Ladepunkte: "Charge points",
   "Baut das Dashboard automatisch aus den evcc-Entities auf": "Builds the dashboard automatically from the evcc entities",
+  Auto: "Car",
+  Reichweite: "Range",
+  "evcc – Fahrzeug": "evcc – vehicle",
+  "Fahrzeugbild mit Ladestand und Reichweite": "Vehicle image with charge level and range",
+  "Zeigt Fahrzeugbild, Ladestand (SoC) und Reichweite. Nur Anzeige – es wird nichts gesteuert.":
+    "Shows vehicle image, charge level (SoC) and range. Display only – nothing is controlled.",
 };

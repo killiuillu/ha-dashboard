@@ -53,6 +53,21 @@ npm test             # E2E: Rendern der Karten mit Fixture im Chromium, Konsolen
 | `custom:evcc-loadpoint-card` | Ladepunkt(e): Ladeleistung, Fahrzeug-SoC als Ring, Status | gebaut (M4) |
 | `custom:evcc-history-card` | Tagesverlauf PV/Netz/Haus als Chart mit Tooltip (Recorder-Statistiken) | gebaut (M5) |
 | `custom:evcc-energy-card` | Autarkie, Energie & Kosten heute (inkl. Preis aus dem HA-Energy-Dashboard) | gebaut (M5) |
+| `custom:evcc-vehicle-card` | Auto-Bild mit Ladestand (SoC) und Reichweite | gebaut (M8) |
+
+Fahrzeug-Karte – Bild optional, Reichweite als Entity oder berechnet (`capacity_kwh`):
+
+```yaml
+type: custom:evcc-vehicle-card
+title: Mein Auto
+image: /local/evcc/auto.png        # optional, sonst mdi:car-electric
+capacity_kwh: 60                   # optional, Fallback: Reichweite = SoC × Kapazität
+entities:
+  vehicle_soc: sensor.evcc_loadpoint_1_vehicle_soc
+  range: sensor.evcc_loadpoint_1_vehicle_range   # optional (km)
+  charge_power: sensor.evcc_loadpoint_1_charge_power
+  status: sensor.evcc_loadpoint_1_status
+```
 
 Alle Entities werden in der Card-Config gesetzt, siehe Beispiele in [PLAN.md](PLAN.md).
 
