@@ -88,9 +88,9 @@ HA-Energy-Dashboard werden angezeigt, wenn als Entity konfiguriert.
 
 ## Meilensteine
 
-- **M1 – Setup (dieser Schritt):** Referenz klonen, Tokens extrahieren, PLAN.md, package.json, Build, Dev-Server, i18n-Grundgerüst, Testgerüst
-- **M2 – Dev-Setup grün:** `npm run build`, `npm run test:unit`, Playwright-Smoke-Test gegen `dev/` (Bundle fehlerfrei, Tokens als CSS-Variablen gesetzt)
-- **M3 – Karte 1 `custom:evcc-overview-card`:** große Übersichtskachel PV/Netz/Haus/Batterie im Stil der Raumkarte (Kopf mit Titel + Status-Chip + „?“, großer Live-Wert, Stat-Kacheln, Ampelfarbe via `--tone`), Playwright-Test
+- **M1 – Setup:** erledigt in PR #1 (Referenz klonen, Tokens extrahieren, PLAN.md, package.json, Build, Dev-Server, i18n-Grundgerüst, Testgerüst)
+- **M2 – Dev-Setup grün:** erledigt in PR #1 (Build, Unit-Tests, Dev-Server, Playwright-Gerüst; CI-Workflow `.github/workflows/ci.yml`)
+- **M3 – Karte 1 `custom:evcc-overview-card`:** große Übersichtskachel PV/Netz/Haus/Batterie im Stil der Raumkarte (Kopf mit Titel + Status-Chip + „?“, großer Live-Wert Netz, Stat-Kacheln, Ampelfarbe via `--tone`), Ampel-Logik in `src/util/evcc.js`, Playwright-Test
 - **M4 – `custom:evcc-loadpoint-card`:** Ladepunkt(e) mit Ladeleistung, Fahrzeug-SoC, Status; konfigurierbare Liste; Playwright-Test
 - **M5 – `custom:evcc-history-card` (Tagesverlauf als SVG-Chart mit Tooltip wie Raumklima) und `custom:evcc-energy-card` (Energie heute, Kosten, Preis aus HA-Energy-Dashboard falls vorhanden); je ein Playwright-Test
 - **M6 – Dashboard-Strategie `ll-strategy-dashboard-evcc`:** baut das Dashboard automatisch aus den konfigurierten evcc-Entities auf; Doku in README

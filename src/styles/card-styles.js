@@ -229,4 +229,17 @@ export const cardStyles = css`
   }
   .err { padding: 16px; color: var(--evc-color-status-cold); }
   .empty { padding: 40px 0; text-align: center; color: var(--evc-color-ha-textSecondary); }
+  .main { text-align: center; margin: 16px 0 2px; }
+  .target { margin-top: 6px; font-size: .82rem; line-height: 1.25; color: var(--evc-color-ha-textSecondary); font-variant-numeric: tabular-nums; }
+  .target b { color: var(--evc-color-ha-textPrimary); font-weight: 600; }
+  .helpbox {
+    margin: 10px 0 4px;
+    padding: 10px 12px;
+    border-radius: var(--evc-radius-lg);
+    font-size: .88rem;
+    line-height: 1.45;
+    color: var(--evc-color-ha-textPrimary);
+    background: color-mix(in srgb, var(--g, var(--evc-color-status-air)) 10%, var(--ha-card-background, var(--card-background-color)));
+    border-left: 3px solid var(--g, var(--evc-color-status-air));
+  }
 `;
