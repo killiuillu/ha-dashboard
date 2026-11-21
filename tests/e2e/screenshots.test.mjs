@@ -47,7 +47,7 @@ test("Screenshots aller evcc-Karten für den Optik-Vergleich", async ({ page, br
   const chartProbe = await probe(p2, `${SHOTS}/chart-zoom.png`, [[323, 100], [323, 200], [440, 240], [100, 400]]);
   await ctx.close();
 
-  const diag = await page.evaluate(() => {
+  const diag = await page.evaluate(async () => {
     const out = {};
     const lp = document.querySelector("#cards evcc-loadpoint-card");
     const dialSvg = lp?.shadowRoot?.querySelector(".dial svg");
