@@ -1,0 +1,166 @@
+{
+  "meta": {
+    "name": "evcc-dashboard",
+    "version": "1.0.0",
+    "source": "reference/raumklima-2/frontend/src/styles.js – Statuspalette auf :host (--rk-*), ha-card inkl. Glow, chip, stat, tip (Tooltip), qm (?-Button), dial, chart, banner"
+  },
+  "colors": {
+    "status": {
+      "heat": "#ff7a45",
+      "ok": "#2ec4a6",
+      "air": "#4f9dff",
+      "warn": "#ffb020",
+      "cold": "#ff4d6d",
+      "off": "#8a94a6",
+      "eco": "#8b7cf6"
+    },
+    "ha": {
+      "cardBackground": "var(--ha-card-background, var(--card-background-color))",
+      "textPrimary": "var(--primary-text-color)",
+      "textSecondary": "var(--secondary-text-color)",
+      "divider": "var(--divider-color, rgba(127,127,127,.2))"
+    },
+    "tint": {
+      "chip": 14,
+      "surface": 5,
+      "surfaceStrong": 7,
+      "border": 8,
+      "track": 9,
+      "cardGlowOpacity": 0.18,
+      "cardGlowOpacityMedium": 0.12,
+      "accentGradient": 7
+    }
+  },
+  "radius": {
+    "bar": "6px",
+    "sm": "8px",
+    "md": "10px",
+    "lg": "12px",
+    "xl": "14px",
+    "stat": "16px",
+    "banner": "18px",
+    "cardMedium": "22px",
+    "card": "28px",
+    "pill": "999px",
+    "circle": "50%"
+  },
+  "shadow": {
+    "flat": "0 1px 3px rgba(0,0,0,.08)",
+    "raised": "0 1px 4px rgba(0,0,0,.12)",
+    "cardAccent": "0 4px 14px color-mix(in srgb, var(--primary-text-color) 8%, transparent)",
+    "tip": "0 8px 28px rgba(0,0,0,.18)",
+    "sheet": "0 24px 70px rgba(0,0,0,.45)",
+    "knob": "drop-shadow(0 2px 4px rgba(0,0,0,.25))",
+    "dialFill": "drop-shadow(0 0 6px color-mix(in srgb, var(--tone) 55%, transparent))"
+  },
+  "spacing": {
+    "cardPadding": "20px",
+    "cardPaddingMedium": "14px 16px",
+    "topGap": "10px",
+    "chipGap": "6px",
+    "chipPadding": "6px 12px",
+    "chipPaddingCompact": "4px 9px",
+    "statsMarginTop": "16px",
+    "statGap": "8px",
+    "statPadding": "10px 12px",
+    "statMin": "92px",
+    "bannerPadding": "12px 14px",
+    "tipPadding": "10px 12px"
+  },
+  "typography": {
+    "fontFamily": "inherit",
+    "tabularNums": "tabular-nums",
+    "value": { "size": "clamp(2.1rem, 17cqw, 3.1rem)", "weight": 300, "letterSpacing": "-.04em", "lineHeight": 1 },
+    "valueMedium": { "size": "2.1rem", "weight": 300, "letterSpacing": "-.04em", "lineHeight": 1 },
+    "valueTile": { "size": "1.9rem", "weight": 700, "letterSpacing": "-.02em", "lineHeight": 1.1 },
+    "unit": { "size": ".42em", "align": "super", "marginLeft": "2px" },
+    "name": { "size": "1.15rem", "weight": 600, "letterSpacing": "-.01em" },
+    "nameMedium": { "size": "1.05rem", "weight": 600, "letterSpacing": "-.01em" },
+    "statLabel": { "size": ".72rem", "letterSpacing": ".06em", "transform": "uppercase" },
+    "statValue": { "size": "1.05rem", "weight": 600 },
+    "chip": { "size": ".82rem", "weight": 600 },
+    "chipCompact": { "size": ".76rem", "weight": 600 },
+    "tip": { "size": ".8rem" },
+    "tipTitle": { "weight": 650, "marginBottom": "6px" },
+    "chartLabel": { "size": "10.5px" }
+  },
+  "components": {
+    "card": {
+      "radius": "var(--evc-radius-card)",
+      "padding": "var(--evc-spacing-cardPadding)",
+      "background": "var(--evc-color-ha-cardBackground)",
+      "glowSize": "320px",
+      "glowInset": "-40% -20% auto auto",
+      "glowOpacity": "var(--evc-color-tint-cardGlowOpacity)",
+      "glowGradient": "radial-gradient(circle, var(--tone, transparent) 0%, transparent 65%)"
+    },
+    "cardMedium": {
+      "radius": "var(--evc-radius-cardMedium)",
+      "padding": "var(--evc-spacing-cardPaddingMedium)",
+      "glowOpacity": "var(--evc-color-tint-cardGlowOpacityMedium)"
+    },
+    "chip": {
+      "radius": "var(--evc-radius-pill)",
+      "padding": "var(--evc-spacing-chipPadding)",
+      "color": "var(--tone)",
+      "background": "color-mix(in srgb, var(--tone) var(--evc-color-tint-chip)%, transparent)"
+    },
+    "stat": {
+      "radius": "var(--evc-radius-stat)",
+      "padding": "var(--evc-spacing-statPadding)",
+      "background": "color-mix(in srgb, var(--primary-text-color) var(--evc-color-tint-surface)%, transparent)"
+    },
+    "stats": {
+      "grid": "repeat(auto-fit, minmax(var(--evc-spacing-statMin), 1fr))",
+      "gap": "var(--evc-spacing-statGap)",
+      "marginTop": "var(--evc-spacing-statsMarginTop)"
+    },
+    "tip": {
+      "radius": "var(--evc-radius-xl)",
+      "padding": "var(--evc-spacing-tipPadding)",
+      "minWidth": "150px",
+      "top": "6px",
+      "background": "color-mix(in srgb, var(--ha-card-background, var(--card-background-color)) 92%, transparent)",
+      "backdropFilter": "blur(8px)",
+      "shadow": "var(--evc-shadow-tip)",
+      "border": "1px solid color-mix(in srgb, var(--primary-text-color) var(--evc-color-tint-border)%, transparent)",
+      "dotSize": "8px"
+    },
+    "qm": {
+      "size": "18px",
+      "fontSize": ".72rem",
+      "fontWeight": 700,
+      "radius": "var(--evc-radius-circle)",
+      "activeColor": "#fff",
+      "activeBackground": "var(--g, var(--evc-color-status-air))"
+    },
+    "dial": {
+      "width": "min(240px,100%)",
+      "aspectRatio": "1/0.82",
+      "containerType": "inline-size",
+      "trackStroke": "color-mix(in srgb, var(--primary-text-color) var(--evc-color-tint-track)%, transparent)",
+      "knobStrokeWidth": "3px",
+      "scaleFontSize": "10px",
+      "labelFontSize": "11px"
+    },
+    "chart": {
+      "height": "var(--h, 240px)",
+      "gridStroke": "color-mix(in srgb, var(--primary-text-color) 8%, transparent)",
+      "gridDash": "3 5",
+      "lineWidth": "2.4",
+      "hoverLineStroke": "color-mix(in srgb, var(--primary-text-color) 35%, transparent)"
+    },
+    "banner": {
+      "radius": "var(--evc-radius-banner)",
+      "padding": "var(--evc-spacing-bannerPadding)",
+      "background": "color-mix(in srgb, var(--vt) 13%, transparent)",
+      "barHeight": "6px",
+      "barRadius": "var(--evc-radius-bar)",
+      "barBackground": "color-mix(in srgb, var(--vt) 18%, transparent)"
+    },
+    "focus": {
+      "outline": "2px solid var(--evc-color-status-air)",
+      "outlineOffset": "2px"
+    }
+  }
+}

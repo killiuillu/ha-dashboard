@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>evcc-Dashboard – Dev</title>
+  <script src="../dist/evcc-dashboard.js"></script>
+  <style>
+    body { margin: 0; padding: 24px; font-family: var(--font-family, system-ui, sans-serif); background: var(--primary-background-color, #f5f5f5); color: var(--primary-text-color, #212121); }
+    h1 { font-size: 1.4rem; margin: 0 0 4px; }
+    h2 { font-size: 1.05rem; margin: 28px 0 10px; }
+    .sub { color: var(--secondary-text-color, #727272); margin-bottom: 16px; }
+    .swatches { display: flex; flex-wrap: wrap; gap: 10px; }
+    .swatch { width: 110px; border-radius: 12px; overflow: hidden; background: var(--ha-card-background, #fff); box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+    .swatch .c { height: 56px; }
+    .swatch .n { padding: 6px 8px; font-size: .72rem; font-weight: 600; }
+    .type { background: var(--ha-card-background, #fff); border-radius: 28px; padding: 20px; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
+    .note { color: var(--secondary-text-color, #727272); font-size: .85rem; }
+  </style>
+</head>
+<body>
+  <h1>evcc-Dashboard <span class="note" id="ver"></span></h1>
+  <div class="sub">Lokaler HA-Test (Mock-<code>hass</code>) – Karten im Stil von Raumklima 2, nur Anzeige.</div>
+
+  <h2>Status-Farben (Ampel)</h2>
+  <div class="swatches" id="swatches"></div>
+
+  <h2>Typografie</h2>
+  <div class="type">
+    <div class="now" style="font-size:2.9rem;font-weight:300;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums">2.250 <small>W</small></div>
+    <div style="margin-top:8px;color:var(--secondary-text-color,#727272);font-size:.82rem">Hausverbrauch · Chip-Stil · .stat-Label-Stil</div>
+    <div style="margin-top:10px"><span class="chip-demo" style="display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;font-size:.82rem;font-weight:600;color:var(--evc-color-status-ok);background:color-mix(in srgb, var(--evc-color-status-ok) 14%, transparent)">PV erzeugt</span></div>
+  </div>
+
+  <h2>Karten</h2>
+  <div class="cards" id="cards"></div>
+  <p class="note" id="nocards">Noch keine Karten registriert – ab Meilenstein M3 erscheinen sie hier automatisch.</p>
+
+  <script type="module">
+    const fixture = await (await fetch("fixture.json")).json();
+    const lang = new URLSearchParams(location.search).get("lang") || "de";
+    window.__hass = {
+      states: fixture.states,
+      entities: fixture.entities || {},
+      language: lang,
+      locale: { language: lang, number_format: "language" },
+      user: { is_admin: true, name: "Test" },
+      themes: { darkMode: false },
+      callWS: async () => ({}),
+      callService: async () => ({}),
+      connection: { subscribeMessage: async () => () => {} },
+      formatEntityState: (s) => s.state,
+    };
+
+    document.getElementById("ver").textContent = "v" + (window.evccDashboard?.version || "?");
+
+    const tokens = await (await fetch("../src/tokens/design-tokens.json")).json();
+    const sw = document.getElementById("swatches");
+    for (const [name, hex] of Object.entries(tokens.colors.status)) {
+      const d = document.createElement("div");
+      d.className = "swatch";
+      d.innerHTML = `<div class="c" style="background:${hex}"></div><div class="n">${name}<br>${hex}</div>`;
+      sw.appendChild(d);
+    }
+
+    const demoConfigs = {
+      "custom:evcc-overview-card": {
+        title: "evcc",
+        entities: {
+          pv_power: "sensor.evcc_pv_power",
+          grid_power: "sensor.evcc_grid_power",
+          home_power: "sensor.evcc_home_power",
+          battery_soc: "sensor.evcc_battery_soc",
+          battery_power: "sensor.evcc_battery_power",
+        },
+      },
+      "custom:evcc-loadpoint-card": {
+        title: "Ladepunkt 1",
+        entities: {
+          charge_power: "sensor.evcc_loadpoint_1_charge_power",
+          vehicle_soc: "sensor.evcc_loadpoint_1_vehicle_soc",
+          status: "sensor.evcc_loadpoint_1_status",
+        },
+      },
+    };
+
+    const cards = document.getElementById("cards");
+    const registered = (window.customCards || []).filter((c) => c.type.startsWith("custom:evcc-"));
+    if (registered.length) document.getElementById("nocards").style.display = "none";
+    for (const c of registered) {
+      const el = document.createElement(c.type.replace("custom:", ""));
+      el.setConfig(demoConfigs[c.type] || {});
+      el.hass = window.__hass;
+      cards.appendChild(el);
+    }
+  </script>
+</body>
+</html>
