@@ -13,7 +13,8 @@ test("Verlaufskarte rendert eine Linie pro Serie aus den Recorder-Daten", async 
   expect(legs.join(" ")).toContain("Netz");
   expect(legs.join(" ")).toContain("Hausverbrauch");
   const xlabels = await page.locator(`${card} .xlabh`).allTextContents();
-  expect(xlabels.some((l) => l.includes("06:00"))).toBe(true);
+  expect(xlabels.length).toBe(5);
+  for (const l of xlabels) expect(l).toMatch(/^\d{2}:00$/);
   expect(errors).toEqual([]);
 });
 
