@@ -1,5 +1,7 @@
 export const stateOf = (hass, id) => (id && hass && hass.states ? hass.states[id] : undefined);
 
+export const unitOf = (hass, id) => stateOf(hass, id)?.attributes?.unit_of_measurement || "W";
+
 export function collectIds(entities) {
   const out = [];
   for (const v of Object.values(entities || {})) {

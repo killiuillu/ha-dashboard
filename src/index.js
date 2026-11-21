@@ -1,5 +1,6 @@
 import { applyTokens } from "./tokens/apply-tokens.js";
-import { setLang } from "./i18n/index.js";
+import { setLang, t } from "./i18n/index.js";
+import { EvccOverviewCard } from "./cards/overview-card.js";
 
 applyTokens();
 
@@ -10,6 +11,18 @@ try {
   storedLang = null;
 }
 setLang({ language: storedLang || (typeof navigator !== "undefined" && navigator.language) || "de" });
+
+if (!customElements.get("evcc-overview-card")) customElements.define("evcc-overview-card", EvccOverviewCard);
+
+window.customCards = window.customCards || [];
+if (!window.customCards.find((c) => c.type === "custom:evcc-overview-card")) {
+  window.customCards.push({
+    type: "custom:evcc-overview-card",
+    name: t("evcc – Übersicht"),
+    description: t("PV, Netz, Haus und Batterie auf einen Blick"),
+    preview: true,
+  });
+}
 
 globalThis.evccDashboard = { version: __APP_VERSION__ };
 

@@ -39,4 +39,7 @@ export const EN = {
   "Nicht erreichbar": "Unavailable",
   "Keine Entity konfiguriert": "No entity configured",
   "Nur Anzeige – es wird nichts gesteuert.": "Display only – nothing is controlled.",
+  "Zeigt die Live-Leistung von PV, Netz, Haus und Batterie. Nur Anzeige – es wird nichts gesteuert.":
+    "Shows the live power of PV, grid, home and battery. Display only – nothing is controlled.",
+  "Batterie-Leistung": "Battery power",
 };

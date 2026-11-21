@@ -29,13 +29,13 @@ npx playwright install chromium
 npm test             # E2E: Rendern der Karten mit Fixture im Chromium, Konsolenfehler prüfen
 ```
 
-## Karten (ab M3)
+## Karten
 
-| Typ | Inhalt |
-| --- | --- |
-| `custom:evcc-overview-card` | Übersicht PV / Netz / Haus / Batterie mit Ampel |
-| `custom:evcc-loadpoint-card` | Ladepunkt(e): Ladeleistung, Fahrzeug-SoC, Status |
-| `custom:evcc-history-card` | Tagesverlauf als Chart mit Tooltip |
-| `custom:evcc-energy-card` | Energie & Kosten (inkl. Preis aus dem HA-Energy-Dashboard) |
+| Typ | Inhalt | Status |
+| --- | --- | --- |
+| `custom:evcc-overview-card` | Übersicht PV / Netz / Haus / Batterie mit Ampel und „?“-Erklärung | gebaut (M3) |
+| `custom:evcc-loadpoint-card` | Ladepunkt(e): Ladeleistung, Fahrzeug-SoC, Status | geplant (M4) |
+| `custom:evcc-history-card` | Tagesverlauf als Chart mit Tooltip | geplant (M5) |
+| `custom:evcc-energy-card` | Energie & Kosten (inkl. Preis aus dem HA-Energy-Dashboard) | geplant (M5) |
 
 Alle Entities werden in der Card-Config gesetzt, siehe Beispiel in [PLAN.md](PLAN.md).
