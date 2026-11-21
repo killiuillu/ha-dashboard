@@ -2,6 +2,8 @@ import { applyTokens } from "./tokens/apply-tokens.js";
 import { setLang, t } from "./i18n/index.js";
 import { EvccOverviewCard } from "./cards/overview-card.js";
 import { EvccLoadpointCard } from "./cards/loadpoint-card.js";
+import { EvccHistoryCard } from "./cards/history-card.js";
+import { EvccEnergyCard } from "./cards/energy-card.js";
 
 applyTokens();
 
@@ -15,6 +17,8 @@ setLang({ language: storedLang || (typeof navigator !== "undefined" && navigator
 
 if (!customElements.get("evcc-overview-card")) customElements.define("evcc-overview-card", EvccOverviewCard);
 if (!customElements.get("evcc-loadpoint-card")) customElements.define("evcc-loadpoint-card", EvccLoadpointCard);
+if (!customElements.get("evcc-history-card")) customElements.define("evcc-history-card", EvccHistoryCard);
+if (!customElements.get("evcc-energy-card")) customElements.define("evcc-energy-card", EvccEnergyCard);
 
 window.customCards = window.customCards || [];
 if (!window.customCards.find((c) => c.type === "custom:evcc-overview-card")) {
@@ -30,6 +34,22 @@ if (!window.customCards.find((c) => c.type === "custom:evcc-loadpoint-card")) {
     type: "custom:evcc-loadpoint-card",
     name: t("evcc – Ladepunkt"),
     description: t("Ladeleistung und Fahrzeug-Ladestand eines Ladepunkts"),
+    preview: true,
+  });
+}
+if (!window.customCards.find((c) => c.type === "custom:evcc-history-card")) {
+  window.customCards.push({
+    type: "custom:evcc-history-card",
+    name: t("evcc – Tagesverlauf"),
+    description: t("PV, Netz und Batterie als Verlaufskurve"),
+    preview: true,
+  });
+}
+if (!window.customCards.find((c) => c.type === "custom:evcc-energy-card")) {
+  window.customCards.push({
+    type: "custom:evcc-energy-card",
+    name: t("evcc – Energie & Kosten"),
+    description: t("Energie heute und Preise/Kosten aus dem HA-Energy-Dashboard"),
     preview: true,
   });
 }

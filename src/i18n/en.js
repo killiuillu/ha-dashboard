@@ -44,4 +44,11 @@ export const EN = {
   "Batterie-Leistung": "Battery power",
   "Zeigt Ladeleistung und Fahrzeug-Ladestand am Ladepunkt. Nur Anzeige – es wird nichts gesteuert.":
     "Shows charging power and vehicle charge level at the charge point. Display only – nothing is controlled.",
+  Tagesverlauf: "Daily history",
+  "Energie & Kosten": "Energy & costs",
+  "Lädt …": "Loading …",
+  "Verlauf von PV, Netz, Haus und Batterie über den heutigen Tag (Recorder-Statistiken, 5-Minuten-Mittel). Nur Anzeige – es wird nichts gesteuert.":
+    "History of PV, grid, home and battery for today (recorder statistics, 5-minute means). Display only – nothing is controlled.",
+  "Energie und Kosten heute. Preise über entities.price und entities.feed_in_price, z. B. aus dem HA-Energy-Dashboard. Nur Anzeige – es wird nichts gesteuert.":
+    "Energy and costs for today. Prices via entities.price and entities.feed_in_price, e.g. from the HA energy dashboard. Display only – nothing is controlled.",
 };

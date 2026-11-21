@@ -22,7 +22,7 @@ export async function openDevPage(page, lang = "de") {
       locale: { language: lang, number_format: "language" },
       user: { is_admin: true, name: "Test" },
       themes: { darkMode: false },
-      callWS: async () => ({}),
+      callWS: async (msg) => (msg.type in (fixture.ws || {}) ? structuredClone(fixture.ws[msg.type]) : {}),
       callService: async () => ({}),
       connection: { subscribeMessage: async () => () => {} },
       formatEntityState: (s) => s.state,

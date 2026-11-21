@@ -250,4 +250,26 @@ export const cardStyles = css`
   }
   .lp { min-width: 0; }
   .center { text-align: center; z-index: 1; max-width: 62%; min-width: 0; }
+  .gridline { stroke: color-mix(in srgb, var(--primary-text-color) 8%, transparent); stroke-dasharray: 3 5; }
+  .ylabh {
+    position: absolute;
+    left: 2px;
+    transform: translateY(-50%);
+    font-size: 10.5px;
+    color: var(--evc-color-ha-textSecondary);
+    font-variant-numeric: tabular-nums;
+    pointer-events: none;
+  }
+  .xlabh {
+    position: absolute;
+    bottom: 0;
+    transform: translateX(-50%);
+    font-size: 10.5px;
+    color: var(--evc-color-ha-textSecondary);
+    font-variant-numeric: tabular-nums;
+    pointer-events: none;
+  }
+  .tleg { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 14px; font-size: .78rem; color: var(--evc-color-ha-textSecondary); }
+  .tleg span { display: inline-flex; align-items: center; gap: 6px; }
+  .tleg i { width: 14px; height: 10px; border-radius: 3px; background: var(--c); }
 `;

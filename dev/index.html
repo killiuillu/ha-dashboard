@@ -47,7 +47,7 @@
       locale: { language: lang, number_format: "language" },
       user: { is_admin: true, name: "Test" },
       themes: { darkMode: false },
-      callWS: async () => ({}),
+      callWS: async (msg) => (msg.type in (fixture.ws || {}) ? structuredClone(fixture.ws[msg.type]) : {}),
       callService: async () => ({}),
       connection: { subscribeMessage: async () => () => {} },
       formatEntityState: (s) => s.state,
@@ -81,6 +81,24 @@
           charge_power: "sensor.evcc_loadpoint_1_charge_power",
           vehicle_soc: "sensor.evcc_loadpoint_1_vehicle_soc",
           status: "sensor.evcc_loadpoint_1_status",
+        },
+      },
+      "custom:evcc-history-card": {
+        title: "Verlauf heute",
+        entities: {
+          pv_power: "sensor.evcc_pv_power",
+          grid_power: "sensor.evcc_grid_power",
+          home_power: "sensor.evcc_home_power",
+        },
+      },
+      "custom:evcc-energy-card": {
+        title: "Energie & Kosten",
+        entities: {
+          pv_today: "sensor.evcc_pv_today",
+          grid_import_today: "sensor.evcc_grid_import_today",
+          grid_export_today: "sensor.evcc_grid_export_today",
+          home_today: "sensor.evcc_home_today",
+          price: "sensor.evcc_price",
         },
       },
     };

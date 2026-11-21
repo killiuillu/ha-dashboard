@@ -114,8 +114,8 @@ HA-Energy-Dashboard werden angezeigt, wenn als Entity konfiguriert.
 - **M1 – Setup:** erledigt in PR #1 (Referenz klonen, Tokens extrahieren, PLAN.md, package.json, Build, Dev-Server, i18n-Grundgerüst, Testgerüst)
 - **M2 – Dev-Setup grün:** erledigt in PR #1 (Build, Unit-Tests, Dev-Server, Playwright-Gerüst; CI-Workflow `.github/workflows/ci.yml`)
 - **M3 – Karte 1 `custom:evcc-overview-card`:** erledigt in PR #2 (große Übersichtskachel PV/Netz/Haus/Batterie: Titel + „?“, Status-Chip, großer Live-Wert Netz, Stat-Kacheln, Ampelfarbe via `--tone`; Logik in `src/util/evcc.js`; Playwright-Test)
-- **M4 – `custom:evcc-loadpoint-card`:** Ladepunkt(e) mit Ladeleistung (großer Wert), Fahrzeug-SoC als Ring-Dial wie die Raumkarte, Status-Chip; ein Ladepunkt flach (`entities.charge_power/vehicle_soc/status`) oder mehrere über `entities.loadpoints: [...]`; evcc-Statuscodes (A/B/C/F/paused) + Leistungs-Schwelle; Playwright-Test
-- **M5 – `custom:evcc-history-card` (Tagesverlauf als SVG-Chart mit Tooltip wie Raumklima) und `custom:evcc-energy-card` (Energie heute, Kosten, Preis aus HA-Energy-Dashboard falls vorhanden); je ein Playwright-Test
+- **M4 – `custom:evcc-loadpoint-card`:** erledigt in PR #3 (Ladeleistung als großer Wert, Fahrzeug-SoC als Ring-Dial wie die Raumkarte, Status-Chip; ein Ladepunkt flach oder mehrere über `entities.loadpoints: [...]`; evcc-Statuscodes + Leistungs-Schwelle; Playwright-Test)
+- **M5 – `custom:evcc-history-card` und `custom:evcc-energy-card`:** Verlaufskarte liest read-only Recorder-Statistiken (`recorder/statistics_during_period`, 5-Minuten-Mittel ab 00:00) über `hass.callWS` und zeichnet SVG-Linien mit Grid, Achsen-Labels und Hover-Tooltip im Raumklima-Stil (`src/util/chart.js`); Energie-Karte zeigt Autarkie groß + Tages-kWh (PV/Bezug/Einspeisung/Haus), Eigenverbrauch, Kosten (`entities.price`, optional `entities.feed_in_price`) und Strompreis; je Playwright-Test
 - **M6 – Dashboard-Strategie `ll-strategy-dashboard-evcc`:** baut das Dashboard automatisch aus den konfigurierten evcc-Entities auf; Doku in README
 
 ## Randbedingungen

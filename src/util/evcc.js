@@ -40,6 +40,28 @@ export function normalizeLoadpoints(cfg) {
   return [{ name: (cfg && cfg.name) || "", ...lp }];
 }
 
+export function fmtVal(v, unit) {
+  if (v === null || !isFinite(v)) return "–";
+  if (unit === "kWh") return `${fmt(v, 2)} kWh`;
+  if (unit === "%") return `${fmtInt(v)} %`;
+  const sp = splitPower(v, unit);
+  return `${sp.v} ${sp.u}`.trim();
+}
+
+export function energyStats({ pv, imp, exp, home, price, feedin }) {
+  const autarky = home && home > 0 ? Math.max(0, Math.min(1, 1 - (imp ?? 0) / home)) : null;
+  const selfc = pv && pv > 0 ? Math.max(0, Math.min(1, (pv - (exp ?? 0)) / pv)) : null;
+  const costs = price !== null && price !== undefined ? (imp ?? 0) * price - (exp ?? 0) * (feedin ?? 0) : null;
+  return { autarky, selfc, costs };
+}
+
+export function autarkyTone(autarky) {
+  if (autarky === null || autarky === undefined) return "off";
+  if (autarky >= 0.7) return "ok";
+  if (autarky >= 0.4) return "warn";
+  return "cold";
+}
+
 export const DIAL_ARC = "M 20.3 79.7 A 42 42 0 1 1 79.7 79.7";
 
 export function knobPos(pct) {
