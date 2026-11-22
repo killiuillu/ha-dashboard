@@ -137,7 +137,7 @@ Separate Strategie `custom:main` (**„Hauptdashboard (Tablet)“** im Dialog �
 eigener Konfigurator mit Titel/Präfix/Auto-Bild/Ticker/Räume-steuerbar):
 
 - **Oben:** `custom:modular-rooms-card` – kompakte Übersicht aller HA-Räume (Area) mit Temperatur
-  und Licht-Indikator (Punkt amber = Licht an). **Klick auf einen Raum** öffnet inline die Steuerung:
+  und Licht-Indikator (Punkt amber = Licht an). **Klick auf einen Raum** öffnet ein **Popup** mit der Steuerung:
   Lichter (`custom:modular-lights-card` mit `control: true`), Klima (`hui-climate-card`),
   Media Player (`hui-media-control-card`), weitere Entities – in HA direkt bedienbar.
 - **Mitte:** evcc-Übersicht (Übersicht vollbreit, Ladepunkt/Fahrzeug/Reichweite + Energie & Kosten nebeneinander).

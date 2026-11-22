@@ -111,7 +111,19 @@ export class ModularRoomsCard extends EvccBaseCard {
             `;
           })}
         </div>
-        <div class="roomdetail"></div>
+        ${sel
+          ? html`
+              <div class="overlay" @click=${(ev) => { if (ev.target === ev.currentTarget) this._sel = null; }}>
+                <div class="dialog" role="dialog" aria-label="${sel.name}">
+                  <div class="top">
+                    <div class="name dlg-title">${sel.name}</div>
+                    <button class="dlg-close" aria-label="Schließen" @click=${() => (this._sel = null)}>✕</button>
+                  </div>
+                  <div class="roomdetail"></div>
+                </div>
+              </div>
+            `
+          : nothing}
       </ha-card>
     `;
   }
