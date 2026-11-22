@@ -76,9 +76,9 @@ Alle Entities werden in der Card-Config gesetzt, siehe Beispiele in [PLAN.md](PL
 Das ganze Dashboard automatisch aus den evcc-Entities aufbauen lassen:
 
 ```yaml
-title: evcc
+title: Mein Zuhause
 strategy:
-  type: custom:evcc
+  type: custom:modular
   prefix: evcc          # optional, Default "evcc"
   modules:              # optional – ohne Angabe werden ALLE erkannten Module angezeigt
     - evcc
@@ -88,8 +88,10 @@ strategy:
     - mülltonnen
 ```
 
-`ll-strategy-dashboard-evcc` erkennt `sensor.<prefix>_*` (PV/Netz/Haus/Batterie, Tageswerte, Preis,
-`loadpoint_<n>_*`) und erzeugt die Views **Übersicht** und **Verlauf** (Tagesverlauf). Reine Anzeige.
+Die Strategie `ll-strategy-dashboard-modular` (im UI-Dialog: **„Modulares Dashboard“**) erkennt
+`sensor.<prefix>_*` (PV/Netz/Haus/Batterie, Tageswerte, Preis, `loadpoint_<n>_*`) und erzeugt die Views
+**Übersicht** und **Verlauf** (Tagesverlauf). Reine Anzeige. Der alte Typ `custom:evcc`
+(`ll-strategy-dashboard-evcc`) bleibt als Alias definiert – bestehende YAML-Dashboards laufen weiter.
 
 **Module (M10):** ohne `modules:` werden automatisch alle vorhandenen erkannt und eingebaut:
 - **evcc** – unsere Karten (Übersicht, Ladepunkt, Fahrzeug, Energie & Kosten, Verlauf)
@@ -101,7 +103,7 @@ strategy:
 Aliase wie `Mülltonnen`, `kalender`, `Lichter` funktionieren ebenfalls.
 
 **Ohne YAML – direkt beim Anlegen auswählen (M11):** Ab HA 2026.5 erscheint die Strategie im Dialog
-**Dashboard hinzufügen → Community-Dashboards → „evcc Dashboard“**. Weil der Eintrag
+**Dashboard hinzufügen → Community-Dashboards → „Modulares Dashboard“**. Weil der Eintrag
 `configRequired: true` hat, öffnet HA automatisch den **Konfigurator** (`getConfigElement()`): Checkboxen
 für die Module (nur die in deiner HA erkannten sind aktiv), dazu Titel und Entity-Präfix. Erst nach
 „Erstellen“ wird das Dashboard mit der gewählten Modul-Auswahl angelegt. Später änderbar über

@@ -124,13 +124,13 @@ export class EvccDashboardStrategy extends StrategyBase {
   }
 
   static getCreateSuggestions() {
-    return { title: t("evcc Dashboard"), icon: "mdi:view-dashboard" };
+    return { title: t("Modulares Dashboard"), icon: "mdi:view-dashboard" };
   }
 
   static async generate(config = {}, hass) {
     setLang(hass);
     const prefix = config.prefix || "evcc";
-    const title = config.title || t("evcc Dashboard");
+    const title = config.title || t("Modulares Dashboard");
     const det = detectModules(hass, prefix);
     const modules = normalizeModules(config.modules);
     const sections = [];

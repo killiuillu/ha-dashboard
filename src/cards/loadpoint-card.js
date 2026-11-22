@@ -58,7 +58,7 @@ export class EvccLoadpointCard extends EvccBaseCard {
     if (!lps.length) {
       return html`<ha-card><div class="err">${t("Keine Entity konfiguriert")}</div></ha-card>`;
     }
-    const title = cfg.title || t("evcc Dashboard");
+    const title = cfg.title || t("evcc");
     const first = loadpointStatus(
       stateOf(this.hass, lps[0].status)?.state,
       num(stateOf(this.hass, lps[0].charge_power)),

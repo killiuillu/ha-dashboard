@@ -46,7 +46,7 @@ test("generate baut Übersicht- und Verlaufsansicht aus den Entities", async () 
     "sensor.evcc_loadpoint_1_charge_power": {},
   };
   const dash = await EvccDashboardStrategy.generate({ prefix: "evcc" }, hass(states));
-  assert.equal(dash.title, "evcc Dashboard");
+  assert.equal(dash.title, "Modulares Dashboard");
   assert.equal(dash.views.length, 2);
   assert.equal(dash.views[0].path, "uebersicht");
   const types = dash.views[0].sections[0].cards.map((c) => c.type);

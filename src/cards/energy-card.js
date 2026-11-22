@@ -38,7 +38,7 @@ export class EvccEnergyCard extends EvccBaseCard {
     const feedin = num(stateOf(this.hass, em.feed_in_price));
     const { autarky, selfc, costs } = energyStats({ pv, imp, exp, home, price, feedin });
     const tone = toneVar(autarkyTone(autarky));
-    const title = cfg.title || t("evcc Dashboard");
+    const title = cfg.title || t("evcc");
     const kwh = (v) => (v === null ? "–" : fmt(v, 1));
     return html`
       <ha-card class="rcard" style="--tone:${tone};--accent:${tone}">

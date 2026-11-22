@@ -4,7 +4,7 @@ import { openDevPage } from "../helpers.mjs";
 test("Bundle lädt fehlerfrei und setzt die Design-Tokens als CSS-Variablen", async ({ page }) => {
   const errors = await openDevPage(page);
   expect(errors).toEqual([]);
-  expect(await page.evaluate(() => window.evccDashboard?.version)).toBeTruthy();
+  expect(await page.evaluate(() => window.haDashboard?.version)).toBeTruthy();
   const heat = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--evc-color-status-heat").trim());
   expect(heat).toBe("#ff7a45");
   const radius = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--evc-radius-card").trim());

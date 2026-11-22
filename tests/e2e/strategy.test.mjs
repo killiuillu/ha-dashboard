@@ -1,13 +1,13 @@
 import { expect, test } from "@playwright/test";
 import { openDevPage } from "../helpers.mjs";
 
-test("Strategie ll-strategy-dashboard-evcc generiert Dashboard aus der Fixture", async ({ page }) => {
+test("Strategie ll-strategy-dashboard-modular generiert Dashboard aus der Fixture", async ({ page }) => {
   const errors = await openDevPage(page);
   const dash = await page.evaluate(async () => {
-    const el = document.createElement("ll-strategy-dashboard-evcc");
+    const el = document.createElement("ll-strategy-dashboard-modular");
     return el.constructor.generate({ prefix: "evcc" }, window.__hass);
   });
-  expect(dash.title).toBe("evcc Dashboard");
+  expect(dash.title).toBe("Modulares Dashboard");
   const types = dash.views[0].sections[0].cards.map((c) => c.type);
   expect(types).toContain("custom:evcc-overview-card");
   expect(types).toContain("custom:evcc-loadpoint-card");
@@ -19,7 +19,7 @@ test("Strategie ll-strategy-dashboard-evcc generiert Dashboard aus der Fixture",
 test("Strategie erkennt zusätzliche Module (Raumklima/Hue/Kalender/Müll) aus der Fixture", async ({ page }) => {
   const errors = await openDevPage(page);
   const dash = await page.evaluate(async () => {
-    const el = document.createElement("ll-strategy-dashboard-evcc");
+    const el = document.createElement("ll-strategy-dashboard-modular");
     return el.constructor.generate({ prefix: "evcc" }, window.__hass);
   });
   const titles = dash.views[0].sections.map((s) => s.title);
@@ -29,7 +29,7 @@ test("Strategie erkennt zusätzliche Module (Raumklima/Hue/Kalender/Müll) aus d
   expect(titles).toContain("Kalender");
   expect(titles).toContain("Müllabfuhr");
   const restricted = await page.evaluate(async () => {
-    const el = document.createElement("ll-strategy-dashboard-evcc");
+    const el = document.createElement("ll-strategy-dashboard-modular");
     return el.constructor.generate({ prefix: "evcc", modules: ["evcc", "Mülltonnen"] }, window.__hass);
   });
   expect(restricted.views[0].sections.map((s) => s.title)).toEqual(["evcc", "Müllabfuhr"]);
@@ -39,6 +39,19 @@ test("Strategie erkennt zusätzliche Module (Raumklima/Hue/Kalender/Müll) aus d
 test("Strategie ist in window.customStrategies registriert", async ({ page }) => {
   const errors = await openDevPage(page);
   const strategies = await page.evaluate(() => (window.customStrategies || []).map((s) => `${s.strategyType}:${s.type}`));
-  expect(strategies).toContain("dashboard:evcc");
+  expect(strategies).toContain("dashboard:modular");
+  expect(errors).toEqual([]);
+});
+
+test("Legacy-Alias ll-strategy-dashboard-evcc (custom:evcc) bleibt definiert", async ({ page }) => {
+  const errors = await openDevPage(page);
+  const ok = await page.evaluate(async () => {
+    const Cls = customElements.get("ll-strategy-dashboard-evcc");
+    if (!Cls) return false;
+    const el = document.createElement("ll-strategy-dashboard-evcc");
+    const dash = await el.constructor.generate({ prefix: "evcc" }, window.__hass);
+    return dash.views.length > 0;
+  });
+  expect(ok).toBe(true);
   expect(errors).toEqual([]);
 });

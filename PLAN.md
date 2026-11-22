@@ -44,7 +44,7 @@ Ampelfarben, „?“-Erklärungen) – **reine Anzeige, keine Steuerung**.
 │   │   ├── loadpoint-card.js   M4: custom:evcc-loadpoint-card
 │   │   ├── history-card.js     M5: custom:evcc-history-card
 │   │   ├── energy-card.js      M5: custom:evcc-energy-card
-│   │   └── strategy.js         M6: ll-strategy-dashboard-evcc
+│   │   └── strategy.js         M6: ll-strategy-dashboard-modular (Alias ll-strategy-dashboard-evcc)
 │   ├── i18n/                   de als Schlüsselsprache (wie Raumklima), en.js als Tabelle; setLang folgt hass.locale
 │   ├── status.js               evcc-Status → { label, icon, tone }
 │   └── util/                   format.js (fmt/num/esc), hass.js (stateOf, Signatur-Vergleich)
@@ -112,13 +112,13 @@ HA-Energy-Dashboard werden angezeigt, wenn als Entity konfiguriert.
 Dashboard-Strategie (M6):
 
 ```yaml
-title: evcc
+title: Mein Zuhause
 strategy:
-  type: custom:evcc
+  type: custom:modular   # Legacy-Alias: custom:evcc
   prefix: evcc   # optional, Default "evcc"
 ```
 
-`ll-strategy-dashboard-evcc` erkennt die Entities am Präfix (`sensor.<prefix>_pv_power`, `_grid_power`,
+`ll-strategy-dashboard-modular` erkennt die Entities am Präfix (`sensor.<prefix>_pv_power`, `_grid_power`,
 `_home_power`, `_battery_soc`, `_battery_power`, `_<x>_today`, `_price`, `_loadpoint_<n>_*`) und baut
 „Übersicht" (Overview-, Ladepunkt-, Energie-Karte) sowie „Verlauf" (History) automatisch auf.
 
@@ -138,7 +138,7 @@ strategy:
 - **M3 – Karte 1 `custom:evcc-overview-card`:** erledigt in PR #2 (große Übersichtskachel PV/Netz/Haus/Batterie: Titel + „?“, Status-Chip, großer Live-Wert Netz, Stat-Kacheln, Ampelfarbe via `--tone`; Logik in `src/util/evcc.js`; Playwright-Test)
 - **M4 – `custom:evcc-loadpoint-card`:** erledigt in PR #3 (Ladeleistung als großer Wert, Fahrzeug-SoC als Ring-Dial wie die Raumkarte, Status-Chip; ein Ladepunkt flach oder mehrere über `entities.loadpoints: [...]`; evcc-Statuscodes + Leistungs-Schwelle; Playwright-Test)
 - **M5 – `custom:evcc-history-card` und `custom:evcc-energy-card`:** Verlaufskarte liest read-only Recorder-Statistiken (`recorder/statistics_during_period`, 5-Minuten-Mittel ab 00:00) über `hass.callWS` und zeichnet SVG-Linien mit Grid, Achsen-Labels und Hover-Tooltip im Raumklima-Stil (`src/util/chart.js`); Energie-Karte zeigt Autarkie groß + Tages-kWh (PV/Bezug/Einspeisung/Haus), Eigenverbrauch, Kosten (`entities.price`, optional `entities.feed_in_price`) und Strompreis; je Playwright-Test – erledigt in PR #4
-- **M6 – Dashboard-Strategie `ll-strategy-dashboard-evcc`:** erledigt in PR #5 (`static generate(config, hass)` wie die Referenz, Entity-Autoerkennung via Präfix in `detectEvcc`, Views „Übersicht" + „Verlauf", `window.customStrategies`; Unit- + Playwright-Tests)
+- **M6 – Dashboard-Strategie `ll-strategy-dashboard-modular`:** erledigt in PR #5 (damals noch `…-evcc`); M12: Umbenennung auf `custom:modular` / „Modulares Dashboard“ (PR #12), `custom:evcc` bleibt als Alias (`static generate(config, hass)` wie die Referenz, Entity-Autoerkennung via Präfix in `detectEvcc`, Views „Übersicht" + „Verlauf", `window.customStrategies`; Unit- + Playwright-Tests)
 - **M7 – HACS/Marketplace-Verpackung:** erledigt in PR #6/#7 (`hacs.json`, Release-Workflow liefert `hacs.json` + `ha-dashboard.js`(+`.gz`) als Assets, Artefakt heißt wie das Repo)
 - **M8 – `custom:evcc-vehicle-card`:** erledigt in PR #8 (Fahrzeug-Karte mit Bild (`image:`, Fallback `mdi:car-electric`), großem SoC, Reichweite km (`entities.range` oder SoC × `capacity_kwh`); in der Strategie automatisch bei `vehicle_soc`)
 - **M9 – Optik-Feinabgleich an Raumklima 2 (PR #9):** `rcard`-Akzentleiste oben (4px + Verlauf), Dial exakt wie Referenz (viewBox 240x200, R=100, 135°+270°, Strich 14, Doppel-Knopf, Skalenlabels), `.center` wie Referenz; SVG-Strokes über CSS-Klassen (var() in Präsentationsattributen rendert nicht); Screenshot-Vergleich in der CI (unsere Karten + Raumklima-Demo/-Raumkarte als Artifact `shots`, inkl. Pixel-Diagnose)
