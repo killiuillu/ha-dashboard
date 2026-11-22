@@ -462,6 +462,39 @@ export const cardStyles = css`
   .rdot { width: 9px; height: 9px; border-radius: 50%; background: var(--lc, var(--tone)); display: inline-block; }
   .rtemp { font-variant-numeric: tabular-nums; }
   .roomdetail { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+  .overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, .45);
+    backdrop-filter: blur(3px);
+  }
+  .dialog {
+    width: 100%;
+    max-width: min(560px, 94vw);
+    max-height: 82vh;
+    overflow: auto;
+    box-sizing: border-box;
+    border-radius: var(--evc-radius-card);
+    padding: var(--evc-spacing-cardPadding);
+    background: var(--evc-color-ha-cardBackground);
+    box-shadow: var(--evc-shadow-tip);
+  }
+  .dlg-close {
+    all: unset;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: .85rem;
+    color: var(--evc-color-ha-textSecondary);
+  }
+  .dlg-close:hover { background: color-mix(in srgb, var(--primary-text-color) 8%, transparent); }
   .ticker { overflow: hidden; margin-top: 12px; }
   .ticker .track {
     display: inline-flex;
