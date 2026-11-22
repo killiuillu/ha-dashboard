@@ -28,7 +28,8 @@ if (!customElements.get("evcc-vehicle-card")) customElements.define("evcc-vehicl
 if (!customElements.get("modular-calendar-card")) customElements.define("modular-calendar-card", ModularCalendarCard);
 if (!customElements.get("modular-waste-card")) customElements.define("modular-waste-card", ModularWasteCard);
 if (!customElements.get("ll-strategy-dashboard-modular")) customElements.define("ll-strategy-dashboard-modular", EvccDashboardStrategy);
-if (!customElements.get("ll-strategy-dashboard-evcc")) customElements.define("ll-strategy-dashboard-evcc", EvccDashboardStrategy);
+class EvccDashboardStrategyAlias extends EvccDashboardStrategy {}
+if (!customElements.get("ll-strategy-dashboard-evcc")) customElements.define("ll-strategy-dashboard-evcc", EvccDashboardStrategyAlias);
 if (!customElements.get("evcc-strategy-editor")) customElements.define("evcc-strategy-editor", EvccStrategyEditor);
 
 window.customCards = window.customCards || [];
