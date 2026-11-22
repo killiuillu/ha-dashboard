@@ -95,6 +95,10 @@ export class EvccStrategyEditor extends LitElement {
     this._fire({ hue: { ...this._hueCfg, entities: [...sel] } });
   }
 
+  _toggleHueControl(on) {
+    this._fire({ hue: { ...this._hueCfg, entities: [...this._hueSelected], control: on ? true : undefined } });
+  }
+
   _renderHueOpts() {
     const det = (this._det && this._det.hue) || [];
     return html`
@@ -108,6 +112,10 @@ export class EvccStrategyEditor extends LitElement {
             </label>
           `,
         )}
+        <label class="opt">
+          <input type="checkbox" .checked=${this._hueCfg.control === true} @change=${(ev) => this._toggleHueControl(ev.target.checked)} />
+          <span>${t("Lichter steuerbar (an/aus per Klick)")}</span>
+        </label>
       </div>
     `;
   }

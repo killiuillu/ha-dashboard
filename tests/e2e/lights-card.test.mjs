@@ -35,3 +35,38 @@ test("Lichter-Karte: ?-Button klappt die Erklärung auf (nur Anzeige)", async ({
   expect(help).toContain("nichts geschaltet");
   expect(errors).toEqual([]);
 });
+
+test("Lichter-Karte mit control: true – Klick ruft light.turn_off/turn_on per callService auf", async ({ page }) => {
+  const errors = await openDevPage(page);
+  await page.evaluate(() => {
+    window.__calls = [];
+    window.__hass.callService = async (d, svc, t) => {
+      window.__calls.push([d, svc, t]);
+      return {};
+    };
+    const el = document.createElement("modular-lights-card");
+    el.setConfig({ title: "Lichter steuerbar", control: true, entities: ["light.wohnzimmer", "light.kueche"] });
+    el.hass = window.__hass;
+    document.getElementById("cards").appendChild(el);
+  });
+  const card2 = page.locator("#cards modular-lights-card").nth(1);
+  await card2.locator("button.lrow").first().waitFor({ state: "attached", timeout: 15000 });
+  expect(await card2.locator("button.lrow").count()).toBe(2);
+  await card2.locator("button.lrow").first().click();
+  await card2.locator("button.lrow").nth(1).click();
+  await page.waitForTimeout(200);
+  const calls = await page.evaluate(() => window.__calls);
+  expect(calls).toEqual([
+    ["light", "turn_off", { entity_id: "light.wohnzimmer" }],
+    ["light", "turn_on", { entity_id: "light.kueche" }],
+  ]);
+  expect(errors).toEqual([]);
+});
+
+test("Lichter-Karte ohne control bleibt read-only (keine Buttons)", async ({ page }) => {
+  const errors = await openDevPage(page);
+  await page.locator(`${card} .lrow`).first().waitFor({ state: "attached" });
+  expect(await page.locator(`${card} button.lrow`).count()).toBe(0);
+  expect(await page.locator(`${card} .ltoggle`).count()).toBe(0);
+  expect(errors).toEqual([]);
+});

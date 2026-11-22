@@ -112,6 +112,10 @@ export const EN = {
   Helligkeit: "Brightness",
   "Keine Lichter konfiguriert": "No lights configured",
   "Anzuzeigende Lichter": "Lights to show",
+  "Lichter steuerbar (an/aus per Klick)": "Lights controllable (on/off per click)",
+  "Klick schaltet die Lampe an/aus (light.turn_on/turn_off).": "Click toggles the light (light.turn_on/turn_off).",
+  "Zeigt die gewählten Lichter mit Status und Helligkeit im Raumklima-Stil (an = warm, aus = grau).":
+    "Shows the selected lights with status and brightness in room-climate style (on = warm, off = gray).",
   "Modular – Lichter": "Modular – lights",
   "Gewählte Lichter im Raumklima-Stil: Status-Chip, Helligkeit, Farbe – nur Anzeige":
     "Selected lights in room-climate style: status chip, brightness, color – display only",

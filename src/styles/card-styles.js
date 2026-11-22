@@ -435,4 +435,8 @@ export const cardStyles = css`
   }
   .lbar > i { display: block; height: 100%; background: var(--lc, var(--tone)); border-radius: var(--evc-radius-bar); transition: width .5s; }
   .lpct { flex: none; font-size: .8rem; font-weight: 600; color: var(--evc-color-ha-textSecondary); font-variant-numeric: tabular-nums; }
+  button.lrow { cursor: pointer; width: 100%; font: inherit; color: inherit; text-align: left; appearance: none; }
+  button.lrow:hover { background: color-mix(in srgb, var(--lc, var(--tone)) 14%, transparent); }
+  button.lrow:disabled { opacity: .5; cursor: default; }
+  .ltoggle { --mdc-icon-size: 26px; color: var(--lc, var(--tone)); flex: none; }
 `;

@@ -184,6 +184,7 @@ export class EvccDashboardStrategy extends StrategyBase {
               type: "custom:modular-lights-card",
               title: t("Lichter"),
               entities: hueEntities,
+              ...(hueCfg.control !== undefined ? { control: hueCfg.control === true || hueCfg.control === "true" } : {}),
               grid_options: { columns: "full" },
             },
           ],

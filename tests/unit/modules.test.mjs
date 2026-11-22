@@ -61,7 +61,7 @@ test("generate: calendar/waste-Config (entities, view, days) ueberschreibt die A
       modules: ["calendar", "muell", "hue"],
       calendar: { entities: ["calendar.arbeit"], view: "calendar", days: 30, group: true, max: 5 },
       waste: { entities: ["sensor.waste_collection_schedule_bio"] },
-      hue: { entities: ["light.schreibtisch"] },
+      hue: { entities: ["light.schreibtisch"], control: true },
     },
     hass,
   );
@@ -78,6 +78,7 @@ test("generate: calendar/waste-Config (entities, view, days) ueberschreibt die A
   const hue = dash.views[0].sections.find((s) => s.title === "Lichter");
   assert.equal(hue.cards[0].type, "custom:modular-lights-card");
   assert.deepEqual(hue.cards[0].entities, ["light.schreibtisch"]);
+  assert.equal(hue.cards[0].control, true);
 });
 
 test("generate mit modules: nur gewünschte Module", async () => {

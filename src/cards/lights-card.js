@@ -16,11 +16,22 @@ export class ModularLightsCard extends EvccBaseCard {
     return 3;
   }
 
+  get _control() {
+    const c = this._config?.control;
+    return c === true || c === "true";
+  }
+
+  _toggle(l) {
+    if (!this._control || !l.available || typeof this.hass?.callService !== "function") return;
+    this.hass.callService("light", l.on ? "turn_off" : "turn_on", { entity_id: l.entity });
+  }
+
   render() {
     const cfg = this._config || {};
     const items = parseLightEntities(cfg.entities ?? cfg);
     const title = cfg.title || t("Lichter");
     const tone = toneVar("eco");
+    const control = this._control;
     if (!items.length) {
       return html`<ha-card><div class="err">${t("Keine Entity konfiguriert")}</div></ha-card>`;
     }
@@ -32,26 +43,29 @@ export class ModularLightsCard extends EvccBaseCard {
           <button class="qm" style="--g:${tone}" title="?" aria-label="?" @click=${() => (this._help = !this._help)}>?</button>
         </div>
         ${this._help
-          ? html`<div class="helpbox" style="--g:${tone}">${t("Zeigt die gewählten Lichter mit Status und Helligkeit im Raumklima-Stil (an = warm, aus = grau). Nur Anzeige – es wird nichts geschaltet.")}</div>`
+          ? html`<div class="helpbox" style="--g:${tone}">${t("Zeigt die gewählten Lichter mit Status und Helligkeit im Raumklima-Stil (an = warm, aus = grau).")} ${control ? t("Klick schaltet die Lampe an/aus (light.turn_on/turn_off).") : t("Nur Anzeige – es wird nichts geschaltet.")}</div>`
           : nothing}
         ${lights.length
           ? html`
               <div class="llist">
                 ${lights.map((l) => {
                   const c = l.color || (l.on ? toneVar("warn") : toneVar("off"));
-                  return html`
-                    <div class="lrow${l.on ? " on" : ""}" style="--lc:${c}">
-                      <ha-icon class="licon" icon="${l.icon}"></ha-icon>
-                      <div class="linfo">
-                        <div class="lname">${l.name}</div>
-                        ${l.on && l.brightness !== null
-                          ? html`<div class="lbar"><i style="width:${l.brightness}%"></i></div>`
-                          : nothing}
-                      </div>
-                      <span class="chip" style="--tone:${c}">${l.available ? (l.on ? t("An") : t("Aus")) : t("Nicht erreichbar")}</span>
-                      ${l.on && l.brightness !== null ? html`<span class="lpct">${fmtInt(l.brightness)} %</span>` : nothing}
+                  const inner = html`
+                    <ha-icon class="licon" icon="${l.icon}"></ha-icon>
+                    <div class="linfo">
+                      <div class="lname">${l.name}</div>
+                      ${l.on && l.brightness !== null
+                        ? html`<div class="lbar"><i style="width:${l.brightness}%"></i></div>`
+                        : nothing}
                     </div>
+                    <span class="chip" style="--tone:${c}">${l.available ? (l.on ? t("An") : t("Aus")) : t("Nicht erreichbar")}</span>
+                    ${l.on && l.brightness !== null ? html`<span class="lpct">${fmtInt(l.brightness)} %</span>` : nothing}
+                    ${control ? html`<ha-icon class="ltoggle" icon="${l.on ? "mdi:toggle-switch" : "mdi:toggle-switch-off"}"></ha-icon>` : nothing}
                   `;
+                  const cls = `lrow${l.on ? " on" : ""}`;
+                  return control
+                    ? html`<button class="${cls}" style="--lc:${c}" ?disabled=${!l.available} @click=${() => this._toggle(l)}>${inner}</button>`
+                    : html`<div class="${cls}" style="--lc:${c}">${inner}</div>`;
                 })}
               </div>
             `
