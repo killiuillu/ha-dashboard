@@ -188,6 +188,22 @@
         "friendly_name": "Arbeitskalender"
       },
       "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "media_player.wohnzimmer": {
+      "state": "playing",
+      "attributes": {
+        "friendly_name": "Wohnzimmer Speaker",
+        "media_title": "Radio"
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "sensor.dhl_paket_1": {
+      "state": "unterwegs",
+      "attributes": {
+        "friendly_name": "DHL Paket",
+        "expected_date": "2026-11-24"
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
     }
   },
   "entities": {
@@ -264,17 +280,23 @@
     "climate.wohnzimmer": {
       "entity_id": "climate.wohnzimmer",
       "platform": "raumklima",
-      "domain": "climate"
+      "domain": "climate",
+      "area_id": "wohnzimmer",
+      "device_id": "dev_wz"
     },
     "light.wohnzimmer": {
       "entity_id": "light.wohnzimmer",
       "platform": "hue",
-      "domain": "light"
+      "domain": "light",
+      "area_id": "wohnzimmer",
+      "device_id": "dev_wz"
     },
     "light.kueche": {
       "entity_id": "light.kueche",
       "platform": "hue",
-      "domain": "light"
+      "domain": "light",
+      "area_id": "kueche",
+      "device_id": "dev_kueche"
     },
     "calendar.familie": {
       "entity_id": "calendar.familie",
@@ -305,6 +327,18 @@
       "entity_id": "calendar.arbeit",
       "platform": "calendar",
       "domain": "calendar"
+    },
+    "media_player.wohnzimmer": {
+      "entity_id": "media_player.wohnzimmer",
+      "platform": "hue",
+      "domain": "media_player",
+      "area_id": "wohnzimmer",
+      "device_id": "dev_wz"
+    },
+    "sensor.dhl_paket_1": {
+      "entity_id": "sensor.dhl_paket_1",
+      "platform": "rest",
+      "domain": "sensor"
     }
   },
   "ws": {
@@ -399,6 +433,30 @@
           "mean": 1800
         }
       ]
+    }
+  },
+  "areas": {
+    "wohnzimmer": {
+      "area_id": "wohnzimmer",
+      "name": "Wohnzimmer"
+    },
+    "kueche": {
+      "area_id": "kueche",
+      "name": "Küche"
+    },
+    "schlafzimmer": {
+      "area_id": "schlafzimmer",
+      "name": "Schlafzimmer"
+    }
+  },
+  "devices": {
+    "dev_wz": {
+      "id": "dev_wz",
+      "area_id": "wohnzimmer"
+    },
+    "dev_kueche": {
+      "id": "dev_kueche",
+      "area_id": "kueche"
     }
   }
 }

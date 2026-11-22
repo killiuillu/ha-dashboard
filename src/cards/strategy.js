@@ -1,4 +1,5 @@
 import { setLang, t } from "../i18n/index.js";
+import { detectWasteSensors } from "../util/waste.js";
 
 const POWER_KEYS = ["pv_power", "grid_power", "battery_power", "home_power"];
 const LIVE_KEYS = [...POWER_KEYS, "battery_soc"];
@@ -69,16 +70,7 @@ export function detectModules(hass, prefix = "evcc") {
     .map((e) => e.entity_id);
   det.hue = (hueOnly.length ? hueOnly : lights).slice(0, 12);
   det.calendar = Object.keys(states).filter((id) => id.startsWith("calendar.")).slice(0, 10);
-  const wasteIds = new Set();
-  for (const e of Object.values(entities)) {
-    if (e.platform === "waste_collection_schedule" || /waste|muell|tonne/i.test(e.entity_id)) wasteIds.add(e.entity_id);
-  }
-  for (const [id, st] of Object.entries(states)) {
-    if (!id.startsWith("sensor.")) continue;
-    const a = (st && st.attributes) || {};
-    if (a.daysTo !== undefined || a.next_date || a.next_collection || /waste|muell|tonne/i.test(id)) wasteIds.add(id);
-  }
-  det.muell = [...wasteIds].slice(0, 10);
+  det.muell = detectWasteSensors(hass);
   return det;
 }
 
@@ -96,7 +88,7 @@ const cfgEntities = (cfg, fallback) => {
   return fallback;
 };
 
-function evccCards(evcc, config, title) {
+export function evccCards(evcc, config, title) {
   const overviewEntities = {};
   for (const k of LIVE_KEYS) if (evcc[k]) overviewEntities[k] = evcc[k];
   const cards = [];

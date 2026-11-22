@@ -89,5 +89,20 @@ export function daysLabel(days) {
   return t("in {n} Tagen", { n: days });
 }
 
+export function detectWasteSensors(hass) {
+  const states = hass?.states || {};
+  const entities = hass?.entities || {};
+  const ids = new Set();
+  for (const e of Object.values(entities)) {
+    if (e && (e.platform === "waste_collection_schedule" || /waste|muell|tonne/i.test(e.entity_id))) ids.add(e.entity_id);
+  }
+  for (const [id, st] of Object.entries(states)) {
+    if (!id.startsWith("sensor.")) continue;
+    const a = (st && st.attributes) || {};
+    if (a.daysTo !== undefined || a.next_date || a.next_collection || /waste|muell|tonne/i.test(id)) ids.add(id);
+  }
+  return [...ids].slice(0, 10);
+}
+
 export const fmtWasteDate = (d) =>
   d ? d.toLocaleDateString(loc(), { weekday: "short", day: "2-digit", month: "2-digit", year: "numeric" }) : "–";

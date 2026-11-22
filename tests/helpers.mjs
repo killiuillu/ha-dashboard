@@ -20,6 +20,8 @@ export async function openDevPage(page, lang = "de") {
     window.__hass = {
       states: fixture.states,
       entities: fixture.entities || {},
+      areas: fixture.areas || {},
+      devices: fixture.devices || {},
       language: lang,
       locale: { language: lang, number_format: "language" },
       user: { is_admin: true, name: "Test" },
