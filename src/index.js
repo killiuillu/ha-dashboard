@@ -5,6 +5,7 @@ import { EvccLoadpointCard } from "./cards/loadpoint-card.js";
 import { EvccHistoryCard } from "./cards/history-card.js";
 import { EvccEnergyCard } from "./cards/energy-card.js";
 import { EvccDashboardStrategy } from "./cards/strategy.js";
+import { EvccStrategyEditor } from "./cards/strategy-editor.js";
 import { EvccVehicleCard } from "./cards/vehicle-card.js";
 
 applyTokens();
@@ -23,6 +24,7 @@ if (!customElements.get("evcc-history-card")) customElements.define("evcc-histor
 if (!customElements.get("evcc-energy-card")) customElements.define("evcc-energy-card", EvccEnergyCard);
 if (!customElements.get("evcc-vehicle-card")) customElements.define("evcc-vehicle-card", EvccVehicleCard);
 if (!customElements.get("ll-strategy-dashboard-evcc")) customElements.define("ll-strategy-dashboard-evcc", EvccDashboardStrategy);
+if (!customElements.get("evcc-strategy-editor")) customElements.define("evcc-strategy-editor", EvccStrategyEditor);
 
 window.customCards = window.customCards || [];
 if (!window.customCards.find((c) => c.type === "custom:evcc-overview-card")) {
@@ -72,8 +74,9 @@ if (!window.customStrategies.find((x) => x.type === "evcc")) {
     type: "evcc",
     strategyType: "dashboard",
     name: t("evcc Dashboard"),
-    description: t("Baut das Dashboard automatisch aus den evcc-Entities auf"),
+    description: t("Baut das Dashboard automatisch auf – mit Modul-Auswahl im Dialog"),
     documentationURL: "https://github.com/killiuillu/ha-dashboard",
+    configRequired: true,
   });
 }
 

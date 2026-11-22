@@ -119,6 +119,14 @@ function evccHistoryEntities(evcc) {
 const StrategyBase = typeof HTMLElement !== "undefined" ? HTMLElement : class {};
 
 export class EvccDashboardStrategy extends StrategyBase {
+  static getConfigElement() {
+    return document.createElement("evcc-strategy-editor");
+  }
+
+  static getCreateSuggestions() {
+    return { title: t("evcc Dashboard"), icon: "mdi:view-dashboard" };
+  }
+
   static async generate(config = {}, hass) {
     setLang(hass);
     const prefix = config.prefix || "evcc";
