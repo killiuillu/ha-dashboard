@@ -13,6 +13,14 @@ test("Strategie ll-strategy-dashboard-modular generiert Dashboard aus der Fixtur
   expect(types).toContain("custom:evcc-loadpoint-card");
   expect(types).toContain("custom:evcc-energy-card");
   expect(dash.views.some((v) => v.path === "verlauf")).toBe(true);
+  const sections = dash.views[0].sections;
+  const cal = sections.find((s) => s.title === "Kalender");
+  expect(cal.cards[0].type).toBe("custom:modular-calendar-card");
+  expect(cal.cards[0].view).toBe("list");
+  expect(cal.cards[0].entities).toEqual(["calendar.familie", "calendar.arbeit"]);
+  const muell = sections.find((s) => s.title === "Müllabfuhr");
+  expect(muell.cards[0].type).toBe("custom:modular-waste-card");
+  expect(muell.cards[0].entities.length).toBe(4);
   expect(errors).toEqual([]);
 });
 
@@ -32,6 +40,7 @@ test("Strategie erkennt zusätzliche Module (Raumklima/Hue/Kalender/Müll) aus d
     const el = document.createElement("ll-strategy-dashboard-modular");
     return el.constructor.generate({ prefix: "evcc", modules: ["evcc", "Mülltonnen"] }, window.__hass);
   });
+  expect(restricted.views[0].sections.find((s) => s.title === "Müllabfuhr").cards[0].type).toBe("custom:modular-waste-card");
   expect(restricted.views[0].sections.map((s) => s.title)).toEqual(["evcc", "Müllabfuhr"]);
   expect(errors).toEqual([]);
 });

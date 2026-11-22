@@ -11,6 +11,7 @@ const hass = {
     "sensor.evcc_pv_power": {},
     "sensor.evcc_loadpoint_1_charge_power": {},
     "calendar.familie": {},
+    "sensor.waste_collection_schedule_bio": { attributes: { daysTo: 1, next_date: "2026-11-23" } },
   },
   entities: {
     "sensor.evcc_pv_power": { entity_id: "sensor.evcc_pv_power", platform: "evcc", domain: "sensor" },
@@ -34,7 +35,7 @@ test("detectModules erkennt raumklima/hue/calendar/muell über die Entity-Regist
   assert.deepEqual(det.raumklima, ["climate.wohnzimmer"]);
   assert.deepEqual(det.hue, ["light.wohnzimmer"]);
   assert.deepEqual(det.calendar, ["calendar.familie"]);
-  assert.deepEqual(det.muell, ["sensor.muelltonnen_restmuell"]);
+  assert.deepEqual(det.muell, ["sensor.muelltonnen_restmuell", "sensor.waste_collection_schedule_bio"]);
 });
 
 test("generate ohne modules: alle erkannten Module als Sections", async () => {
@@ -45,9 +46,32 @@ test("generate ohne modules: alle erkannten Module als Sections", async () => {
   assert.equal(hue.cards[0].type, "entities");
   assert.deepEqual(hue.cards[0].entities, ["light.wohnzimmer"]);
   const cal = dash.views[0].sections.find((s) => s.title === "Kalender");
-  assert.equal(cal.cards[0].type, "calendar");
+  assert.equal(cal.cards[0].type, "custom:modular-calendar-card");
+  assert.equal(cal.cards[0].view, "list");
+  assert.deepEqual(cal.cards[0].entities, ["calendar.familie"]);
   const muell = dash.views[0].sections.find((s) => s.title === "Müllabfuhr");
-  assert.deepEqual(muell.cards[0].entities, ["sensor.muelltonnen_restmuell"]);
+  assert.equal(muell.cards[0].type, "custom:modular-waste-card");
+  assert.deepEqual(muell.cards[0].entities, ["sensor.muelltonnen_restmuell", "sensor.waste_collection_schedule_bio"]);
+});
+
+test("generate: calendar/waste-Config (entities, view, days) ueberschreibt die Auto-Erkennung", async () => {
+  const dash = await EvccDashboardStrategy.generate(
+    {
+      prefix: "evcc",
+      modules: ["calendar", "muell"],
+      calendar: { entities: ["calendar.arbeit"], view: "calendar", days: 30 },
+      waste: { entities: ["sensor.waste_collection_schedule_bio"] },
+    },
+    hass,
+  );
+  const cal = dash.views[0].sections.find((s) => s.title === "Kalender");
+  assert.equal(cal.cards[0].type, "custom:modular-calendar-card");
+  assert.equal(cal.cards[0].view, "calendar");
+  assert.equal(cal.cards[0].days, 30);
+  assert.deepEqual(cal.cards[0].entities, ["calendar.arbeit"]);
+  const muell = dash.views[0].sections.find((s) => s.title === "Müllabfuhr");
+  assert.equal(muell.cards[0].type, "custom:modular-waste-card");
+  assert.deepEqual(muell.cards[0].entities, ["sensor.waste_collection_schedule_bio"]);
 });
 
 test("generate mit modules: nur gewünschte Module", async () => {

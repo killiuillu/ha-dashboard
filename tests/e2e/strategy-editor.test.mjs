@@ -45,6 +45,52 @@ test("Editor zeigt Modul-Checkboxen (erkannte aktiv) und feuert config-changed",
   expect(errors).toEqual([]);
 });
 
+test("Editor: Kalender-Auswahl + Ansicht (Liste/Kalender) und Tonnen-Auswahl feuern config-changed", async ({ page }) => {
+  const errors = await openDevPage(page);
+  await page.evaluate(() => {
+    const ed = document.createElement("evcc-strategy-editor");
+    ed.setConfig({ modules: ["calendar", "muell"] });
+    ed.hass = window.__hass;
+    document.body.appendChild(ed);
+    window.__ed2 = ed;
+  });
+  await page.waitForTimeout(200);
+  const subs = page.locator("evcc-strategy-editor .sub");
+  expect(await subs.count()).toBe(2);
+  expect(await subs.nth(0).locator(".opt input[type=checkbox]").count()).toBe(2);
+  expect(await subs.nth(0).locator(".opt input[type=radio]").count()).toBe(2);
+  expect(await subs.nth(1).locator(".opt input[type=checkbox]").count()).toBe(4);
+
+  const changedCal = await page.evaluate(async () => {
+    const ed = window.__ed2;
+    const p = new Promise((res) => ed.addEventListener("config-changed", (e) => res(e.detail.config), { once: true }));
+    const boxes = [...ed.shadowRoot.querySelectorAll(".sub")][0].querySelectorAll(".opt input[type=checkbox]");
+    boxes[1].click();
+    return p;
+  });
+  expect(changedCal.calendar.entities).toEqual(["calendar.familie"]);
+  expect(changedCal.calendar.view).toBe("list");
+
+  const changedView = await page.evaluate(async () => {
+    const ed = window.__ed2;
+    const p = new Promise((res) => ed.addEventListener("config-changed", (e) => res(e.detail.config), { once: true }));
+    const radios = [...ed.shadowRoot.querySelectorAll(".sub")][0].querySelectorAll(".opt input[type=radio]");
+    radios[1].click();
+    return p;
+  });
+  expect(changedView.calendar.view).toBe("calendar");
+
+  const changedWaste = await page.evaluate(async () => {
+    const ed = window.__ed2;
+    const p = new Promise((res) => ed.addEventListener("config-changed", (e) => res(e.detail.config), { once: true }));
+    const boxes = [...ed.shadowRoot.querySelectorAll(".sub")][1].querySelectorAll(".opt input[type=checkbox]");
+    boxes[0].click();
+    return p;
+  });
+  expect(changedWaste.waste.entities.length).toBe(3);
+  expect(errors).toEqual([]);
+});
+
 test("customStrategies-Eintrag hat configRequired (Dialog fragt vor dem Anlegen)", async ({ page }) => {
   const errors = await openDevPage(page);
   const entry = await page.evaluate(() => (window.customStrategies || []).find((s) => s.type === "evcc"));
