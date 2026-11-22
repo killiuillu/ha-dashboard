@@ -3,7 +3,18 @@ import { openDevPage } from "../helpers.mjs";
 
 test("Räume-Karte: Strip mit allen Räumen (Temp + Licht-Indikator), Klick öffnet Steuerung mit schaltbaren Lichtern", async ({ page }) => {
   const errors = await openDevPage(page);
-  const card = page.locator("#cards modular-rooms-card");
+  await page.evaluate(() => {
+    window.__calls = [];
+    window.__hass.callService = async (d, svc, t) => {
+      window.__calls.push([d, svc, t]);
+      return {};
+    };
+    const el = document.createElement("modular-rooms-card");
+    el.setConfig({ title: "Räume", control: true });
+    el.hass = window.__hass;
+    document.getElementById("cards").appendChild(el);
+  });
+  const card = page.locator("#cards modular-rooms-card").nth(1);
   await card.locator(".room").first().waitFor({ state: "attached" });
   expect(await card.locator(".room").count()).toBe(3);
   const names = await card.locator(".rname").allTextContents();
@@ -16,13 +27,6 @@ test("Räume-Karte: Strip mit allen Räumen (Temp + Licht-Indikator), Klick öff
   const dotColor = await wz.locator(".rdot").evaluate((el) => getComputedStyle(el).backgroundColor);
   expect(dotColor).toBe("rgb(255, 176, 32)");
 
-  await page.evaluate(() => {
-    window.__calls = [];
-    window.__hass.callService = async (d, svc, t) => {
-      window.__calls.push([d, svc, t]);
-      return {};
-    };
-  });
   await wz.click();
   await page.waitForTimeout(300);
   expect(await wz.getAttribute("class")).toContain("sel");
