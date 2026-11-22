@@ -40,9 +40,15 @@ export class MainDashboardStrategy extends StrategyBase {
 
     const hasEvcc = Object.values(det.evcc || {}).some((v) => typeof v === "string") || (det.evcc?.loadpoints || []).length;
     if (hasEvcc) {
+      const cols = {
+        "custom:evcc-overview-card": "full",
+        "custom:evcc-loadpoint-card": 6,
+        "custom:evcc-vehicle-card": 6,
+        "custom:evcc-energy-card": "full",
+      };
       const cards = evccCards(det.evcc, config, "evcc").map((c) => ({
         ...c,
-        grid_options: { columns: c.type === "custom:evcc-overview-card" ? "full" : 4 },
+        grid_options: { columns: cols[c.type] ?? "full" },
       }));
       sections.push({ type: "grid", column_span: 4, title: "evcc", cards });
     }

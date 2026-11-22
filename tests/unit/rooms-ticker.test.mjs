@@ -79,6 +79,9 @@ test("MainDashboardStrategy.generate: Tablet-Layout (Räume oben, evcc, Kalender
   assert.ok(evccTypes.includes("custom:evcc-vehicle-card"));
   const overview = view.sections[1].cards.find((c) => c.type === "custom:evcc-overview-card");
   assert.equal(overview.grid_options.columns, "full");
+  assert.equal(view.sections[1].cards.find((c) => c.type === "custom:evcc-loadpoint-card").grid_options.columns, 6);
+  assert.equal(view.sections[1].cards.find((c) => c.type === "custom:evcc-vehicle-card").grid_options.columns, 6);
+  assert.equal(view.sections[1].cards.find((c) => c.type === "custom:evcc-energy-card").grid_options.columns, "full");
 
   const calCards = view.sections[2].cards;
   assert.equal(calCards.length, 2);
