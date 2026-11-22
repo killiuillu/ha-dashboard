@@ -45,6 +45,32 @@ test("Kalender-Karte Monatsansicht: 6x7-Grid, heute markiert mit Punkten, Tagesa
   expect(errors).toEqual([]);
 });
 
+test("Kalender-Karte gruppiert: eigene Liste je Kalender, max pro Kalender bzw. Karten-Max", async ({ page }) => {
+  const errors = await openDevPage(page);
+  await page.evaluate(() => {
+    const el = document.createElement("modular-calendar-card");
+    el.setConfig({
+      title: "Kalender gruppiert",
+      view: "list",
+      group: true,
+      max: 2,
+      days: 14,
+      entities: [{ entity: "calendar.familie", max: 1 }, "calendar.arbeit"],
+    });
+    el.hass = window.__hass;
+    document.getElementById("cards").appendChild(el);
+  });
+  const card2 = page.locator("#cards modular-calendar-card").nth(1);
+  await card2.locator(".evgroup").first().waitFor({ state: "attached", timeout: 15000 });
+  const groups = card2.locator(".evgroup");
+  expect(await groups.count()).toBe(2);
+  expect(await groups.locator(".gname").allTextContents()).toEqual(["Familienkalender", "Arbeitskalender"]);
+  expect((await groups.nth(0).locator("em").textContent()).trim()).toBe("1/3");
+  const rows = await card2.locator(".evlist .evrow .evsum").allTextContents();
+  expect(rows).toEqual(["Zahnarzt", "Team-Meeting", "Release"]);
+  expect(errors).toEqual([]);
+});
+
 test("Kalender-Karte: ?-Button klappt die Erklärung auf", async ({ page }) => {
   const errors = await openDevPage(page);
   await page.locator(`${card} ha-card`).waitFor({ state: "attached" });

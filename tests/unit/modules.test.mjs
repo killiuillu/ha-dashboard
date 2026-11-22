@@ -59,7 +59,7 @@ test("generate: calendar/waste-Config (entities, view, days) ueberschreibt die A
     {
       prefix: "evcc",
       modules: ["calendar", "muell"],
-      calendar: { entities: ["calendar.arbeit"], view: "calendar", days: 30 },
+      calendar: { entities: ["calendar.arbeit"], view: "calendar", days: 30, group: true, max: 5 },
       waste: { entities: ["sensor.waste_collection_schedule_bio"] },
     },
     hass,
@@ -68,6 +68,8 @@ test("generate: calendar/waste-Config (entities, view, days) ueberschreibt die A
   assert.equal(cal.cards[0].type, "custom:modular-calendar-card");
   assert.equal(cal.cards[0].view, "calendar");
   assert.equal(cal.cards[0].days, 30);
+  assert.equal(cal.cards[0].group, true);
+  assert.equal(cal.cards[0].max, 5);
   assert.deepEqual(cal.cards[0].entities, ["calendar.arbeit"]);
   const muell = dash.views[0].sections.find((s) => s.title === "Müllabfuhr");
   assert.equal(muell.cards[0].type, "custom:modular-waste-card");

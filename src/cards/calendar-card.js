@@ -6,7 +6,7 @@ import {
   parseCalendarEntities,
   calName,
   fetchCalendarEvents,
-  sortEvents,
+  calendarListEntries,
   eventsByDay,
   monthGrid,
   dayKey,
@@ -56,6 +56,16 @@ export class ModularCalendarCard extends EvccBaseCard {
     return Number.isFinite(d) && d > 0 && d <= 90 ? Math.floor(d) : 14;
   }
 
+  get _group() {
+    const g = this._config?.group ?? this._config?.group_by_calendar;
+    return g === true || g === "true";
+  }
+
+  get _max() {
+    const m = Number(this._config?.max);
+    return Number.isFinite(m) && m > 0 ? Math.floor(m) : null;
+  }
+
   entityIds() {
     return this._cals.map((c) => c.entity);
   }
@@ -99,12 +109,31 @@ export class ModularCalendarCard extends EvccBaseCard {
   }
 
   _renderList() {
-    const now = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    const events = sortEvents(this._events).filter((ev) => !ev.end || ev.end >= today);
+    const cals = this._cals;
+    if (this._group) {
+      const groups = calendarListEntries(this._events, cals, { group: true, max: this._max });
+      const any = groups.some((g) => g.events.length);
+      return html`
+        ${any
+          ? groups.map(
+              (g) => html`
+                <div class="evgroup">
+                  <i style="--c:${g.cal.color}"></i>
+                  <span class="gname">${calName(this.hass, g.cal)}</span>
+                  <em>${g.events.length}${g.total > g.events.length ? `/${g.total}` : ""}</em>
+                </div>
+                ${g.events.length
+                  ? html`<div class="evlist">${g.events.map((ev) => this._evRow(ev, g.cal))}</div>`
+                  : html`<div class="evempty">${t("Keine Termine in den nächsten {n} Tagen", { n: this._days })}</div>`}
+              `,
+            )
+          : html`<div class="empty">${t("Keine Termine in den nächsten {n} Tagen", { n: this._days })}</div>`}
+      `;
+    }
+    const events = calendarListEntries(this._events, cals, { group: false, max: this._max });
     return html`
       ${events.length
-        ? html`<div class="evlist">${events.map((ev) => this._evRow(ev, this._cals.find((c) => c.entity === ev.calendar)))}</div>`
+        ? html`<div class="evlist">${events.map((ev) => this._evRow(ev, cals.find((c) => c.entity === ev.calendar)))}</div>`
         : html`<div class="empty">${t("Keine Termine in den nächsten {n} Tagen", { n: this._days })}</div>`}
     `;
   }

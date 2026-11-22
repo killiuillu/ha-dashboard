@@ -77,6 +77,8 @@ export const EN = {
     "Builds the dashboard modularly – modules selectable in the dialog (evcc, room climate, Hue, calendar, waste)",
   "Modular – Kalender": "Modular – calendar",
   "Termine der gewählten Kalender als Liste oder Monatsansicht": "Events of the selected calendars as list or month view",
+  "Termine der gewählten Kalender als Liste (optional gruppiert je Kalender, Anzahl begrenzbar) oder Monatsansicht":
+    "Events of the selected calendars as list (optionally grouped per calendar, count limitable) or month view",
   "Modular – Mülltonnen": "Modular – waste bins",
   "Nächste Abholungen je Tonne mit Tagen bis zur Abholung, nächster Termin hervorgehoben":
     "Next collections per bin with days until collection, next date highlighted",
@@ -101,4 +103,10 @@ export const EN = {
   Ansicht: "View",
   Listenansicht: "List view",
   Kalenderansicht: "Calendar view",
+  alle: "all",
+  "Max. Einträge": "Max. entries",
+  "Max. Einträge pro Kalender": "Max. entries per calendar",
+  "Pro Kalender gruppieren": "Group by calendar",
+  "Termine der gewählten Kalender als Liste (optional gruppiert je Kalender, Anzahl begrenzbar) oder Monatsansicht":
+    "Events of the selected calendars as list (optionally grouped per calendar, count limitable) or month view",
 };
