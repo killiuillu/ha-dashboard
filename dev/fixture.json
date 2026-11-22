@@ -13,9 +13,34 @@
     "sensor.evcc_grid_import_today": { "state": "3.2", "attributes": { "unit_of_measurement": "kWh", "friendly_name": "Netzbezug heute" }, "last_changed": "2026-11-21T12:00:00+00:00" },
     "sensor.evcc_grid_export_today": { "state": "9.8", "attributes": { "unit_of_measurement": "kWh", "friendly_name": "Einspeisung heute" }, "last_changed": "2026-11-21T12:00:00+00:00" },
     "sensor.evcc_home_today": { "state": "11.6", "attributes": { "unit_of_measurement": "kWh", "friendly_name": "Hausverbrauch heute" }, "last_changed": "2026-11-21T12:00:00+00:00" },
-    "sensor.evcc_price": { "state": "0.2987", "attributes": { "unit_of_measurement": "EUR/kWh", "friendly_name": "Strompreis" }, "last_changed": "2026-11-21T12:00:00+00:00" }
+    "sensor.evcc_price": { "state": "0.2987", "attributes": { "unit_of_measurement": "EUR/kWh", "friendly_name": "Strompreis" }, "last_changed": "2026-11-21T12:00:00+00:00" },
+    "climate.wohnzimmer": { "state": "19.0", "attributes": { "friendly_name": "Wohnzimmer", "current_temperature": 19.0, "temperature": 22 }, "last_changed": "2026-11-21T12:00:00+00:00" },
+    "light.wohnzimmer": { "state": "on", "attributes": { "friendly_name": "Wohnzimmer Lampe" }, "last_changed": "2026-11-21T12:00:00+00:00" },
+    "light.kueche": { "state": "off", "attributes": { "friendly_name": "Küchenlicht" }, "last_changed": "2026-11-21T12:00:00+00:00" },
+    "calendar.familie": { "state": "off", "attributes": { "friendly_name": "Familienkalender", "message": "Zahnarzt", "start_time": "2026-11-22T09:00:00+00:00", "end_time": "2026-11-22T10:00:00+00:00" }, "last_changed": "2026-11-21T12:00:00+00:00" },
+    "sensor.muelltonnen_restmuell": { "state": "2026-11-24", "attributes": { "friendly_name": "Restmülltonne", "next_collection": "2026-11-24" }, "last_changed": "2026-11-21T12:00:00+00:00" }
   },
-  "entities": {},
+  "entities": {
+    "sensor.evcc_pv_power": { "entity_id": "sensor.evcc_pv_power", "platform": "evcc", "domain": "sensor" },
+    "sensor.evcc_grid_power": { "entity_id": "sensor.evcc_grid_power", "platform": "evcc", "domain": "sensor" },
+    "sensor.evcc_home_power": { "entity_id": "sensor.evcc_home_power", "platform": "evcc", "domain": "sensor" },
+    "sensor.evcc_battery_soc": { "entity_id": "sensor.evcc_battery_soc", "platform": "evcc", "domain": "sensor" },
+    "sensor.evcc_battery_power": { "entity_id": "sensor.evcc_battery_power", "platform": "evcc", "domain": "sensor" },
+    "sensor.evcc_loadpoint_1_charge_power": { "entity_id": "sensor.evcc_loadpoint_1_charge_power", "platform": "evcc", "domain": "sensor" },
+    "sensor.evcc_loadpoint_1_vehicle_soc": { "entity_id": "sensor.evcc_loadpoint_1_vehicle_soc", "platform": "evcc", "domain": "sensor" },
+    "sensor.evcc_loadpoint_1_status": { "entity_id": "sensor.evcc_loadpoint_1_status", "platform": "evcc", "domain": "sensor" },
+    "sensor.evcc_loadpoint_1_vehicle_range": { "entity_id": "sensor.evcc_loadpoint_1_vehicle_range", "platform": "evcc", "domain": "sensor" },
+    "sensor.evcc_pv_today": { "entity_id": "sensor.evcc_pv_today", "platform": "evcc", "domain": "sensor" },
+    "sensor.evcc_grid_import_today": { "entity_id": "sensor.evcc_grid_import_today", "platform": "evcc", "domain": "sensor" },
+    "sensor.evcc_grid_export_today": { "entity_id": "sensor.evcc_grid_export_today", "platform": "evcc", "domain": "sensor" },
+    "sensor.evcc_home_today": { "entity_id": "sensor.evcc_home_today", "platform": "evcc", "domain": "sensor" },
+    "sensor.evcc_price": { "entity_id": "sensor.evcc_price", "platform": "evcc", "domain": "sensor" },
+    "climate.wohnzimmer": { "entity_id": "climate.wohnzimmer", "platform": "raumklima", "domain": "climate" },
+    "light.wohnzimmer": { "entity_id": "light.wohnzimmer", "platform": "hue", "domain": "light" },
+    "light.kueche": { "entity_id": "light.kueche", "platform": "hue", "domain": "light" },
+    "calendar.familie": { "entity_id": "calendar.familie", "platform": "calendar", "domain": "calendar" },
+    "sensor.muelltonnen_restmuell": { "entity_id": "sensor.muelltonnen_restmuell", "platform": "waste_collection_schedule", "domain": "sensor" }
+  },
   "ws": {
     "recorder/statistics_during_period": {
       "sensor.evcc_pv_power": [

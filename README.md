@@ -79,9 +79,24 @@ Das ganze Dashboard automatisch aus den evcc-Entities aufbauen lassen:
 title: evcc
 strategy:
   type: custom:evcc
-  prefix: evcc   # optional, Default "evcc"
+  prefix: evcc          # optional, Default "evcc"
+  modules:              # optional – ohne Angabe werden ALLE erkannten Module angezeigt
+    - evcc
+    - raumklima
+    - hue
+    - kalender
+    - mülltonnen
 ```
 
 `ll-strategy-dashboard-evcc` erkennt `sensor.<prefix>_*` (PV/Netz/Haus/Batterie, Tageswerte, Preis,
-`loadpoint_<n>_*`) und erzeugt die Views **Übersicht** (Übersichtskarte, Ladepunkt-Karte, Energie &
-Kosten) und **Verlauf** (Tagesverlauf). Reine Anzeige.
+`loadpoint_<n>_*`) und erzeugt die Views **Übersicht** und **Verlauf** (Tagesverlauf). Reine Anzeige.
+
+**Module (M10):** ohne `modules:` werden automatisch alle vorhandenen erkannt und eingebaut:
+- **evcc** – unsere Karten (Übersicht, Ladepunkt, Fahrzeug, Energie & Kosten, Verlauf)
+- **raumklima** – `climate.*` mit Platform `raumklima` (Karten von Raumklima 2, falls installiert, sonst Entity-Liste)
+- **hue** – Lichter der Hue-Integration (Fallback: alle `light.*`), max. 12
+- **kalender** – bis zu 5 `calendar.*` als Kalender-Karte
+- **mülltonnen** – Sensoren der Integration `waste_collection_schedule` (oder IDs mit waste/muell/tonne), max. 10
+
+Aliase wie `Mülltonnen`, `kalender`, `Lichter` funktionieren ebenfalls. Zum Auswählen beim Anlegen einfach
+`modules:` in der Strategy-Config setzen.

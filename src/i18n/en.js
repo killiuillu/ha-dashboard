@@ -61,4 +61,9 @@ export const EN = {
   "Fahrzeugbild mit Ladestand und Reichweite": "Vehicle image with charge level and range",
   "Zeigt Fahrzeugbild, Ladestand (SoC) und Reichweite. Nur Anzeige – es wird nichts gesteuert.":
     "Shows vehicle image, charge level (SoC) and range. Display only – nothing is controlled.",
+  Raumklima: "Room climate",
+  Lichter: "Lights",
+  Kalender: "Calendar",
+  Müllabfuhr: "Waste collection",
+  "Wählt die Module fürs Dashboard": "Choose the dashboard modules",
 };
