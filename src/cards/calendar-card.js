@@ -47,6 +47,10 @@ export class ModularCalendarCard extends EvccBaseCard {
     return parseCalendarEntities(this._config?.entities ?? this._config);
   }
 
+  get _single() {
+    return this._cals.length === 1;
+  }
+
   get _view() {
     return this._config?.view === "calendar" ? "calendar" : "list";
   }
@@ -101,7 +105,7 @@ export class ModularCalendarCard extends EvccBaseCard {
         </div>
         <div class="evmain">
           <div class="evsum">${ev.summary}</div>
-          <div class="evtime">${fmtEventTime(ev)} · ${calName(this.hass, cal)}</div>
+          <div class="evtime">${fmtEventTime(ev)}${this._single ? "" : ` · ${calName(this.hass, cal)}`}</div>
         </div>
         <i class="evdot" style="--c:${ev.color}"></i>
       </div>
@@ -210,9 +214,9 @@ export class ModularCalendarCard extends EvccBaseCard {
         ${this._help
           ? html`<div class="helpbox" style="--g:${tone}">${t("Zeigt die Termine der gewählten Kalender als Liste oder Monatsansicht. Daten read-only über die HA-Kalender-API. Nur Anzeige – es wird nichts gesteuert.")}</div>`
           : nothing}
-        <div class="calleg">
+        ${this._single ? nothing : html`<div class="calleg">
           ${cals.map((c) => html`<span><i style="--c:${c.color}"></i>${calName(this.hass, c)}</span>`)}
-        </div>
+        </div>`}
         ${this._view === "calendar" ? this._renderMonth() : this._renderList()}
       </ha-card>
     `;

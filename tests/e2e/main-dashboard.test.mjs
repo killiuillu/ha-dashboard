@@ -139,5 +139,15 @@ test("Haupt-Editor: Felder feuern config-changed (Titel, Ticker aus)", async ({ 
     return p;
   });
   expect(changedRooms.rooms).toEqual(["wohnzimmer", "kueche"]);
+
+  const changedCols = await page.evaluate(async () => {
+    const ed = window.__med;
+    const p = new Promise((res) => ed.addEventListener("config-changed", (e) => res(e.detail.config), { once: true }));
+    const sel = ed.shadowRoot.querySelector(".fld select");
+    sel.value = "full";
+    sel.dispatchEvent(new Event("change", { bubbles: true }));
+    return p;
+  });
+  expect(changedCols.calendar_columns).toBe("full");
   expect(errors).toEqual([]);
 });

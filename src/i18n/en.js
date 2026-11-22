@@ -141,6 +141,10 @@ export const EN = {
   Weitere: "Other",
   Schließen: "Close",
   "Räume anzeigen": "Rooms to show",
+  "Kalender-Anordnung": "Calendar layout",
+  "4 nebeneinander": "4 side by side",
+  "2 nebeneinander": "2 side by side",
+  "vollbreit untereinander": "full width, stacked",
   "Zeigt die gewählten Lichter mit Status und Helligkeit im Raumklima-Stil (an = warm, aus = grau).":
     "Shows the selected lights with status and brightness in room-climate style (on = warm, off = gray).",
   "Modular – Lichter": "Modular – lights",

@@ -54,13 +54,15 @@ export class MainDashboardStrategy extends StrategyBase {
     }
 
     if (det.calendar.length) {
+      const cc = config.calendar_columns;
+      const calCols = cc === "full" || Number(cc) === 12 ? "full" : [3, 6].includes(Number(cc)) ? Number(cc) : 6;
       const cards = det.calendar.slice(0, 4).map((id) => ({
         type: "custom:modular-calendar-card",
         title: calTitle(hass, id),
         entities: [id],
         view: "list",
         max: 5,
-        grid_options: { columns: 3 },
+        grid_options: { columns: calCols },
       }));
       sections.push({ type: "grid", column_span: 4, title: t("Kalender"), cards });
     }
