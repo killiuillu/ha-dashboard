@@ -42,6 +42,21 @@ test("Räume-Karte: Strip mit allen Räumen (Temp + Licht-Indikator), Klick öff
   expect(errors).toEqual([]);
 });
 
+test("Räume-Karte mit areas-Filter zeigt nur gewählte Räume", async ({ page }) => {
+  const errors = await openDevPage(page);
+  await page.evaluate(() => {
+    const el = document.createElement("modular-rooms-card");
+    el.setConfig({ title: "Räume", areas: ["wohnzimmer"] });
+    el.hass = window.__hass;
+    document.getElementById("cards").appendChild(el);
+  });
+  const card2 = page.locator("#cards modular-rooms-card").nth(1);
+  await card2.locator(".room").first().waitFor({ state: "attached" });
+  expect(await card2.locator(".room").count()).toBe(1);
+  expect(await card2.locator(".rname").first().textContent()).toBe("Wohnzimmer");
+  expect(errors).toEqual([]);
+});
+
 test("Ticker-Karte: Laufband mit Müll/Paket/Terminen (Track doppelt für nahtlosen Loop)", async ({ page }) => {
   const errors = await openDevPage(page);
   const card = page.locator("#cards modular-ticker-card");
@@ -108,5 +123,17 @@ test("Haupt-Editor: Felder feuern config-changed (Titel, Ticker aus)", async ({ 
     return p;
   });
   expect(changed2.ticker).toBe(false);
+
+  const roomBoxes = await page.locator("main-strategy-editor .subhead").count();
+  expect(roomBoxes).toBe(1);
+  expect(await page.locator("main-strategy-editor .opt input[type=checkbox]").count()).toBe(5);
+  const changedRooms = await page.evaluate(async () => {
+    const ed = window.__med;
+    const p = new Promise((res) => ed.addEventListener("config-changed", (e) => res(e.detail.config), { once: true }));
+    const boxes = [...ed.shadowRoot.querySelectorAll(".opt input[type=checkbox]")];
+    boxes[4].click();
+    return p;
+  });
+  expect(changedRooms.rooms).toEqual(["wohnzimmer", "kueche"]);
   expect(errors).toEqual([]);
 });

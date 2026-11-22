@@ -32,6 +32,7 @@ export class MainDashboardStrategy extends StrategyBase {
           type: "custom:modular-rooms-card",
           title: t("Räume"),
           control: config.rooms_control !== false,
+          ...(Array.isArray(config.rooms) && config.rooms.length ? { areas: config.rooms } : {}),
           grid_options: { columns: "full" },
         },
       ],

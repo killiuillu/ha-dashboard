@@ -140,6 +140,7 @@ export const EN = {
   "Räume steuerbar (Lichter/Klima/Media per Klick)": "Rooms controllable (lights/climate/media per click)",
   Weitere: "Other",
   Schließen: "Close",
+  "Räume anzeigen": "Rooms to show",
   "Zeigt die gewählten Lichter mit Status und Helligkeit im Raumklima-Stil (an = warm, aus = grau).":
     "Shows the selected lights with status and brightness in room-climate style (on = warm, off = gray).",
   "Modular – Lichter": "Modular – lights",
