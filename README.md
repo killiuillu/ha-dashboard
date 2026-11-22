@@ -54,6 +54,8 @@ npm test             # E2E: Rendern der Karten mit Fixture im Chromium, Konsolen
 | `custom:evcc-history-card` | Tagesverlauf PV/Netz/Haus als Chart mit Tooltip (Recorder-Statistiken) | gebaut (M5) |
 | `custom:evcc-energy-card` | Autarkie, Energie & Kosten heute (inkl. Preis aus dem HA-Energy-Dashboard) | gebaut (M5) |
 | `custom:evcc-vehicle-card` | Auto-Bild mit Ladestand (SoC) und Reichweite | gebaut (M8) |
+| `custom:modular-calendar-card` | Termine gewählter Kalender als **Liste** oder **Monatsansicht** (`view: list|calendar`) | gebaut (M13) |
+| `custom:modular-waste-card` | Nächste Abholungen je Tonne – Zahl = **Tage bis Abholung**, nächster Termin hervorgehoben | gebaut (M13) |
 
 Fahrzeug-Karte – Bild optional, Reichweite als Entity oder berechnet (`capacity_kwh`):
 
@@ -68,6 +70,40 @@ entities:
   charge_power: sensor.evcc_loadpoint_1_charge_power
   status: sensor.evcc_loadpoint_1_status
 ```
+
+Kalender- und Mülltonnen-Karte (M13):
+
+```yaml
+type: custom:modular-calendar-card
+title: Kalender
+view: list            # list (Default) oder calendar (Monatsansicht)
+days: 14              # optional, Lookahead der Listenansicht in Tagen
+entities:
+  - calendar.familie
+  - calendar.arbeit
+  # oder mit eigenem Namen/Farbe:
+  # - entity: calendar.geburtstage
+  #   name: Geburtstage
+  #   color: "#ff4d6d"
+```
+
+```yaml
+type: custom:modular-waste-card
+title: Mülltonnen
+entities:
+  - sensor.waste_collection_schedule_restmuell
+  - sensor.waste_collection_schedule_bio
+  # oder mit eigenem Namen/Icon/Farbe:
+  # - entity: sensor.waste_collection_schedule_papier
+  #   name: Papier
+  #   icon: mdi:package-variant-closed
+  #   color: "#4f9dff"
+```
+
+Die Mülltonnen-Karte liest die Sensoren der Integration `waste_collection_schedule` (State = Tage bis
+Abholung bzw. Datum, alternativ `daysTo`/`next_date`/`next_collection`-Attribute), sortiert aufsteigend
+und hebt den nächsten Termin hervor. Die große Zahl pro Zeile ist immer **„Tage bis zur nächsten
+Abholung“** (0 = Heute, 1 = Morgen) – zusätzlich steht das Abholdatum dabei. Reine Anzeige.
 
 Alle Entities werden in der Card-Config gesetzt, siehe Beispiele in [PLAN.md](PLAN.md).
 
@@ -86,6 +122,12 @@ strategy:
     - hue
     - kalender
     - mülltonnen
+  calendar:             # optional – welche Kalender + welche Ansicht (Default: alle erkannten, Liste)
+    entities: [calendar.familie, calendar.arbeit]
+    view: list          # list oder calendar (Monatsansicht)
+    days: 14            # optional, Lookahead der Listenansicht
+  waste:                # optional – welche Tonnen (Default: alle erkannten)
+    entities: [sensor.waste_collection_schedule_restmuell, sensor.waste_collection_schedule_bio]
 ```
 
 Die Strategie `ll-strategy-dashboard-modular` (im UI-Dialog: **„Modulares Dashboard“**) erkennt
@@ -97,14 +139,16 @@ Die Strategie `ll-strategy-dashboard-modular` (im UI-Dialog: **„Modulares Dash
 - **evcc** – unsere Karten (Übersicht, Ladepunkt, Fahrzeug, Energie & Kosten, Verlauf)
 - **raumklima** – `climate.*` mit Platform `raumklima` (Karten von Raumklima 2, falls installiert, sonst Entity-Liste)
 - **hue** – Lichter der Hue-Integration (Fallback: alle `light.*`), max. 12
-- **kalender** – bis zu 5 `calendar.*` als Kalender-Karte
-- **mülltonnen** – Sensoren der Integration `waste_collection_schedule` (oder IDs mit waste/muell/tonne), max. 10
+- **kalender** – bis zu 10 `calendar.*` als eigene Karte `custom:modular-calendar-card` (M13)
+- **mülltonnen** – Sensoren der Integration `waste_collection_schedule` (oder IDs mit waste/muell/tonne bzw. Attributen `daysTo`/`next_date`/`next_collection`), max. 10, als eigene Karte `custom:modular-waste-card` (M13)
 
 Aliase wie `Mülltonnen`, `kalender`, `Lichter` funktionieren ebenfalls.
 
 **Ohne YAML – direkt beim Anlegen auswählen (M11):** Ab HA 2026.5 erscheint die Strategie im Dialog
 **Dashboard hinzufügen → Community-Dashboards → „Modulares Dashboard“**. Weil der Eintrag
 `configRequired: true` hat, öffnet HA automatisch den **Konfigurator** (`getConfigElement()`): Checkboxen
-für die Module (nur die in deiner HA erkannten sind aktiv), dazu Titel und Entity-Präfix. Erst nach
+für die Module (nur die in deiner HA erkannten sind aktiv), dazu Titel und Entity-Präfix – beim Modul
+**Kalender** zusätzlich welche Kalender und welche Ansicht (Liste/Kalenderansicht), beim Modul
+**Mülltonnen** welche Tonnen angezeigt werden (M13). Erst nach
 „Erstellen“ wird das Dashboard mit der gewählten Modul-Auswahl angelegt. Später änderbar über
 Dashboard → ⋮ → „Bearbeiten“ (Editor). YAML (`modules:`) bleibt als Alternative bestehen.

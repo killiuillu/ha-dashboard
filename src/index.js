@@ -7,6 +7,8 @@ import { EvccEnergyCard } from "./cards/energy-card.js";
 import { EvccDashboardStrategy } from "./cards/strategy.js";
 import { EvccStrategyEditor } from "./cards/strategy-editor.js";
 import { EvccVehicleCard } from "./cards/vehicle-card.js";
+import { ModularCalendarCard } from "./cards/calendar-card.js";
+import { ModularWasteCard } from "./cards/waste-card.js";
 
 applyTokens();
 
@@ -23,6 +25,8 @@ if (!customElements.get("evcc-loadpoint-card")) customElements.define("evcc-load
 if (!customElements.get("evcc-history-card")) customElements.define("evcc-history-card", EvccHistoryCard);
 if (!customElements.get("evcc-energy-card")) customElements.define("evcc-energy-card", EvccEnergyCard);
 if (!customElements.get("evcc-vehicle-card")) customElements.define("evcc-vehicle-card", EvccVehicleCard);
+if (!customElements.get("modular-calendar-card")) customElements.define("modular-calendar-card", ModularCalendarCard);
+if (!customElements.get("modular-waste-card")) customElements.define("modular-waste-card", ModularWasteCard);
 if (!customElements.get("ll-strategy-dashboard-modular")) customElements.define("ll-strategy-dashboard-modular", EvccDashboardStrategy);
 if (!customElements.get("ll-strategy-dashboard-evcc")) customElements.define("ll-strategy-dashboard-evcc", EvccDashboardStrategy);
 if (!customElements.get("evcc-strategy-editor")) customElements.define("evcc-strategy-editor", EvccStrategyEditor);
@@ -65,6 +69,23 @@ if (!window.customCards.find((c) => c.type === "custom:evcc-vehicle-card")) {
     type: "custom:evcc-vehicle-card",
     name: t("evcc – Fahrzeug"),
     description: t("Fahrzeugbild mit Ladestand und Reichweite"),
+    preview: true,
+  });
+}
+
+if (!window.customCards.find((c) => c.type === "custom:modular-calendar-card")) {
+  window.customCards.push({
+    type: "custom:modular-calendar-card",
+    name: t("Modular – Kalender"),
+    description: t("Termine der gewählten Kalender als Liste oder Monatsansicht"),
+    preview: true,
+  });
+}
+if (!window.customCards.find((c) => c.type === "custom:modular-waste-card")) {
+  window.customCards.push({
+    type: "custom:modular-waste-card",
+    name: t("Modular – Mülltonnen"),
+    description: t("Nächste Abholungen je Tonne mit Tagen bis zur Abholung, nächster Termin hervorgehoben"),
     preview: true,
   });
 }

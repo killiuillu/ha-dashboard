@@ -299,4 +299,99 @@ export const cardStyles = css`
     margin-top: 6px;
   }
   .range small { font-size: .5em; font-weight: 500; color: var(--evc-color-ha-textSecondary); margin-left: 2px; }
+  .evlist { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+  .evrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: var(--evc-radius-stat);
+    background: color-mix(in srgb, var(--primary-text-color) 5%, transparent);
+  }
+  .evdate {
+    flex: none;
+    width: 46px;
+    text-align: center;
+    border-radius: 10px;
+    padding: 4px 0;
+    background: color-mix(in srgb, var(--c, var(--tone)) 14%, transparent);
+  }
+  .evdate b { display: block; font-size: 1.05rem; font-variant-numeric: tabular-nums; color: var(--evc-color-ha-textPrimary); }
+  .evdate span { font-size: .66rem; text-transform: uppercase; letter-spacing: .05em; color: var(--evc-color-ha-textSecondary); }
+  .evmain { flex: 1; min-width: 0; }
+  .evsum { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--evc-color-ha-textPrimary); }
+  .evtime { font-size: .78rem; color: var(--evc-color-ha-textSecondary); margin-top: 2px; }
+  .evdot { flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--c, var(--tone)); }
+  .evday { font-weight: 600; font-size: .9rem; color: var(--evc-color-ha-textSecondary); }
+  .calleg { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; font-size: .78rem; color: var(--evc-color-ha-textSecondary); }
+  .calleg span { display: inline-flex; align-items: center; gap: 6px; }
+  .calleg i { width: 9px; height: 9px; border-radius: 50%; background: var(--c); }
+  .calhead { display: flex; align-items: center; gap: 6px; margin-top: 12px; }
+  .calhead .m { flex: 1; text-align: center; font-weight: 600; color: var(--evc-color-ha-textPrimary); }
+  .calnav {
+    all: unset;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: .8rem;
+    color: var(--evc-color-ha-textPrimary);
+  }
+  .calnav:hover { background: color-mix(in srgb, var(--primary-text-color) 8%, transparent); }
+  .calgrid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-top: 8px; }
+  .calgrid .wd {
+    text-align: center;
+    font-size: .66rem;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    color: var(--evc-color-ha-textSecondary);
+    padding: 2px 0;
+  }
+  .calcell {
+    all: unset;
+    cursor: pointer;
+    aspect-ratio: 1;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    font-size: .85rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--evc-color-ha-textPrimary);
+  }
+  .calcell.out { color: var(--evc-color-ha-textSecondary); opacity: .45; }
+  .calcell.today { font-weight: 700; box-shadow: inset 0 0 0 1.5px var(--tone); }
+  .calcell.sel { background: color-mix(in srgb, var(--tone) 16%, transparent); font-weight: 700; }
+  .calcell .dots { display: flex; align-items: center; gap: 3px; height: 5px; }
+  .calcell .dots i { width: 5px; height: 5px; border-radius: 50%; background: var(--c); }
+  .calcell .dots em { font-size: .62rem; font-style: normal; color: var(--evc-color-ha-textSecondary); }
+  .wlist { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+  .wrow {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: var(--evc-radius-stat);
+    background: color-mix(in srgb, var(--primary-text-color) 5%, transparent);
+    border: 1.5px solid transparent;
+  }
+  .wrow.wnext {
+    border-color: var(--wc, var(--tone));
+    background: color-mix(in srgb, var(--wc, var(--tone)) 10%, transparent);
+  }
+  .wicon { --mdc-icon-size: 26px; color: var(--wc, var(--tone)); flex: none; }
+  .winfo { flex: 1; min-width: 0; }
+  .wname { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--evc-color-ha-textPrimary); }
+  .wdate { font-size: .78rem; color: var(--evc-color-ha-textSecondary); margin-top: 2px; font-variant-numeric: tabular-nums; }
+  .wnum { flex: none; text-align: right; line-height: 1.05; }
+  .wnum b { font-size: 1.5rem; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--evc-color-ha-textPrimary); }
+  .wnum span { font-size: .72rem; color: var(--evc-color-ha-textSecondary); margin-left: 3px; }
+  .wnum em { display: block; font-style: normal; font-size: .72rem; font-weight: 600; color: var(--wc, var(--tone)); margin-top: 2px; }
+  .wchip { position: absolute; top: -9px; right: 10px; color: #fff; background: var(--wc, var(--tone)); }
+  .wnote { margin-top: 10px; font-size: .78rem; color: var(--evc-color-ha-textSecondary); }
 `;

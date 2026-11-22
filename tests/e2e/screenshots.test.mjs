@@ -64,7 +64,6 @@ test("Screenshots aller evcc-Karten für den Optik-Vergleich", async ({ page }) 
   await page.locator("#cards evcc-history-card .chart").screenshot({ path: `${SHOTS}/chart-zoom.png` });
   const dialProbe = await probe(page, `${SHOTS}/dial-zoom.png`, [[120, 12], [138, 14], [49, 183], [191, 183], [120, 95]]);
   const chartProbe = await probe(page, `${SHOTS}/chart-zoom.png`, [[150, 50], [150, 100], [220, 120], [50, 200]]);
-  await p2.locator("#cards evcc-loadpoint-card").screenshot({ path: `${SHOTS}/loadpoint-zoom.png` });
   const fillPx = await countColor(page, `${SHOTS}/dial-zoom.png`, [138, 148, 166], 25);
   const trackPx = await countColor(page, `${SHOTS}/dial-zoom.png`, [233, 233, 233], 6);
   const greenPx = await countColor(page, `${SHOTS}/chart-zoom.png`, [46, 196, 166], 25);
