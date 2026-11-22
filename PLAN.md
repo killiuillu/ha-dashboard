@@ -140,7 +140,8 @@ strategy:
 - **M5 – `custom:evcc-history-card` und `custom:evcc-energy-card`:** Verlaufskarte liest read-only Recorder-Statistiken (`recorder/statistics_during_period`, 5-Minuten-Mittel ab 00:00) über `hass.callWS` und zeichnet SVG-Linien mit Grid, Achsen-Labels und Hover-Tooltip im Raumklima-Stil (`src/util/chart.js`); Energie-Karte zeigt Autarkie groß + Tages-kWh (PV/Bezug/Einspeisung/Haus), Eigenverbrauch, Kosten (`entities.price`, optional `entities.feed_in_price`) und Strompreis; je Playwright-Test – erledigt in PR #4
 - **M6 – Dashboard-Strategie `ll-strategy-dashboard-evcc`:** erledigt in PR #5 (`static generate(config, hass)` wie die Referenz, Entity-Autoerkennung via Präfix in `detectEvcc`, Views „Übersicht" + „Verlauf", `window.customStrategies`; Unit- + Playwright-Tests)
 - **M7 – HACS/Marketplace-Verpackung:** erledigt in PR #6/#7 (`hacs.json`, Release-Workflow liefert `hacs.json` + `ha-dashboard.js`(+`.gz`) als Assets, Artefakt heißt wie das Repo)
-- **M8 – `custom:evcc-vehicle-card`:** Fahrzeug-Karte mit Bild (`image:` konfigurierbar, Fallback `mdi:car-electric`), großem SoC, Reichweite in km (`entities.range` oder SoC × `capacity_kwh`), Status-Chip; in der Strategie automatisch, wenn ein Ladepunkt `vehicle_soc` hat; Unit- + Playwright-Tests
+- **M8 – `custom:evcc-vehicle-card`:** erledigt in PR #8 (Fahrzeug-Karte mit Bild (`image:`, Fallback `mdi:car-electric`), großem SoC, Reichweite km (`entities.range` oder SoC × `capacity_kwh`); in der Strategie automatisch bei `vehicle_soc`)
+- **M9 – Optik-Feinabgleich an Raumklima 2 (PR #9):** `rcard`-Akzentleiste oben (4px + Verlauf), Dial exakt wie Referenz (viewBox 240x200, R=100, 135°+270°, Strich 14, Doppel-Knopf, Skalenlabels), `.center` wie Referenz; SVG-Strokes über CSS-Klassen (var() in Präsentationsattributen rendert nicht); Screenshot-Vergleich in der CI (unsere Karten + Raumklima-Demo/-Raumkarte als Artifact `shots`, inkl. Pixel-Diagnose)
 
 ## Randbedingungen
 

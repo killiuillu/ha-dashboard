@@ -22,3 +22,23 @@ jobs:
       - run: npm run test:unit
       - run: npx playwright install --with-deps chromium
       - run: npm test
+
+  screenshots:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: git clone --depth 1 https://github.com/Goldi5/Raumklima-2 reference/raumklima-2
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: cd reference/raumklima-2/frontend && npm ci && npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test tests/e2e/screenshots.test.mjs tests/e2e/reference-shots.test.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: shots
+          path: shots/
+          retention-days: 7

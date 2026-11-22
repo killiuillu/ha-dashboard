@@ -68,10 +68,32 @@ export function autarkyTone(autarky) {
   return "cold";
 }
 
-export const DIAL_ARC = "M 20.3 79.7 A 42 42 0 1 1 79.7 79.7";
-
-export function knobPos(pct) {
-  const p = Math.max(0, Math.min(100, pct));
-  const rad = ((135 + (270 * p) / 100) * Math.PI) / 180;
-  return { x: 50 + 42 * Math.cos(rad), y: 50 + 42 * Math.sin(rad) };
+export function dialGeometry(frac) {
+  const R = 100;
+  const CX = 120;
+  const CY = 112;
+  const START = 135;
+  const SWEEP = 270;
+  const pt = (deg, r = R) => {
+    const a = (deg * Math.PI) / 180;
+    return [CX + r * Math.cos(a), CY + r * Math.sin(a)];
+  };
+  const path = (a, b) => {
+    const [x1, y1] = pt(a);
+    const [x2, y2] = pt(b);
+    return `M ${x1.toFixed(1)} ${y1.toFixed(1)} A ${R} ${R} 0 ${b - a > 180 ? 1 : 0} 1 ${x2.toFixed(1)} ${y2.toFixed(1)}`;
+  };
+  const p = Math.max(0, Math.min(1, frac));
+  const end = START + p * SWEEP;
+  const [kx, ky] = pt(end);
+  const [sx, sy] = pt(START, R + 18);
+  const [ex, ey] = pt(START + SWEEP, R + 18);
+  return {
+    viewBox: "0 0 240 200",
+    track: path(START, START + SWEEP),
+    fill: path(START, Math.max(START + 0.5, end)),
+    knob: { x: kx, y: ky },
+    scaleStart: { x: sx, y: sy },
+    scaleEnd: { x: ex, y: ey },
+  };
 }

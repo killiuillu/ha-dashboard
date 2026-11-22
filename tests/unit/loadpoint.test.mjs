@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { setLang } from "../../src/i18n/index.js";
-import { DIAL_ARC, knobPos, loadpointStatus, normalizeLoadpoints } from "../../src/util/evcc.js";
+import { dialGeometry, loadpointStatus, normalizeLoadpoints } from "../../src/util/evcc.js";
 
 setLang({ language: "de" });
 
@@ -42,14 +42,17 @@ test("normalizeLoadpoints: flach (ein Ladepunkt) und Liste (mehrere)", () => {
   assert.deepEqual(normalizeLoadpoints({ entities: {} }), []);
 });
 
-test("Dial-Geometrie: Bogen und Knopf-Position", () => {
-  assert.ok(DIAL_ARC.startsWith("M "));
-  const a = knobPos(0);
-  const b = knobPos(50);
-  const c = knobPos(100);
-  assert.ok(Math.abs(a.x - 20.3) < 0.1 && Math.abs(a.y - 79.7) < 0.1);
-  assert.ok(Math.abs(b.y - 8) < 0.1);
-  assert.ok(Math.abs(c.x - 79.7) < 0.1 && Math.abs(c.y - 79.7) < 0.1);
-  const clamped = knobPos(150);
-  assert.deepEqual(clamped, c);
+test("Dial-Geometrie wie Raumklima (viewBox 240x200, R=100, 135°+270°)", () => {
+  const g0 = dialGeometry(0);
+  assert.equal(g0.viewBox, "0 0 240 200");
+  assert.ok(g0.track.startsWith("M "));
+  assert.ok(g0.track.includes("A 100 100 0 1 1"));
+  const g0k = dialGeometry(0);
+  assert.ok(Math.abs(g0k.knob.x - 49.3) < 0.5 && Math.abs(g0k.knob.y - 182.7) < 0.5);
+  const g50 = dialGeometry(0.5);
+  assert.ok(Math.abs(g50.knob.x - 120) < 0.5 && Math.abs(g50.knob.y - 12) < 0.5);
+  const g100 = dialGeometry(1);
+  assert.ok(Math.abs(g100.knob.x - 190.7) < 0.5 && Math.abs(g100.knob.y - 182.7) < 0.5);
+  assert.deepEqual(dialGeometry(1.5), g100);
+  assert.ok(g0.fill.length < g100.fill.length || g0.fill !== g100.fill);
 });

@@ -108,12 +108,9 @@ export class EvccHistoryCard extends EvccBaseCard {
             ${series.map(
               (s) => html`
                 <path
+                  class="line"
+                  style="--c:${toneVar(s.tone)}"
                   d=${s.points.map((p, i) => `${i ? "L" : "M"}${scaleX(i, n).toFixed(1)} ${scaleY(p.v, lo, hi).toFixed(1)}`).join(" ")}
-                  fill="none"
-                  stroke="${toneVar(s.tone)}"
-                  stroke-width="2.4"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
                   vector-effect="non-scaling-stroke"
                 />
               `,
@@ -142,7 +139,7 @@ export class EvccHistoryCard extends EvccBaseCard {
         </div>`;
     }
     return html`
-      <ha-card style="--tone:${tone}">
+      <ha-card class="rcard" style="--tone:${tone};--accent:${tone}">
         <div class="top">
           <div class="name">${title}</div>
           <button class="qm" style="--g:${tone}" title="?" aria-label="?" @click=${() => (this._help = !this._help)}>?</button>

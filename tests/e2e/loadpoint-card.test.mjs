@@ -18,8 +18,10 @@ test("Ladepunkt-Karte rendert Dial, Ampel und Live-Wert (Fixture: Status A, 0 W,
   expect(target).toContain("Ladestand");
   expect(target).toContain("54");
 
-  const dash = await page.locator(`${card} .lp .fill`).getAttribute("stroke-dasharray");
-  expect(dash).toBe("54 100");
+  expect(await page.locator(`${card} .lp .fill`).count()).toBe(1);
+  expect(await page.locator(`${card} .lp .knob`).count()).toBe(1);
+  const fillD = await page.locator(`${card} .lp .fill`).getAttribute("d");
+  expect(fillD).toContain("A 100 100");
 
   const tone = await page
     .locator(`${card} .lp`)
