@@ -49,6 +49,15 @@ export class MainStrategyEditor extends LitElement {
           <span>${t("Auto-Bild (Pfad)")}</span>
           <input type="text" .value=${cfg.image || ""} placeholder="/local/evcc/auto.png" @input=${(ev) => this._fire({ image: ev.target.value || undefined })} />
         </label>
+        <label class="fld">
+          <span>${t("Kalender-Anordnung")}</span>
+          <select @change=${(ev) => this._fire({ calendar_columns: ev.target.value === "full" ? "full" : Number(ev.target.value) })}>
+            ${["3", "6", "full"].map((v) => {
+              const cur = cfg.calendar_columns === "full" || Number(cfg.calendar_columns) === 12 ? "full" : [3, 6].includes(Number(cfg.calendar_columns)) ? String(Number(cfg.calendar_columns)) : "6";
+              return html`<option value="${v}" ?selected=${cur === v}>${v === "3" ? t("4 nebeneinander") : v === "6" ? t("2 nebeneinander") : t("vollbreit untereinander")}</option>`;
+            })}
+          </select>
+        </label>
         <label class="opt">
           <input type="checkbox" .checked=${cfg.ticker !== false} @change=${(ev) => this._fire({ ticker: ev.target.checked ? undefined : false })} />
           <span>${t("Ereignis-Ticker unten anzeigen")}</span>
@@ -83,6 +92,15 @@ export class MainStrategyEditor extends LitElement {
       color: var(--primary-text-color, #212121);
     }
     .opt { display: flex; align-items: center; gap: 8px; font-size: .9rem; padding: 4px 6px; border-radius: 8px; cursor: pointer; }
+    .fld select {
+      flex: 1;
+      font: inherit;
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid color-mix(in srgb, var(--primary-text-color, #212121) 18%, transparent);
+      background: transparent;
+      color: var(--primary-text-color, #212121);
+    }
     .opt .grow { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .subhead {
       font-size: .78rem;

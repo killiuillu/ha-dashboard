@@ -154,6 +154,7 @@ strategy:
   ticker: true          # Ereignis-Ticker unten (Default: an)
   rooms_control: true   # Räume per Klick steuerbar (Default: an)
   rooms: [wohnzimmer, kueche]   # optional – nur diese Räume anzeigen (Default: alle; Dialog: Checkboxen)
+  calendar_columns: 6   # 3 = 4 Kacheln nebeneinander, 6 = 2 nebeneinander (Default), "full" = vollbreit gestapelt
 ```
 
 ## Dashboard-Strategie (M6)

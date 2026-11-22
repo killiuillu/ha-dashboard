@@ -79,3 +79,19 @@ test("Kalender-Karte: ?-Button klappt die Erklärung auf", async ({ page }) => {
   expect(help).toContain("Nur Anzeige");
   expect(errors).toEqual([]);
 });
+
+test("Kalender-Karte mit nur einem Kalender: keine Legende, kein Kalendername in den Zeilen", async ({ page }) => {
+  const errors = await openDevPage(page);
+  await page.evaluate(() => {
+    const el = document.createElement("modular-calendar-card");
+    el.setConfig({ title: "Familie", entities: ["calendar.familie"], view: "list", days: 14 });
+    el.hass = window.__hass;
+    document.getElementById("cards").appendChild(el);
+  });
+  const card2 = page.locator("#cards modular-calendar-card").nth(2);
+  await card2.locator(".evrow").first().waitFor({ state: "attached", timeout: 15000 });
+  expect(await card2.locator(".calleg").count()).toBe(0);
+  const time = await card2.locator(".evrow .evtime").first().textContent();
+  expect(time).not.toContain("Familienkalender");
+  expect(errors).toEqual([]);
+});
