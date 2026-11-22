@@ -29,6 +29,10 @@ export class ModularRoomsCard extends EvccBaseCard {
   _mountDetail(container, area) {
     container.innerHTML = "";
     if (!area) return;
+    const head = document.createElement("div");
+    head.className = "evday";
+    head.textContent = area.name;
+    container.appendChild(head);
     const mk = (tag, cfg) => {
       const el = document.createElement(tag);
       el.setConfig(cfg);
@@ -107,7 +111,7 @@ export class ModularRoomsCard extends EvccBaseCard {
             `;
           })}
         </div>
-        <div class="roomdetail">${sel ? html`<div class="evday">${sel.name}</div>` : nothing}</div>
+        <div class="roomdetail"></div>
       </ha-card>
     `;
   }
