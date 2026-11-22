@@ -20,6 +20,16 @@ export function detectAreas(hass) {
     const temps = climates
       .map((id) => states[id]?.attributes?.current_temperature)
       .filter((v) => typeof v === "number" && !isNaN(v));
+    if (!temps.length) {
+      for (const id of ids) {
+        if (!id.startsWith("sensor.")) continue;
+        const st = states[id];
+        const a = (st && st.attributes) || {};
+        const isTemp = a.device_class === "temperature" || /°C|°F/i.test(a.unit_of_measurement || "");
+        const v = Number(st?.state);
+        if (isTemp && !isNaN(v)) temps.push(a.unit_of_measurement === "°F" ? ((v - 32) * 5) / 9 : v);
+      }
+    }
     const temp = temps.length ? temps.reduce((s, v) => s + v, 0) / temps.length : null;
     return {
       area_id,
