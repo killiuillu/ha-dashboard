@@ -60,7 +60,7 @@ export class MainDashboardStrategy extends StrategyBase {
         entities: [id],
         view: "list",
         max: 5,
-        grid_options: { columns: 3 },
+        grid_options: { columns: 6 },
       }));
       sections.push({ type: "grid", column_span: 4, title: t("Kalender"), cards });
     }

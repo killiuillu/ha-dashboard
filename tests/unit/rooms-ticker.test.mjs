@@ -85,7 +85,7 @@ test("MainDashboardStrategy.generate: Tablet-Layout (Räume oben, evcc, Kalender
 
   const calCards = view.sections[2].cards;
   assert.equal(calCards.length, 2);
-  assert.ok(calCards.every((c) => c.type === "custom:modular-calendar-card" && c.grid_options.columns === 3 && c.view === "list"));
+  assert.ok(calCards.every((c) => c.type === "custom:modular-calendar-card" && c.grid_options.columns === 6 && c.view === "list"));
   assert.deepEqual(calCards[0].entities, ["calendar.familie"]);
 
   const ticker = view.sections[3].cards[0];
