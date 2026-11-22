@@ -25,7 +25,7 @@ test("Räume-Karte: Strip mit allen Räumen (Temp + Licht-Indikator), Klick öff
   expect(await wz.getAttribute("class")).toContain("sel");
   const overlay = card.locator(".overlay");
   await overlay.waitFor({ state: "attached", timeout: 10000 });
-  expect(await overlay.locator(".dialog .name").textContent()).toBe("Wohnzimmer");
+  expect(await overlay.locator(".dlg-title").textContent()).toBe("Wohnzimmer");
   const detail = overlay.locator(".roomdetail");
   await detail.locator("modular-lights-card").waitFor({ state: "attached", timeout: 10000 });
   const lightRows = detail.locator("modular-lights-card button.lrow");
