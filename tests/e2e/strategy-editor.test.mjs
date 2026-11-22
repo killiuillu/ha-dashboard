@@ -10,10 +10,12 @@ test("Strategie liefert Config-Editor und Create-Suggestions", async ({ page }) 
       editorTag: editor.tagName.toLowerCase(),
       suggestions: Cls.getCreateSuggestions(),
       registered: !!customElements.get("evcc-strategy-editor"),
+      configRequired: Cls.configRequired === true,
     };
   });
   expect(res.editorTag).toBe("evcc-strategy-editor");
   expect(res.registered).toBe(true);
+  expect(res.configRequired).toBe(true);
   expect(res.suggestions.title).toBe("Modulares Dashboard");
   expect(res.suggestions.icon).toBe("mdi:view-dashboard");
   expect(errors).toEqual([]);
