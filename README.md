@@ -62,7 +62,7 @@ Fahrzeug-Karte – Bild optional, Reichweite als Entity oder berechnet (`capacit
 ```yaml
 type: custom:evcc-vehicle-card
 title: Mein Auto
-image: /local/evcc/auto.png        # optional, sonst mdi:car-electric
+image: /local/evcc/auto.png        # optional, sonst mdi:car-electric (im Setup-Dialog: Feld „Auto-Bild (Pfad)“)
 capacity_kwh: 60                   # optional, Fallback: Reichweite = SoC × Kapazität
 entities:
   vehicle_soc: sensor.evcc_loadpoint_1_vehicle_soc
@@ -119,6 +119,7 @@ title: Mein Zuhause
 strategy:
   type: custom:modular
   prefix: evcc          # optional, Default "evcc"
+  image: /local/evcc/auto.png   # optional, Auto-Bild für die Fahrzeug-Karte (Dialog: „Auto-Bild (Pfad)“)
   modules:              # optional – ohne Angabe werden ALLE erkannten Module angezeigt
     - evcc
     - raumklima
