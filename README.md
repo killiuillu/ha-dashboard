@@ -56,6 +56,7 @@ npm test             # E2E: Rendern der Karten mit Fixture im Chromium, Konsolen
 | `custom:evcc-vehicle-card` | Auto-Bild mit Ladestand (SoC) und Reichweite | gebaut (M8) |
 | `custom:modular-calendar-card` | Termine gewählter Kalender als **Liste** oder **Monatsansicht** (`view: list|calendar`) | gebaut (M13) |
 | `custom:modular-waste-card` | Nächste Abholungen je Tonne – Zahl = **Tage bis Abholung**, nächster Termin hervorgehoben | gebaut (M13) |
+| `custom:modular-lights-card` | Lichter im Raumklima-Stil: Status-Chip (an/aus), Helligkeit als Balken, Farbe – nur Anzeige | gebaut (M16) |
 
 Fahrzeug-Karte – Bild optional, Reichweite als Entity oder berechnet (`capacity_kwh`):
 
@@ -103,6 +104,22 @@ entities:
   #   color: "#4f9dff"
 ```
 
+```yaml
+type: custom:modular-lights-card
+title: Lichter
+entities:
+  - light.wohnzimmer
+  # oder mit eigenem Namen/Icon/Farbe:
+  # - entity: light.kueche
+  #   name: Küche
+  #   icon: mdi:lamp
+  #   color: "#ffb020"
+```
+
+Die Lichter-Karte sortiert „an“ zuerst, zeigt pro Licht Status-Chip (an = warm/amber, aus = grau),
+Helligkeit als Balken (aus `brightness`/`brightness_pct`) und optional eigene Farbe – reine Anzeige,
+es wird nichts geschaltet.
+
 Die Mülltonnen-Karte liest die Sensoren der Integration `waste_collection_schedule` (State = Tage bis
 Abholung bzw. Datum, alternativ `daysTo`/`next_date`/`next_collection`-Attribute), sortiert aufsteigend
 und hebt den nächsten Termin hervor. Die große Zahl pro Zeile ist immer **„Tage bis zur nächsten
@@ -132,6 +149,8 @@ strategy:
     days: 14            # optional, Lookahead der Listenansicht
     group: true         # optional, Listenansicht gruppiert je Kalender
     max: 5              # optional, max. Listeneinträge
+  hue:                  # optional – welche Lichter (Default: alle erkannten Hue-Lichter)
+    entities: [light.wohnzimmer, light.kueche]
   waste:                # optional – welche Tonnen (Default: alle erkannten)
     entities: [sensor.waste_collection_schedule_restmuell, sensor.waste_collection_schedule_bio]
 ```
@@ -144,7 +163,7 @@ Die Strategie `ll-strategy-dashboard-modular` (im UI-Dialog: **„Modulares Dash
 **Module (M10):** ohne `modules:` werden automatisch alle vorhandenen erkannt und eingebaut:
 - **evcc** – unsere Karten (Übersicht, Ladepunkt, Fahrzeug, Energie & Kosten, Verlauf)
 - **raumklima** – `climate.*` mit Platform `raumklima` (Karten von Raumklima 2, falls installiert, sonst Entity-Liste)
-- **hue** – Lichter der Hue-Integration (Fallback: alle `light.*`), max. 12
+- **hue** – Lichter der Hue-Integration (Fallback: alle `light.*`), max. 12, als eigene Karte `custom:modular-lights-card` (M16)
 - **kalender** – bis zu 10 `calendar.*` als eigene Karte `custom:modular-calendar-card` (M13)
 - **mülltonnen** – Sensoren der Integration `waste_collection_schedule` (oder IDs mit waste/muell/tonne bzw. Attributen `daysTo`/`next_date`/`next_collection`), max. 10, als eigene Karte `custom:modular-waste-card` (M13)
 

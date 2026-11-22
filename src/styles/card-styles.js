@@ -408,4 +408,31 @@ export const cardStyles = css`
   .wnum em { display: block; font-style: normal; font-size: .72rem; font-weight: 600; color: var(--wc, var(--tone)); margin-top: 2px; }
   .wchip { position: absolute; top: -9px; right: 10px; color: #fff; background: var(--wc, var(--tone)); }
   .wnote { margin-top: 10px; font-size: .78rem; color: var(--evc-color-ha-textSecondary); }
+  .llist { display: flex; flex-direction: column; gap: 10px; margin-top: 14px; }
+  .lrow {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: var(--evc-radius-stat);
+    background: color-mix(in srgb, var(--primary-text-color) 5%, transparent);
+    border: 1.5px solid transparent;
+  }
+  .lrow.on {
+    border-color: color-mix(in srgb, var(--lc, var(--tone)) 45%, transparent);
+    background: color-mix(in srgb, var(--lc, var(--tone)) 8%, transparent);
+  }
+  .licon { --mdc-icon-size: 26px; color: var(--lc, var(--tone)); flex: none; }
+  .linfo { flex: 1; min-width: 0; }
+  .lname { font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--evc-color-ha-textPrimary); }
+  .lbar {
+    height: 6px;
+    border-radius: var(--evc-radius-bar);
+    background: color-mix(in srgb, var(--primary-text-color) 8%, transparent);
+    overflow: hidden;
+    margin-top: 6px;
+    max-width: 180px;
+  }
+  .lbar > i { display: block; height: 100%; background: var(--lc, var(--tone)); border-radius: var(--evc-radius-bar); transition: width .5s; }
+  .lpct { flex: none; font-size: .8rem; font-weight: 600; color: var(--evc-color-ha-textSecondary); font-variant-numeric: tabular-nums; }
 `;

@@ -9,6 +9,7 @@ import { EvccStrategyEditor } from "./cards/strategy-editor.js";
 import { EvccVehicleCard } from "./cards/vehicle-card.js";
 import { ModularCalendarCard } from "./cards/calendar-card.js";
 import { ModularWasteCard } from "./cards/waste-card.js";
+import { ModularLightsCard } from "./cards/lights-card.js";
 
 applyTokens();
 
@@ -27,6 +28,7 @@ if (!customElements.get("evcc-energy-card")) customElements.define("evcc-energy-
 if (!customElements.get("evcc-vehicle-card")) customElements.define("evcc-vehicle-card", EvccVehicleCard);
 if (!customElements.get("modular-calendar-card")) customElements.define("modular-calendar-card", ModularCalendarCard);
 if (!customElements.get("modular-waste-card")) customElements.define("modular-waste-card", ModularWasteCard);
+if (!customElements.get("modular-lights-card")) customElements.define("modular-lights-card", ModularLightsCard);
 if (!customElements.get("ll-strategy-dashboard-modular")) customElements.define("ll-strategy-dashboard-modular", EvccDashboardStrategy);
 class EvccDashboardStrategyAlias extends EvccDashboardStrategy {}
 if (!customElements.get("ll-strategy-dashboard-evcc")) customElements.define("ll-strategy-dashboard-evcc", EvccDashboardStrategyAlias);
@@ -79,6 +81,14 @@ if (!window.customCards.find((c) => c.type === "custom:modular-calendar-card")) 
     type: "custom:modular-calendar-card",
     name: t("Modular – Kalender"),
     description: t("Termine der gewählten Kalender als Liste (optional gruppiert je Kalender, Anzahl begrenzbar) oder Monatsansicht"),
+    preview: true,
+  });
+}
+if (!window.customCards.find((c) => c.type === "custom:modular-lights-card")) {
+  window.customCards.push({
+    type: "custom:modular-lights-card",
+    name: t("Modular – Lichter"),
+    description: t("Gewählte Lichter im Raumklima-Stil: Status-Chip, Helligkeit, Farbe – nur Anzeige"),
     preview: true,
   });
 }

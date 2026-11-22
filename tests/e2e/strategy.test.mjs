@@ -34,6 +34,9 @@ test("Strategie erkennt zusätzliche Module (Raumklima/Hue/Kalender/Müll) aus d
   expect(titles).toContain("evcc");
   expect(titles).toContain("Raumklima");
   expect(titles).toContain("Lichter");
+  const hue = dash.views[0].sections.find((s) => s.title === "Lichter");
+  expect(hue.cards[0].type).toBe("custom:modular-lights-card");
+  expect(hue.cards[0].entities).toEqual(["light.wohnzimmer", "light.kueche"]);
   expect(titles).toContain("Kalender");
   expect(titles).toContain("Müllabfuhr");
   const restricted = await page.evaluate(async () => {

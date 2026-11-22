@@ -43,7 +43,7 @@ test("generate ohne modules: alle erkannten Module als Sections", async () => {
   const titles = dash.views[0].sections.map((s) => s.title);
   assert.deepEqual(titles, ["evcc", "Raumklima", "Lichter", "Kalender", "Müllabfuhr"]);
   const hue = dash.views[0].sections.find((s) => s.title === "Lichter");
-  assert.equal(hue.cards[0].type, "entities");
+  assert.equal(hue.cards[0].type, "custom:modular-lights-card");
   assert.deepEqual(hue.cards[0].entities, ["light.wohnzimmer"]);
   const cal = dash.views[0].sections.find((s) => s.title === "Kalender");
   assert.equal(cal.cards[0].type, "custom:modular-calendar-card");
@@ -58,9 +58,10 @@ test("generate: calendar/waste-Config (entities, view, days) ueberschreibt die A
   const dash = await EvccDashboardStrategy.generate(
     {
       prefix: "evcc",
-      modules: ["calendar", "muell"],
+      modules: ["calendar", "muell", "hue"],
       calendar: { entities: ["calendar.arbeit"], view: "calendar", days: 30, group: true, max: 5 },
       waste: { entities: ["sensor.waste_collection_schedule_bio"] },
+      hue: { entities: ["light.schreibtisch"] },
     },
     hass,
   );
@@ -74,6 +75,9 @@ test("generate: calendar/waste-Config (entities, view, days) ueberschreibt die A
   const muell = dash.views[0].sections.find((s) => s.title === "Müllabfuhr");
   assert.equal(muell.cards[0].type, "custom:modular-waste-card");
   assert.deepEqual(muell.cards[0].entities, ["sensor.waste_collection_schedule_bio"]);
+  const hue = dash.views[0].sections.find((s) => s.title === "Lichter");
+  assert.equal(hue.cards[0].type, "custom:modular-lights-card");
+  assert.deepEqual(hue.cards[0].entities, ["light.schreibtisch"]);
 });
 
 test("generate mit modules: nur gewünschte Module", async () => {
