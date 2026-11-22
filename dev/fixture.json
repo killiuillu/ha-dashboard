@@ -204,6 +204,15 @@
         "expected_date": "2026-11-24"
       },
       "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "sensor.schlafzimmer_temperatur": {
+      "state": "21.5",
+      "attributes": {
+        "friendly_name": "Schlafzimmer Temperatur",
+        "unit_of_measurement": "°C",
+        "device_class": "temperature"
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
     }
   },
   "entities": {
@@ -339,6 +348,12 @@
       "entity_id": "sensor.dhl_paket_1",
       "platform": "rest",
       "domain": "sensor"
+    },
+    "sensor.schlafzimmer_temperatur": {
+      "entity_id": "sensor.schlafzimmer_temperatur",
+      "platform": "sensor",
+      "domain": "sensor",
+      "area_id": "schlafzimmer"
     }
   },
   "ws": {

@@ -10,6 +10,9 @@ test("Räume-Karte: Strip mit allen Räumen (Temp + Licht-Indikator), Klick öff
   expect(names).toEqual(["Wohnzimmer", "Küche", "Schlafzimmer"]);
   const wz = card.locator(".room").first();
   expect(await wz.locator(".rtemp").textContent()).toContain("19");
+  const sz = card.locator(".room").nth(2);
+  expect(await sz.locator(".rname").textContent()).toBe("Schlafzimmer");
+  expect(await sz.locator(".rtemp").textContent()).toContain("21,5");
   const dotColor = await wz.locator(".rdot").evaluate((el) => getComputedStyle(el).backgroundColor);
   expect(dotColor).toBe("rgb(255, 176, 32)");
 

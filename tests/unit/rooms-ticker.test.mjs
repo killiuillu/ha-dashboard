@@ -32,6 +32,8 @@ test("detectAreas: Räume mit Lichtern, Klima, Media, Temperatur und lightsOn", 
   const kueche = areas.find((a) => a.area_id === "kueche");
   assert.equal(kueche.lightsOn, 0);
   assert.equal(kueche.temp, null);
+  const schlafzimmer = areas.find((a) => a.area_id === "schlafzimmer");
+  assert.equal(schlafzimmer.temp, 21.5);
 });
 
 test("tickerItems: Müll <= Schwelle + Pakete, unavailable raus", () => {
