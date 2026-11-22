@@ -18,7 +18,8 @@ test("Räume-Karte: Strip mit allen Räumen (Temp + Licht-Indikator), Klick öff
 
   await page.evaluate(() => {
     window.__calls = [];
-    window.__hass.callService = async (d, svc, t) => {
+    const c = document.querySelector("#cards modular-rooms-card");
+    c.hass.callService = async (d, svc, t) => {
       window.__calls.push([d, svc, t]);
       return {};
     };
