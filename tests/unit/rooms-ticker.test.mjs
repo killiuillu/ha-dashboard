@@ -68,6 +68,10 @@ test("MainDashboardStrategy.generate: Tablet-Layout (Räume oben, evcc, Kalender
   assert.equal(rooms.type, "custom:modular-rooms-card");
   assert.equal(rooms.control, true);
   assert.equal(rooms.grid_options.columns, "full");
+  assert.equal(rooms.areas, undefined);
+
+  const dashSel = await MainDashboardStrategy.generate({ prefix: "evcc", rooms: ["wohnzimmer", "kueche"] }, hass);
+  assert.deepEqual(dashSel.views[0].sections[0].cards[0].areas, ["wohnzimmer", "kueche"]);
 
   const evccTypes = view.sections[1].cards.map((c) => c.type);
   assert.ok(evccTypes.includes("custom:evcc-overview-card"));

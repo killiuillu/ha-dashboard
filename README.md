@@ -153,6 +153,7 @@ strategy:
   prefix: evcc
   ticker: true          # Ereignis-Ticker unten (Default: an)
   rooms_control: true   # Räume per Klick steuerbar (Default: an)
+  rooms: [wohnzimmer, kueche]   # optional – nur diese Räume anzeigen (Default: alle; Dialog: Checkboxen)
 ```
 
 ## Dashboard-Strategie (M6)

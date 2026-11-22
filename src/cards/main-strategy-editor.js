@@ -11,6 +11,22 @@ export class MainStrategyEditor extends LitElement {
     this.config = config || {};
   }
 
+  get _areaIds() {
+    return Object.keys(this.hass?.areas || {});
+  }
+
+  get _roomsSelected() {
+    const r = this.config?.rooms;
+    return new Set(Array.isArray(r) && r.length ? r : this._areaIds);
+  }
+
+  _toggleRoom(id, on) {
+    const sel = new Set(this._roomsSelected);
+    if (on) sel.add(id);
+    else sel.delete(id);
+    this._fire({ rooms: this._areaIds.filter((a) => sel.has(a)) });
+  }
+
   _fire(patch) {
     const config = { ...this.config, ...patch };
     this.dispatchEvent(new CustomEvent("config-changed", { detail: { config }, bubbles: true, composed: true }));
@@ -41,6 +57,13 @@ export class MainStrategyEditor extends LitElement {
           <input type="checkbox" .checked=${cfg.rooms_control !== false} @change=${(ev) => this._fire({ rooms_control: ev.target.checked ? undefined : false })} />
           <span>${t("Räume steuerbar (Lichter/Klima/Media per Klick)")}</span>
         </label>
+        <div class="subhead">${t("Räume anzeigen")}</div>
+        ${this._areaIds.map((id) => html`
+          <label class="opt">
+            <input type="checkbox" .checked=${this._roomsSelected.has(id)} @change=${(ev) => this._toggleRoom(id, ev.target.checked)} />
+            <span class="grow">${this.hass?.areas?.[id]?.name || id}</span>
+          </label>
+        `)}
       </div>
     `;
   }
@@ -60,5 +83,14 @@ export class MainStrategyEditor extends LitElement {
       color: var(--primary-text-color, #212121);
     }
     .opt { display: flex; align-items: center; gap: 8px; font-size: .9rem; padding: 4px 6px; border-radius: 8px; cursor: pointer; }
+    .opt .grow { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .subhead {
+      font-size: .78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--secondary-text-color, #727272);
+      margin-top: 6px;
+    }
   `;
 }
