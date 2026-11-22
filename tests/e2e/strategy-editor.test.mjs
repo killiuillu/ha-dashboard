@@ -93,7 +93,7 @@ test("Editor: Kalender-Auswahl + Ansicht (Liste/Kalender) und Tonnen-Auswahl feu
 
 test("customStrategies-Eintrag hat configRequired (Dialog fragt vor dem Anlegen)", async ({ page }) => {
   const errors = await openDevPage(page);
-  const entry = await page.evaluate(() => (window.customStrategies || []).find((s) => s.type === "evcc"));
+  const entry = await page.evaluate(() => (window.customStrategies || []).find((s) => s.type === "modular"));
   expect(entry.strategyType).toBe("dashboard");
   expect(entry.configRequired).toBe(true);
   expect(errors).toEqual([]);
