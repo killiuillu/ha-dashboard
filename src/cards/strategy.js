@@ -171,13 +171,24 @@ export class EvccDashboardStrategy extends StrategyBase {
         : [{ type: "entities", title: t("Raumklima"), entities: det.raumklima }];
       sections.push({ type: "grid", column_span: 3, title: t("Raumklima"), cards });
     }
-    if (modules.includes("hue") && det.hue.length) {
-      sections.push({
-        type: "grid",
-        column_span: 3,
-        title: t("Lichter"),
-        cards: [{ type: "entities", title: t("Lichter"), entities: det.hue }],
-      });
+    if (modules.includes("hue")) {
+      const hueCfg = moduleCfg(config, "hue", "licht", "lights");
+      const hueEntities = cfgEntities(hueCfg, det.hue);
+      if (hueEntities.length) {
+        sections.push({
+          type: "grid",
+          column_span: 3,
+          title: t("Lichter"),
+          cards: [
+            {
+              type: "custom:modular-lights-card",
+              title: t("Lichter"),
+              entities: hueEntities,
+              grid_options: { columns: "full" },
+            },
+          ],
+        });
+      }
     }
     if (modules.includes("calendar")) {
       const calCfg = moduleCfg(config, "calendar", "kalender");

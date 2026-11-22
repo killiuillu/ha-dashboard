@@ -51,18 +51,28 @@ test("Editor: Kalender-Auswahl + Ansicht (Liste/Kalender) und Tonnen-Auswahl feu
   const errors = await openDevPage(page);
   await page.evaluate(() => {
     const ed = document.createElement("evcc-strategy-editor");
-    ed.setConfig({ modules: ["calendar", "muell"] });
+    ed.setConfig({ modules: ["calendar", "muell", "hue"] });
     ed.hass = window.__hass;
     document.body.appendChild(ed);
     window.__ed2 = ed;
   });
   await page.waitForTimeout(200);
   const subs = page.locator("evcc-strategy-editor .sub");
-  expect(await subs.count()).toBe(2);
+  expect(await subs.count()).toBe(3);
   expect(await subs.nth(0).locator(".opt input[type=checkbox]").count()).toBe(3);
   expect(await subs.nth(0).locator(".opt input[type=radio]").count()).toBe(2);
   expect(await subs.nth(0).locator(".mini").count()).toBe(2);
-  expect(await subs.nth(1).locator(".opt input[type=checkbox]").count()).toBe(4);
+  expect(await subs.nth(1).locator(".opt input[type=checkbox]").count()).toBe(2);
+  expect(await subs.nth(2).locator(".opt input[type=checkbox]").count()).toBe(4);
+
+  const changedHue = await page.evaluate(async () => {
+    const ed = window.__ed2;
+    const p = new Promise((res) => ed.addEventListener("config-changed", (e) => res(e.detail.config), { once: true }));
+    const boxes = [...ed.shadowRoot.querySelectorAll(".sub")][1].querySelectorAll(".opt input[type=checkbox]");
+    boxes[1].click();
+    return p;
+  });
+  expect(changedHue.hue.entities).toEqual(["light.wohnzimmer"]);
 
   const changedCal = await page.evaluate(async () => {
     const ed = window.__ed2;
@@ -86,7 +96,7 @@ test("Editor: Kalender-Auswahl + Ansicht (Liste/Kalender) und Tonnen-Auswahl feu
   const changedWaste = await page.evaluate(async () => {
     const ed = window.__ed2;
     const p = new Promise((res) => ed.addEventListener("config-changed", (e) => res(e.detail.config), { once: true }));
-    const boxes = [...ed.shadowRoot.querySelectorAll(".sub")][1].querySelectorAll(".opt input[type=checkbox]");
+    const boxes = [...ed.shadowRoot.querySelectorAll(".sub")][2].querySelectorAll(".opt input[type=checkbox]");
     boxes[0].click();
     return p;
   });

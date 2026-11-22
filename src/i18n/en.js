@@ -108,6 +108,15 @@ export const EN = {
   "Max. Einträge pro Kalender": "Max. entries per calendar",
   "Pro Kalender gruppieren": "Group by calendar",
   "Auto-Bild (Pfad)": "Car image (path)",
+  An: "On",
+  Helligkeit: "Brightness",
+  "Keine Lichter konfiguriert": "No lights configured",
+  "Anzuzeigende Lichter": "Lights to show",
+  "Modular – Lichter": "Modular – lights",
+  "Gewählte Lichter im Raumklima-Stil: Status-Chip, Helligkeit, Farbe – nur Anzeige":
+    "Selected lights in room-climate style: status chip, brightness, color – display only",
+  "Zeigt die gewählten Lichter mit Status und Helligkeit im Raumklima-Stil (an = warm, aus = grau). Nur Anzeige – es wird nichts geschaltet.":
+    "Shows the selected lights with status and brightness in room-climate style (on = warm, off = gray). Display only – nothing is switched.",
   "Termine der gewählten Kalender als Liste (optional gruppiert je Kalender, Anzahl begrenzbar) oder Monatsansicht":
     "Events of the selected calendars as list (optionally grouped per calendar, count limitable) or month view",
 };

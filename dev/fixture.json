@@ -123,7 +123,9 @@
     "light.wohnzimmer": {
       "state": "on",
       "attributes": {
-        "friendly_name": "Wohnzimmer Lampe"
+        "friendly_name": "Wohnzimmer Lampe",
+        "brightness": 128,
+        "brightness_pct": 50
       },
       "last_changed": "2026-11-21T12:00:00+00:00"
     },

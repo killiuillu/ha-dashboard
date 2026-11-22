@@ -77,6 +77,41 @@ export class EvccStrategyEditor extends LitElement {
     return Number.isFinite(m) && m > 0 ? Math.floor(m) : null;
   }
 
+  get _hueCfg() {
+    const c = this.config?.hue ?? this.config?.licht ?? this.config?.lights;
+    return c && typeof c === "object" && !Array.isArray(c) ? c : {};
+  }
+
+  get _hueSelected() {
+    const e = this._hueCfg.entities;
+    const list = Array.isArray(e) && e.length ? e : this._det?.hue || [];
+    return new Set(list.map((x) => (typeof x === "string" ? x : x?.entity)).filter(Boolean));
+  }
+
+  _toggleHue(id, on) {
+    const sel = new Set(this._hueSelected);
+    if (on) sel.add(id);
+    else sel.delete(id);
+    this._fire({ hue: { ...this._hueCfg, entities: [...sel] } });
+  }
+
+  _renderHueOpts() {
+    const det = (this._det && this._det.hue) || [];
+    return html`
+      <div class="sub">
+        <div class="subhead">${t("Anzuzeigende Lichter")}</div>
+        ${det.map(
+          (id) => html`
+            <label class="opt">
+              <input type="checkbox" .checked=${this._hueSelected.has(id)} @change=${(ev) => this._toggleHue(id, ev.target.checked)} />
+              <span class="grow">${this._fname(id)}</span>
+            </label>
+          `,
+        )}
+      </div>
+    `;
+  }
+
   get _wasteCfg() {
     const c = this.config?.waste ?? this.config?.muell;
     return c && typeof c === "object" && !Array.isArray(c) ? c : {};
@@ -230,6 +265,7 @@ export class EvccStrategyEditor extends LitElement {
           `;
         })}
         ${this._selected.has("calendar") ? this._renderCalendarOpts() : nothing}
+        ${this._selected.has("hue") ? this._renderHueOpts() : nothing}
         ${this._selected.has("muell") ? this._renderWasteOpts() : nothing}
         <label class="fld">
           <span>${t("Titel")}</span>
