@@ -124,6 +124,29 @@ test("Editor: Kalender-Auswahl + Ansicht (Liste/Kalender) und Tonnen-Auswahl feu
   expect(errors).toEqual([]);
 });
 
+test("Editor: Auto-Bild-Feld feuert config-changed mit image-Pfad", async ({ page }) => {
+  const errors = await openDevPage(page);
+  await page.evaluate(() => {
+    const ed = document.createElement("evcc-strategy-editor");
+    ed.setConfig({ modules: ["evcc"] });
+    ed.hass = window.__hass;
+    document.body.appendChild(ed);
+    window.__ed3 = ed;
+  });
+  await page.waitForTimeout(200);
+  const changed = await page.evaluate(async () => {
+    const ed = window.__ed3;
+    const p = new Promise((res) => ed.addEventListener("config-changed", (e) => res(e.detail.config), { once: true }));
+    const inputs = [...ed.shadowRoot.querySelectorAll(".fld input[type=text]")];
+    const img = inputs[inputs.length - 1];
+    img.value = "/local/evcc/auto.png";
+    img.dispatchEvent(new Event("input", { bubbles: true }));
+    return p;
+  });
+  expect(changed.image).toBe("/local/evcc/auto.png");
+  expect(errors).toEqual([]);
+});
+
 test("customStrategies-Eintrag hat configRequired (Dialog fragt vor dem Anlegen)", async ({ page }) => {
   const errors = await openDevPage(page);
   const entry = await page.evaluate(() => (window.customStrategies || []).find((s) => s.type === "modular"));

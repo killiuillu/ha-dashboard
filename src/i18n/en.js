@@ -107,6 +107,7 @@ export const EN = {
   "Max. Einträge": "Max. entries",
   "Max. Einträge pro Kalender": "Max. entries per calendar",
   "Pro Kalender gruppieren": "Group by calendar",
+  "Auto-Bild (Pfad)": "Car image (path)",
   "Termine der gewählten Kalender als Liste (optional gruppiert je Kalender, Anzahl begrenzbar) oder Monatsansicht":
     "Events of the selected calendars as list (optionally grouped per calendar, count limitable) or month view",
 };

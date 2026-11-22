@@ -76,6 +76,20 @@ test("generate respektiert konfigurierbaren Titel und Präfix", async () => {
   assert.equal(dash.views[0].sections[0].cards[0].entities.pv_power, "sensor.wallbox_pv_power");
 });
 
+test("generate: config.image landet auf der Fahrzeug-Karte (Auto-Bild)", async () => {
+  setLang({ language: "de" });
+  const states = {
+    "sensor.evcc_pv_power": {},
+    "sensor.evcc_loadpoint_1_charge_power": {},
+    "sensor.evcc_loadpoint_1_vehicle_soc": {},
+  };
+  const dash = await EvccDashboardStrategy.generate({ prefix: "evcc", image: "/local/evcc/auto.png" }, hass(states));
+  const veh = dash.views[0].sections[0].cards.find((c) => c.type === "custom:evcc-vehicle-card");
+  assert.ok(veh);
+  assert.equal(veh.image, "/local/evcc/auto.png");
+  assert.equal(veh.entities.vehicle_soc, "sensor.evcc_loadpoint_1_vehicle_soc");
+});
+
 test("Strategie-Klasse hat static configRequired = true (HA zeigt den Editor vor dem Anlegen, ab HA 2026.5)", () => {
   assert.equal(EvccDashboardStrategy.configRequired, true);
   assert.equal(typeof EvccDashboardStrategy.getConfigElement, "function");

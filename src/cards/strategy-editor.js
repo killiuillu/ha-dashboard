@@ -239,6 +239,10 @@ export class EvccStrategyEditor extends LitElement {
           <span>${t("Entity-Präfix")}</span>
           <input type="text" .value=${cfg.prefix || ""} placeholder="evcc" @input=${(ev) => this._fire({ prefix: ev.target.value || undefined })} />
         </label>
+        <label class="fld">
+          <span>${t("Auto-Bild (Pfad)")}</span>
+          <input type="text" .value=${cfg.image || ""} placeholder="/local/evcc/auto.png" @input=${(ev) => this._fire({ image: ev.target.value || undefined })} />
+        </label>
       </div>
     `;
   }
