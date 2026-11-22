@@ -439,4 +439,41 @@ export const cardStyles = css`
   button.lrow:hover { background: color-mix(in srgb, var(--lc, var(--tone)) 14%, transparent); }
   button.lrow:disabled { opacity: .5; cursor: default; }
   .ltoggle { --mdc-icon-size: 26px; color: var(--lc, var(--tone)); flex: none; }
+  .rooms { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+  .room {
+    all: unset;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    min-width: 108px;
+    padding: 10px 12px;
+    border-radius: var(--evc-radius-stat);
+    background: color-mix(in srgb, var(--primary-text-color) 5%, transparent);
+    border: 1.5px solid transparent;
+    color: var(--evc-color-ha-textPrimary);
+  }
+  .room:hover { border-color: color-mix(in srgb, var(--lc, var(--tone)) 40%, transparent); }
+  .room.sel { border-color: var(--lc, var(--tone)); background: color-mix(in srgb, var(--lc, var(--tone)) 10%, transparent); }
+  .room ha-icon { --mdc-icon-size: 22px; color: var(--lc, var(--tone)); }
+  .rname { font-weight: 650; font-size: .9rem; }
+  .rmeta { display: flex; align-items: center; gap: 8px; font-size: .78rem; color: var(--evc-color-ha-textSecondary); }
+  .rdot { width: 9px; height: 9px; border-radius: 50%; background: var(--lc, var(--tone)); display: inline-block; }
+  .rtemp { font-variant-numeric: tabular-nums; }
+  .roomdetail { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+  .ticker { overflow: hidden; margin-top: 12px; }
+  .ticker .track {
+    display: inline-flex;
+    align-items: center;
+    gap: 22px;
+    white-space: nowrap;
+    animation: evc-tick 32s linear infinite;
+    will-change: transform;
+  }
+  .ticker:hover .track { animation-play-state: paused; }
+  .tk { display: inline-flex; align-items: center; gap: 7px; font-size: .88rem; color: var(--evc-color-ha-textPrimary); }
+  .tk ha-icon { --mdc-icon-size: 17px; color: var(--tone); }
+  .sep { color: var(--evc-color-ha-textSecondary); }
+  @keyframes evc-tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 `;

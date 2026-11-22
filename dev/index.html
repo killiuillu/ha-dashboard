@@ -67,6 +67,8 @@
     window.__hass = {
       states: fixture.states,
       entities: fixture.entities || {},
+      areas: fixture.areas || {},
+      devices: fixture.devices || {},
       language: lang,
       locale: { language: lang, number_format: "language" },
       user: { is_admin: true, name: "Test" },
@@ -141,6 +143,8 @@
         view: "list",
         days: 14,
       },
+      "custom:modular-rooms-card": { title: "Räume", control: true },
+      "custom:modular-ticker-card": { title: "Ereignisse" },
       "custom:modular-lights-card": {
         title: "Lichter",
         entities: ["light.wohnzimmer", "light.kueche"],

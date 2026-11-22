@@ -57,6 +57,8 @@ npm test             # E2E: Rendern der Karten mit Fixture im Chromium, Konsolen
 | `custom:modular-calendar-card` | Termine gewählter Kalender als **Liste** oder **Monatsansicht** (`view: list|calendar`) | gebaut (M13) |
 | `custom:modular-waste-card` | Nächste Abholungen je Tonne – Zahl = **Tage bis Abholung**, nächster Termin hervorgehoben | gebaut (M13) |
 | `custom:modular-lights-card` | Lichter im Raumklima-Stil: Status-Chip (an/aus), Helligkeit als Balken, Farbe – nur Anzeige | gebaut (M16) |
+| `custom:modular-rooms-card` | Raum-Übersicht (Temp + Licht-Indikator), Klick öffnet Raum-Steuerung | gebaut (v1.0.0) |
+| `custom:modular-ticker-card` | Ereignis-Laufband (Termine, Müll, Pakete) | gebaut (v1.0.0) |
 
 Fahrzeug-Karte – Bild optional, Reichweite als Entity oder berechnet (`capacity_kwh`):
 
@@ -128,6 +130,30 @@ und hebt den nächsten Termin hervor. Die große Zahl pro Zeile ist immer **„T
 Abholung“** (0 = Heute, 1 = Morgen) – zusätzlich steht das Abholdatum dabei. Reine Anzeige.
 
 Alle Entities werden in der Card-Config gesetzt, siehe Beispiele in [PLAN.md](PLAN.md).
+
+## Hauptdashboard für Tablet (v1.0.0, M18)
+
+Separate Strategie `custom:main` (**„Hauptdashboard (Tablet)“** im Dialog „Dashboard hinzufügen“,
+eigener Konfigurator mit Titel/Präfix/Auto-Bild/Ticker/Räume-steuerbar):
+
+- **Oben:** `custom:modular-rooms-card` – kompakte Übersicht aller HA-Räume (Area) mit Temperatur
+  und Licht-Indikator (Punkt amber = Licht an). **Klick auf einen Raum** öffnet inline die Steuerung:
+  Lichter (`custom:modular-lights-card` mit `control: true`), Klima (`hui-climate-card`),
+  Media Player (`hui-media-control-card`), weitere Entities – in HA direkt bedienbar.
+- **Mitte:** evcc-Übersicht (Übersicht vollbreit, Ladepunkt/Fahrzeug/Reichweite + Energie & Kosten nebeneinander).
+- **Darunter:** eine Kalender-Kachel **pro Kalender** nebeneinander (4-Spalten-Grid, je `view: list`, `max: 5`).
+- **Ganz unten:** `custom:modular-ticker-card` – Laufband (links→rechts, pausiert bei Hover) mit
+  Terminen heute/morgen, Müll bald fällig (`days <= 2`) und erwarteten Paketen (Sensor-IDs mit
+  paket/dhl/dpd/…). Reine Anzeige.
+- Tablet-optimiert: View mit `max_columns: 4`, Karten über `grid_options.columns` verteilt.
+
+```yaml
+strategy:
+  type: custom:main
+  prefix: evcc
+  ticker: true          # Ereignis-Ticker unten (Default: an)
+  rooms_control: true   # Räume per Klick steuerbar (Default: an)
+```
 
 ## Dashboard-Strategie (M6)
 

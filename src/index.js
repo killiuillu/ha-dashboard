@@ -10,6 +10,10 @@ import { EvccVehicleCard } from "./cards/vehicle-card.js";
 import { ModularCalendarCard } from "./cards/calendar-card.js";
 import { ModularWasteCard } from "./cards/waste-card.js";
 import { ModularLightsCard } from "./cards/lights-card.js";
+import { ModularRoomsCard } from "./cards/rooms-card.js";
+import { ModularTickerCard } from "./cards/ticker-card.js";
+import { MainDashboardStrategy } from "./cards/main-strategy.js";
+import { MainStrategyEditor } from "./cards/main-strategy-editor.js";
 
 applyTokens();
 
@@ -29,6 +33,11 @@ if (!customElements.get("evcc-vehicle-card")) customElements.define("evcc-vehicl
 if (!customElements.get("modular-calendar-card")) customElements.define("modular-calendar-card", ModularCalendarCard);
 if (!customElements.get("modular-waste-card")) customElements.define("modular-waste-card", ModularWasteCard);
 if (!customElements.get("modular-lights-card")) customElements.define("modular-lights-card", ModularLightsCard);
+if (!customElements.get("modular-rooms-card")) customElements.define("modular-rooms-card", ModularRoomsCard);
+if (!customElements.get("modular-ticker-card")) customElements.define("modular-ticker-card", ModularTickerCard);
+class MainDashboardStrategyAlias extends MainDashboardStrategy {}
+if (!customElements.get("ll-strategy-dashboard-main")) customElements.define("ll-strategy-dashboard-main", MainDashboardStrategyAlias);
+if (!customElements.get("main-strategy-editor")) customElements.define("main-strategy-editor", MainStrategyEditor);
 if (!customElements.get("ll-strategy-dashboard-modular")) customElements.define("ll-strategy-dashboard-modular", EvccDashboardStrategy);
 class EvccDashboardStrategyAlias extends EvccDashboardStrategy {}
 if (!customElements.get("ll-strategy-dashboard-evcc")) customElements.define("ll-strategy-dashboard-evcc", EvccDashboardStrategyAlias);
@@ -101,6 +110,23 @@ if (!window.customCards.find((c) => c.type === "custom:modular-waste-card")) {
   });
 }
 
+if (!window.customCards.find((c) => c.type === "custom:modular-rooms-card")) {
+  window.customCards.push({
+    type: "custom:modular-rooms-card",
+    name: t("Modular – Räume"),
+    description: t("Raum-Übersicht mit Temperatur + Licht-Indikator; Klick öffnet die Raum-Steuerung"),
+    preview: true,
+  });
+}
+if (!window.customCards.find((c) => c.type === "custom:modular-ticker-card")) {
+  window.customCards.push({
+    type: "custom:modular-ticker-card",
+    name: t("Modular – Ticker"),
+    description: t("Laufband mit Ereignissen: Termine, Müll bald fällig, erwartete Pakete"),
+    preview: true,
+  });
+}
+
 window.customStrategies = window.customStrategies || [];
 if (!window.customStrategies.find((x) => x.type === "modular")) {
   window.customStrategies.push({
@@ -108,6 +134,16 @@ if (!window.customStrategies.find((x) => x.type === "modular")) {
     strategyType: "dashboard",
     name: t("Modulares Dashboard"),
     description: t("Baut das Dashboard modular auf – Module per Dialog wählbar (evcc, Raumklima, Hue, Kalender, Müll)"),
+    documentationURL: "https://github.com/killiuillu/ha-dashboard",
+    configRequired: true,
+  });
+}
+if (!window.customStrategies.find((x) => x.type === "main")) {
+  window.customStrategies.push({
+    type: "main",
+    strategyType: "dashboard",
+    name: t("Hauptdashboard (Tablet)"),
+    description: t("Tablet-optimiert: Räume oben, evcc mittig, Kalender nebeneinander, Ereignis-Ticker unten"),
     documentationURL: "https://github.com/killiuillu/ha-dashboard",
     configRequired: true,
   });

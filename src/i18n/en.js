@@ -114,6 +114,31 @@ export const EN = {
   "Anzuzeigende Lichter": "Lights to show",
   "Lichter steuerbar (an/aus per Klick)": "Lights controllable (on/off per click)",
   "Klick schaltet die Lampe an/aus (light.turn_on/turn_off).": "Click toggles the light (light.turn_on/turn_off).",
+  Räume: "Rooms",
+  "Keine Räume erkannt": "No rooms detected",
+  "Übersicht aller Räume mit Temperatur und Licht-Indikator. Klick auf einen Raum öffnet die Steuerung (Lichter, Heizung/Klima, Media Player).":
+    "Overview of all rooms with temperature and light indicator. Click a room to open its controls (lights, heating/climate, media player).",
+  "Modular – Räume": "Modular – rooms",
+  "Raum-Übersicht mit Temperatur + Licht-Indikator; Klick öffnet die Raum-Steuerung":
+    "Room overview with temperature + light indicator; click opens room controls",
+  Ereignisse: "Events",
+  "Keine Ereignisse": "No events",
+  "Laufband mit wichtigen Ereignissen (Termine heute/morgen, Müll bald fällig, erwartete Pakete). Reine Anzeige.":
+    "Ticker with important events (today/tomorrow appointments, waste due soon, expected packages). Display only.",
+  "Modular – Ticker": "Modular – ticker",
+  "Laufband mit Ereignissen: Termine, Müll bald fällig, erwartete Pakete":
+    "Ticker with events: appointments, waste due soon, expected packages",
+  Paket: "Package",
+  erwartet: "expected",
+  Hauptdashboard: "Main dashboard",
+  "Hauptdashboard (Tablet)": "Main dashboard (tablet)",
+  "Tablet-optimiert: Räume oben, evcc mittig, Kalender nebeneinander, Ereignis-Ticker unten":
+    "Tablet-optimized: rooms on top, evcc in the middle, calendars side by side, event ticker at the bottom",
+  "Hauptdashboard für Tablet: Räume oben, evcc in der Mitte, Kalender nebeneinander, Ereignis-Ticker unten.":
+    "Main dashboard for tablet: rooms on top, evcc in the middle, calendars side by side, event ticker at the bottom.",
+  "Ereignis-Ticker unten anzeigen": "Show event ticker at the bottom",
+  "Räume steuerbar (Lichter/Klima/Media per Klick)": "Rooms controllable (lights/climate/media per click)",
+  Weitere: "Other",
   "Zeigt die gewählten Lichter mit Status und Helligkeit im Raumklima-Stil (an = warm, aus = grau).":
     "Shows the selected lights with status and brightness in room-climate style (on = warm, off = gray).",
   "Modular – Lichter": "Modular – lights",
