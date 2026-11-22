@@ -88,7 +88,7 @@ test("Kalender-Karte mit nur einem Kalender: keine Legende, kein Kalendername in
     el.hass = window.__hass;
     document.getElementById("cards").appendChild(el);
   });
-  const card2 = page.locator("#cards modular-calendar-card").nth(2);
+  const card2 = page.locator("#cards modular-calendar-card").nth(1);
   await card2.locator(".evrow").first().waitFor({ state: "attached", timeout: 15000 });
   expect(await card2.locator(".calleg").count()).toBe(0);
   const time = await card2.locator(".evrow .evtime").first().textContent();
