@@ -323,6 +323,20 @@ export const cardStyles = css`
   .evtime { font-size: .78rem; color: var(--evc-color-ha-textSecondary); margin-top: 2px; }
   .evdot { flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--c, var(--tone)); }
   .evday { font-weight: 600; font-size: .9rem; color: var(--evc-color-ha-textSecondary); }
+  .evgroup {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    font-weight: 650;
+    font-size: .92rem;
+    color: var(--evc-color-ha-textPrimary);
+  }
+  .evgroup:first-child { margin-top: 10px; }
+  .evgroup i { width: 10px; height: 10px; border-radius: 50%; background: var(--c); flex: none; }
+  .evgroup .gname { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .evgroup em { font-style: normal; font-size: .75rem; color: var(--evc-color-ha-textSecondary); font-variant-numeric: tabular-nums; }
+  .evempty { padding: 6px 2px 10px; font-size: .82rem; color: var(--evc-color-ha-textSecondary); }
   .calleg { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 10px; font-size: .78rem; color: var(--evc-color-ha-textSecondary); }
   .calleg span { display: inline-flex; align-items: center; gap: 6px; }
   .calleg i { width: 9px; height: 9px; border-radius: 50%; background: var(--c); }

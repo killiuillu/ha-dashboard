@@ -78,7 +78,7 @@ if (!window.customCards.find((c) => c.type === "custom:modular-calendar-card")) 
   window.customCards.push({
     type: "custom:modular-calendar-card",
     name: t("Modular – Kalender"),
-    description: t("Termine der gewählten Kalender als Liste oder Monatsansicht"),
+    description: t("Termine der gewählten Kalender als Liste (optional gruppiert je Kalender, Anzahl begrenzbar) oder Monatsansicht"),
     preview: true,
   });
 }

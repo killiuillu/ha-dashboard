@@ -55,14 +55,26 @@ export class EvccStrategyEditor extends LitElement {
     return c && typeof c === "object" && !Array.isArray(c) ? c : {};
   }
 
-  get _calSelected() {
+  get _calItems() {
     const e = this._calCfg.entities;
-    const list = Array.isArray(e) && e.length ? e : this._det?.calendar || [];
-    return new Set(list.map((x) => (typeof x === "string" ? x : x?.entity)).filter(Boolean));
+    return Array.isArray(e) && e.length ? e : (this._det?.calendar || []).map((id) => id);
+  }
+
+  get _calSelected() {
+    return new Set(this._calItems.map((x) => (typeof x === "string" ? x : x?.entity)).filter(Boolean));
   }
 
   get _calView() {
     return this._calCfg.view === "calendar" ? "calendar" : "list";
+  }
+
+  get _calGroup() {
+    return this._calCfg.group === true || this._calCfg.group === "true";
+  }
+
+  get _calMaxAll() {
+    const m = Number(this._calCfg.max);
+    return Number.isFinite(m) && m > 0 ? Math.floor(m) : null;
   }
 
   get _wasteCfg() {
@@ -81,14 +93,47 @@ export class EvccStrategyEditor extends LitElement {
   }
 
   _toggleCal(id, on) {
-    const sel = new Set(this._calSelected);
-    if (on) sel.add(id);
-    else sel.delete(id);
-    this._fire({ calendar: { ...this._calCfg, entities: [...sel], view: this._calView } });
+    const items = this._calItems.filter((x) => (typeof x === "string" ? x : x?.entity) !== id);
+    if (on) items.push(id);
+    this._fire({ calendar: { ...this._calCfg, entities: items, view: this._calView } });
   }
 
   _setCalView(view) {
-    this._fire({ calendar: { ...this._calCfg, entities: [...this._calSelected], view } });
+    this._fire({ calendar: { ...this._calCfg, entities: this._calItems, view } });
+  }
+
+  _setCalGroup(on) {
+    this._fire({ calendar: { ...this._calCfg, entities: this._calItems, view: this._calView, group: on ? true : undefined } });
+  }
+
+  _setCalMaxAll(val) {
+    const n = Number(val);
+    this._fire({
+      calendar: {
+        ...this._calCfg,
+        entities: this._calItems,
+        view: this._calView,
+        max: Number.isFinite(n) && n > 0 ? Math.floor(n) : undefined,
+      },
+    });
+  }
+
+  _setCalMax(id, val) {
+    const n = Number(val);
+    const items = this._calItems.map((x) => {
+      const eid = typeof x === "string" ? x : x?.entity;
+      if (eid !== id) return x;
+      if (Number.isFinite(n) && n > 0) return { ...(typeof x === "string" ? { entity: x } : x), max: Math.floor(n) };
+      if (typeof x === "string") return x;
+      const { max, ...rest } = x;
+      return Object.keys(rest).length ? rest : x.entity;
+    });
+    this._fire({ calendar: { ...this._calCfg, entities: items, view: this._calView } });
+  }
+
+  _calMaxOf(id) {
+    const it = this._calItems.find((x) => (typeof x === "string" ? x : x?.entity) === id);
+    return typeof it === "object" && it?.max ? String(it.max) : "";
   }
 
   _toggleWaste(id, on) {
@@ -107,10 +152,24 @@ export class EvccStrategyEditor extends LitElement {
           (id) => html`
             <label class="opt">
               <input type="checkbox" .checked=${this._calSelected.has(id)} @change=${(ev) => this._toggleCal(id, ev.target.checked)} />
-              <span>${this._fname(id)}</span>
+              <span class="grow">${this._fname(id)}</span>
+              <input
+                class="mini"
+                type="number"
+                min="1"
+                max="50"
+                placeholder=${t("alle")}
+                title=${t("Max. Einträge pro Kalender")}
+                .value=${this._calMaxOf(id)}
+                @input=${(ev) => this._setCalMax(id, ev.target.value)}
+              />
             </label>
           `,
         )}
+        <label class="opt">
+          <input type="checkbox" .checked=${this._calGroup} @change=${(ev) => this._setCalGroup(ev.target.checked)} />
+          <span>${t("Pro Kalender gruppieren")}</span>
+        </label>
         <div class="subhead">${t("Ansicht")}</div>
         <label class="opt">
           <input type="radio" name="calview" .checked=${this._calView === "list"} @change=${() => this._setCalView("list")} />
@@ -119,6 +178,17 @@ export class EvccStrategyEditor extends LitElement {
         <label class="opt">
           <input type="radio" name="calview" .checked=${this._calView === "calendar"} @change=${() => this._setCalView("calendar")} />
           <span>${t("Kalenderansicht")}</span>
+        </label>
+        <label class="fld">
+          <span>${t("Max. Einträge")}</span>
+          <input
+            type="number"
+            min="1"
+            max="100"
+            placeholder=${t("alle")}
+            .value=${this._calMaxAll ?? ""}
+            @input=${(ev) => this._setCalMaxAll(ev.target.value)}
+          />
         </label>
       </div>
     `;
@@ -226,5 +296,16 @@ export class EvccStrategyEditor extends LitElement {
       cursor: pointer;
     }
     .opt:hover { background: color-mix(in srgb, var(--primary-text-color, #212121) 6%, transparent); }
+    .opt .grow { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .mini {
+      width: 64px;
+      font: inherit;
+      font-size: .85rem;
+      padding: 4px 8px;
+      border-radius: 8px;
+      border: 1px solid color-mix(in srgb, var(--primary-text-color, #212121) 18%, transparent);
+      background: transparent;
+      color: var(--primary-text-color, #212121);
+    }
   `;
 }

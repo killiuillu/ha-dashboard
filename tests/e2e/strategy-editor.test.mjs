@@ -59,8 +59,9 @@ test("Editor: Kalender-Auswahl + Ansicht (Liste/Kalender) und Tonnen-Auswahl feu
   await page.waitForTimeout(200);
   const subs = page.locator("evcc-strategy-editor .sub");
   expect(await subs.count()).toBe(2);
-  expect(await subs.nth(0).locator(".opt input[type=checkbox]").count()).toBe(2);
+  expect(await subs.nth(0).locator(".opt input[type=checkbox]").count()).toBe(3);
   expect(await subs.nth(0).locator(".opt input[type=radio]").count()).toBe(2);
+  expect(await subs.nth(0).locator(".mini").count()).toBe(2);
   expect(await subs.nth(1).locator(".opt input[type=checkbox]").count()).toBe(4);
 
   const changedCal = await page.evaluate(async () => {
@@ -90,6 +91,36 @@ test("Editor: Kalender-Auswahl + Ansicht (Liste/Kalender) und Tonnen-Auswahl feu
     return p;
   });
   expect(changedWaste.waste.entities.length).toBe(3);
+
+  const changedGroup = await page.evaluate(async () => {
+    const ed = window.__ed2;
+    const p = new Promise((res) => ed.addEventListener("config-changed", (e) => res(e.detail.config), { once: true }));
+    const boxes = [...ed.shadowRoot.querySelectorAll(".sub")][0].querySelectorAll(".opt input[type=checkbox]");
+    boxes[2].click();
+    return p;
+  });
+  expect(changedGroup.calendar.group).toBe(true);
+
+  const changedMax = await page.evaluate(async () => {
+    const ed = window.__ed2;
+    const p = new Promise((res) => ed.addEventListener("config-changed", (e) => res(e.detail.config), { once: true }));
+    const num = [...ed.shadowRoot.querySelectorAll(".sub")][0].querySelector(".fld input[type=number]");
+    num.value = "5";
+    num.dispatchEvent(new Event("input", { bubbles: true }));
+    return p;
+  });
+  expect(changedMax.calendar.max).toBe(5);
+
+  const changedCalMax = await page.evaluate(async () => {
+    const ed = window.__ed2;
+    const p = new Promise((res) => ed.addEventListener("config-changed", (e) => res(e.detail.config), { once: true }));
+    const mini = [...ed.shadowRoot.querySelectorAll(".sub")][0].querySelectorAll(".mini")[1];
+    mini.value = "3";
+    mini.dispatchEvent(new Event("input", { bubbles: true }));
+    return p;
+  });
+  const arb = changedCalMax.calendar.entities.find((x) => (typeof x === "string" ? x : x?.entity) === "calendar.arbeit");
+  expect(arb.max).toBe(3);
   expect(errors).toEqual([]);
 });
 

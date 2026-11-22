@@ -194,6 +194,8 @@ export class EvccDashboardStrategy extends StrategyBase {
               entities: calEntities,
               view: calCfg.view === "calendar" ? "calendar" : "list",
               ...(calCfg.days ? { days: calCfg.days } : {}),
+              ...(calCfg.group !== undefined ? { group: calCfg.group === true || calCfg.group === "true" } : {}),
+              ...(calCfg.max ? { max: calCfg.max } : {}),
               grid_options: { columns: "full" },
             },
           ],

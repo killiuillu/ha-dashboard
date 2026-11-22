@@ -9,12 +9,14 @@ export function parseCalendarEntities(cfg) {
   const out = [];
   for (const item of raw) {
     if (typeof item === "string" && item) {
-      out.push({ entity: item, name: null, color: CALENDAR_COLORS[out.length % CALENDAR_COLORS.length] });
+      out.push({ entity: item, name: null, color: CALENDAR_COLORS[out.length % CALENDAR_COLORS.length], max: null });
     } else if (item && typeof item === "object" && item.entity) {
+      const mx = Number(item.max);
       out.push({
         entity: item.entity,
         name: item.name || null,
         color: item.color || CALENDAR_COLORS[out.length % CALENDAR_COLORS.length],
+        max: Number.isFinite(mx) && mx > 0 ? Math.floor(mx) : null,
       });
     }
   }
@@ -120,6 +122,21 @@ export const fmtDateShort = (d) => d.toLocaleDateString(loc(), { day: "2-digit",
 export const fmtDateLong = (d) => d.toLocaleDateString(loc(), { weekday: "short", day: "2-digit", month: "2-digit", year: "numeric" });
 export const fmtMonthYear = (y, m) => new Date(y, m, 1).toLocaleDateString(loc(), { month: "long", year: "numeric" });
 export const fmtTime = (d) => d.toLocaleTimeString(loc(), { hour: "2-digit", minute: "2-digit" });
+
+const cap = (n) => (Number.isFinite(n) && n > 0 ? Math.floor(n) : null);
+
+// Listenansicht: merged (sortiert, global max) oder gruppiert je Kalender (max pro Kalender, Fallback Karten-max)
+export function calendarListEntries(events, cals, { group = false, max = null, now = new Date() } = {}) {
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const upcoming = sortEvents(events).filter((ev) => !ev.end || ev.end >= today);
+  const cardMax = cap(max);
+  if (!group) return upcoming.slice(0, cardMax ?? upcoming.length);
+  return cals.map((cal) => {
+    const own = upcoming.filter((ev) => ev.calendar === cal.entity);
+    const lim = cap(cal.max) ?? cardMax;
+    return { cal, events: lim ? own.slice(0, lim) : own, total: own.length };
+  });
+}
 
 export function fmtEventTime(ev) {
   if (ev.allDay) return t("ganztägig");

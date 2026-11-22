@@ -10,13 +10,14 @@ import {
   dayKey,
   fmtEventTime,
   fetchCalendarEvents,
+  calendarListEntries,
   CALENDAR_COLORS,
 } from "../../src/util/calendar.js";
 
 setLang({ language: "de" });
 
 test("parseCalendarEntities: String, Array, Objekte mit name/color, Farben rotieren", () => {
-  assert.deepEqual(parseCalendarEntities("calendar.a"), [{ entity: "calendar.a", name: null, color: CALENDAR_COLORS[0] }]);
+  assert.deepEqual(parseCalendarEntities("calendar.a"), [{ entity: "calendar.a", name: null, color: CALENDAR_COLORS[0], max: null }]);
   const list = parseCalendarEntities(["calendar.a", { entity: "calendar.b", name: "Arbeit", color: "#123456" }]);
   assert.equal(list.length, 2);
   assert.equal(list[1].name, "Arbeit");
@@ -110,4 +111,35 @@ test("fetchCalendarEvents: Fallback über callWS calendar/event/list, Fehler => 
   assert.equal(evs.length, 1);
   const broken = { callApi: async () => { throw new Error("nope"); } };
   assert.deepEqual(await fetchCalendarEvents(broken, parseCalendarEntities(["calendar.a"]), new Date(), new Date()), []);
+});
+
+test("parseCalendarEntities: max pro Kalender wird übernommen (ungültig => null)", () => {
+  const list = parseCalendarEntities([{ entity: "calendar.a", max: 3 }, { entity: "calendar.b", max: "x" }, "calendar.c"]);
+  assert.equal(list[0].max, 3);
+  assert.equal(list[1].max, null);
+  assert.equal(list[2].max, null);
+});
+
+test("calendarListEntries merged: sortiert, auf max begrenzt, vergangene Events raus", () => {
+  const now = new Date(2026, 10, 22, 12, 0);
+  const mk = (sum, day) => normalizeEvent({ entity: "calendar.a", color: "#1" }, { summary: sum, start: { dateTime: new Date(2026, 10, day, 9, 0).toISOString() }, end: { dateTime: new Date(2026, 10, day, 10, 0).toISOString() } });
+  const evs = [mk("C", 24), mk("A", 22), mk("B", 23), mk("alt", 20)];
+  const cals = parseCalendarEntities(["calendar.a"]);
+  const all = calendarListEntries(evs, cals, { max: null, now });
+  assert.deepEqual(all.map((e) => e.summary), ["A", "B", "C"]);
+  assert.deepEqual(calendarListEntries(evs, cals, { max: 2, now }).map((e) => e.summary), ["A", "B"]);
+});
+
+test("calendarListEntries gruppiert: eigene Liste je Kalender, max pro Kalender, Fallback Karten-max", () => {
+  const now = new Date(2026, 10, 22, 12, 0);
+  const mk = (cal, sum, day) => normalizeEvent({ entity: cal, color: "#1" }, { summary: sum, start: { dateTime: new Date(2026, 10, day, 9, 0).toISOString() }, end: { dateTime: new Date(2026, 10, day, 10, 0).toISOString() } });
+  const evs = [mk("calendar.fam", "F1", 22), mk("calendar.fam", "F2", 23), mk("calendar.fam", "F3", 24), mk("calendar.arb", "A1", 22), mk("calendar.arb", "A2", 25)];
+  const cals = parseCalendarEntities([{ entity: "calendar.fam", max: 2 }, "calendar.arb"]);
+  const groups = calendarListEntries(evs, cals, { group: true, max: 1, now });
+  assert.equal(groups.length, 2);
+  assert.equal(groups[0].cal.entity, "calendar.fam");
+  assert.deepEqual(groups[0].events.map((e) => e.summary), ["F1", "F2"]);
+  assert.equal(groups[0].total, 3);
+  assert.deepEqual(groups[1].events.map((e) => e.summary), ["A1"]);
+  assert.equal(groups[1].total, 2);
 });

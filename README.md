@@ -78,13 +78,16 @@ type: custom:modular-calendar-card
 title: Kalender
 view: list            # list (Default) oder calendar (Monatsansicht)
 days: 14              # optional, Lookahead der Listenansicht in Tagen
+group: true           # optional – eigene Liste pro Kalender (mit Kopfzeile + Farbe)
+max: 5                # optional – max. Listeneinträge (gesamt bzw. je Kalender bei group)
 entities:
   - calendar.familie
   - calendar.arbeit
-  # oder mit eigenem Namen/Farbe:
+  # oder mit eigenem Namen/Farbe/max (max = Einträge nur für diesen Kalender):
   # - entity: calendar.geburtstage
   #   name: Geburtstage
   #   color: "#ff4d6d"
+  #   max: 3
 ```
 
 ```yaml
@@ -123,9 +126,11 @@ strategy:
     - kalender
     - mülltonnen
   calendar:             # optional – welche Kalender + welche Ansicht (Default: alle erkannten, Liste)
-    entities: [calendar.familie, calendar.arbeit]
+    entities: [calendar.familie, calendar.arbeit]   # oder Objekte: { entity, name, color, max }
     view: list          # list oder calendar (Monatsansicht)
     days: 14            # optional, Lookahead der Listenansicht
+    group: true         # optional, Listenansicht gruppiert je Kalender
+    max: 5              # optional, max. Listeneinträge
   waste:                # optional – welche Tonnen (Default: alle erkannten)
     entities: [sensor.waste_collection_schedule_restmuell, sensor.waste_collection_schedule_bio]
 ```
