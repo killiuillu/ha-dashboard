@@ -101,7 +101,7 @@ export class ModularRoomsCard extends EvccBaseCard {
                 <span class="rname">${a.name}</span>
                 <span class="rmeta">
                   <i class="rdot" title="${a.lightsOn}/${a.lights.length} ${t("Lichter")} ${t("An")}"></i>
-                  <span class="rtemp">${fmtTemp(a.temp, loc())}</span>
+                  <span class="rtemp">${fmtTemp(a.temp, loc)}</span>
                 </span>
               </button>
             `;
