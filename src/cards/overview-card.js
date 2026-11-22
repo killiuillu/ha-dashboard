@@ -38,7 +38,7 @@ export class EvccOverviewCard extends EvccBaseCard {
     const st = overviewStatus(pv, grid, bat);
     const tone = toneVar(st.tone);
     const main = splitPower(grid, unitOf(this.hass, em.grid_power));
-    const title = cfg.title || t("evcc Dashboard");
+    const title = cfg.title || t("evcc");
     const pvTone = pv !== null && pv > 0 ? toneVar("ok") : "";
     const batTone = bat !== null && bat !== 0 ? toneVar(bat > 0 ? "heat" : "air") : "";
     return html`

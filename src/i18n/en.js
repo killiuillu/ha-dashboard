@@ -71,4 +71,8 @@ export const EN = {
   "Entity-Präfix": "Entity prefix",
   "Baut das Dashboard automatisch auf – mit Modul-Auswahl im Dialog":
     "Builds the dashboard automatically – with module selection in the dialog",
+  "Modulares Dashboard": "Modular dashboard",
+  evcc: "evcc",
+  "Baut das Dashboard modular auf – Module per Dialog wählbar (evcc, Raumklima, Hue, Kalender, Müll)":
+    "Builds the dashboard modularly – modules selectable in the dialog (evcc, room climate, Hue, calendar, waste)",
 };

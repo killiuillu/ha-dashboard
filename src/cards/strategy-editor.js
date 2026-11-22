@@ -70,7 +70,7 @@ export class EvccStrategyEditor extends LitElement {
         })}
         <label class="fld">
           <span>${t("Titel")}</span>
-          <input type="text" .value=${cfg.title || ""} placeholder="evcc Dashboard" @input=${(ev) => this._fire({ title: ev.target.value || undefined })} />
+          <input type="text" .value=${cfg.title || ""} placeholder="Modulares Dashboard" @input=${(ev) => this._fire({ title: ev.target.value || undefined })} />
         </label>
         <label class="fld">
           <span>${t("Entity-Präfix")}</span>

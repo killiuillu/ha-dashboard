@@ -4,7 +4,7 @@ import { openDevPage } from "../helpers.mjs";
 test("Strategie liefert Config-Editor und Create-Suggestions", async ({ page }) => {
   const errors = await openDevPage(page);
   const res = await page.evaluate(() => {
-    const Cls = customElements.get("ll-strategy-dashboard-evcc");
+    const Cls = customElements.get("ll-strategy-dashboard-modular");
     const editor = Cls.getConfigElement();
     return {
       editorTag: editor.tagName.toLowerCase(),
@@ -14,7 +14,7 @@ test("Strategie liefert Config-Editor und Create-Suggestions", async ({ page }) 
   });
   expect(res.editorTag).toBe("evcc-strategy-editor");
   expect(res.registered).toBe(true);
-  expect(res.suggestions.title).toBe("evcc Dashboard");
+  expect(res.suggestions.title).toBe("Modulares Dashboard");
   expect(res.suggestions.icon).toBe("mdi:view-dashboard");
   expect(errors).toEqual([]);
 });

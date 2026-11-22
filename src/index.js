@@ -23,6 +23,7 @@ if (!customElements.get("evcc-loadpoint-card")) customElements.define("evcc-load
 if (!customElements.get("evcc-history-card")) customElements.define("evcc-history-card", EvccHistoryCard);
 if (!customElements.get("evcc-energy-card")) customElements.define("evcc-energy-card", EvccEnergyCard);
 if (!customElements.get("evcc-vehicle-card")) customElements.define("evcc-vehicle-card", EvccVehicleCard);
+if (!customElements.get("ll-strategy-dashboard-modular")) customElements.define("ll-strategy-dashboard-modular", EvccDashboardStrategy);
 if (!customElements.get("ll-strategy-dashboard-evcc")) customElements.define("ll-strategy-dashboard-evcc", EvccDashboardStrategy);
 if (!customElements.get("evcc-strategy-editor")) customElements.define("evcc-strategy-editor", EvccStrategyEditor);
 
@@ -69,21 +70,22 @@ if (!window.customCards.find((c) => c.type === "custom:evcc-vehicle-card")) {
 }
 
 window.customStrategies = window.customStrategies || [];
-if (!window.customStrategies.find((x) => x.type === "evcc")) {
+if (!window.customStrategies.find((x) => x.type === "modular")) {
   window.customStrategies.push({
-    type: "evcc",
+    type: "modular",
     strategyType: "dashboard",
-    name: t("evcc Dashboard"),
-    description: t("Baut das Dashboard automatisch auf – mit Modul-Auswahl im Dialog"),
+    name: t("Modulares Dashboard"),
+    description: t("Baut das Dashboard modular auf – Module per Dialog wählbar (evcc, Raumklima, Hue, Kalender, Müll)"),
     documentationURL: "https://github.com/killiuillu/ha-dashboard",
     configRequired: true,
   });
 }
 
-globalThis.evccDashboard = { version: __APP_VERSION__ };
+globalThis.haDashboard = { version: __APP_VERSION__ };
+globalThis.evccDashboard = globalThis.haDashboard;
 
 console.info(
-  `%c EVCC-DASHBOARD %c ${__APP_VERSION__} `,
+  `%c HA-DASHBOARD %c ${__APP_VERSION__} `,
   "background:#2ec4a6;color:#fff;border-radius:4px 0 0 4px;padding:2px 6px",
   "background:#ff7a45;color:#fff;border-radius:0 4px 4px 0;padding:2px 6px",
 );
