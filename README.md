@@ -98,5 +98,11 @@ strategy:
 - **kalender** – bis zu 5 `calendar.*` als Kalender-Karte
 - **mülltonnen** – Sensoren der Integration `waste_collection_schedule` (oder IDs mit waste/muell/tonne), max. 10
 
-Aliase wie `Mülltonnen`, `kalender`, `Lichter` funktionieren ebenfalls. Zum Auswählen beim Anlegen einfach
-`modules:` in der Strategy-Config setzen.
+Aliase wie `Mülltonnen`, `kalender`, `Lichter` funktionieren ebenfalls.
+
+**Ohne YAML – direkt beim Anlegen auswählen (M11):** Ab HA 2026.5 erscheint die Strategie im Dialog
+**Dashboard hinzufügen → Community-Dashboards → „evcc Dashboard“**. Weil der Eintrag
+`configRequired: true` hat, öffnet HA automatisch den **Konfigurator** (`getConfigElement()`): Checkboxen
+für die Module (nur die in deiner HA erkannten sind aktiv), dazu Titel und Entity-Präfix. Erst nach
+„Erstellen“ wird das Dashboard mit der gewählten Modul-Auswahl angelegt. Später änderbar über
+Dashboard → ⋮ → „Bearbeiten“ (Editor). YAML (`modules:`) bleibt als Alternative bestehen.

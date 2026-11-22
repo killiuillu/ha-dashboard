@@ -66,4 +66,9 @@ export const EN = {
   Kalender: "Calendar",
   Müllabfuhr: "Waste collection",
   "Wählt die Module fürs Dashboard": "Choose the dashboard modules",
+  "nicht erkannt": "not detected",
+  Titel: "Title",
+  "Entity-Präfix": "Entity prefix",
+  "Baut das Dashboard automatisch auf – mit Modul-Auswahl im Dialog":
+    "Builds the dashboard automatically – with module selection in the dialog",
 };
