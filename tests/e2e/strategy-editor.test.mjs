@@ -62,7 +62,7 @@ test("Editor: Kalender-Auswahl + Ansicht (Liste/Kalender) und Tonnen-Auswahl feu
   expect(await subs.nth(0).locator(".opt input[type=checkbox]").count()).toBe(3);
   expect(await subs.nth(0).locator(".opt input[type=radio]").count()).toBe(2);
   expect(await subs.nth(0).locator(".mini").count()).toBe(2);
-  expect(await subs.nth(1).locator(".opt input[type=checkbox]").count()).toBe(2);
+  expect(await subs.nth(1).locator(".opt input[type=checkbox]").count()).toBe(3);
   expect(await subs.nth(2).locator(".opt input[type=checkbox]").count()).toBe(4);
 
   const changedHue = await page.evaluate(async () => {
@@ -73,6 +73,15 @@ test("Editor: Kalender-Auswahl + Ansicht (Liste/Kalender) und Tonnen-Auswahl feu
     return p;
   });
   expect(changedHue.hue.entities).toEqual(["light.wohnzimmer"]);
+
+  const changedHueControl = await page.evaluate(async () => {
+    const ed = window.__ed2;
+    const p = new Promise((res) => ed.addEventListener("config-changed", (e) => res(e.detail.config), { once: true }));
+    const boxes = [...ed.shadowRoot.querySelectorAll(".sub")][1].querySelectorAll(".opt input[type=checkbox]");
+    boxes[2].click();
+    return p;
+  });
+  expect(changedHueControl.hue.control).toBe(true);
 
   const changedCal = await page.evaluate(async () => {
     const ed = window.__ed2;

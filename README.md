@@ -107,6 +107,7 @@ entities:
 ```yaml
 type: custom:modular-lights-card
 title: Lichter
+control: true         # optional – Klick schaltet an/aus (light.turn_on/turn_off); Default: read-only
 entities:
   - light.wohnzimmer
   # oder mit eigenem Namen/Icon/Farbe:
@@ -117,8 +118,9 @@ entities:
 ```
 
 Die Lichter-Karte sortiert „an“ zuerst, zeigt pro Licht Status-Chip (an = warm/amber, aus = grau),
-Helligkeit als Balken (aus `brightness`/`brightness_pct`) und optional eigene Farbe – reine Anzeige,
-es wird nichts geschaltet.
+Helligkeit als Balken (aus `brightness`/`brightness_pct`) und optional eigene Farbe. Default reine
+Anzeige; mit `control: true` (auch im Setup-Dialog: „Lichter steuerbar“) schaltet ein Klick die Lampe
+an/aus (`light.turn_on`/`light.turn_off`).
 
 Die Mülltonnen-Karte liest die Sensoren der Integration `waste_collection_schedule` (State = Tage bis
 Abholung bzw. Datum, alternativ `daysTo`/`next_date`/`next_collection`-Attribute), sortiert aufsteigend
@@ -151,6 +153,7 @@ strategy:
     max: 5              # optional, max. Listeneinträge
   hue:                  # optional – welche Lichter (Default: alle erkannten Hue-Lichter)
     entities: [light.wohnzimmer, light.kueche]
+    control: true       # optional – Lichter per Klick an/aus schaltbar (Default: read-only)
   waste:                # optional – welche Tonnen (Default: alle erkannten)
     entities: [sensor.waste_collection_schedule_restmuell, sensor.waste_collection_schedule_bio]
 ```
