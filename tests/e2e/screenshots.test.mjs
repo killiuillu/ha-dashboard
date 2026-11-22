@@ -49,7 +49,7 @@ async function countColor(page, file, rgb, tol = 30) {
 const SHOTS = "shots";
 const TAGS = ["evcc-overview-card", "evcc-loadpoint-card", "evcc-vehicle-card", "evcc-history-card", "evcc-energy-card"];
 
-test("Screenshots aller evcc-Karten für den Optik-Vergleich", async ({ page, browser }) => {
+test("Screenshots aller evcc-Karten für den Optik-Vergleich", async ({ page }) => {
   mkdirSync(SHOTS, { recursive: true });
   await openDevPage(page);
   await page.setViewportSize({ width: 480, height: 900 });
@@ -60,21 +60,17 @@ test("Screenshots aller evcc-Karten für den Optik-Vergleich", async ({ page, br
   }
   await page.screenshot({ path: `${SHOTS}/dev-page.png`, fullPage: true });
 
-  const ctx = await browser.newContext({ viewport: { width: 480, height: 900 }, deviceScaleFactor: 2 });
-  const p2 = await ctx.newPage();
-  await openDevPage(p2);
-  await p2.waitForTimeout(700);
-  await p2.locator("#cards evcc-loadpoint-card .lp .dial").screenshot({ path: `${SHOTS}/dial-zoom.png` });
-  await p2.locator("#cards evcc-history-card .chart").screenshot({ path: `${SHOTS}/chart-zoom.png` });
-  const dialProbe = await probe(p2, `${SHOTS}/dial-zoom.png`, [[240, 24], [277, 28], [99, 365], [381, 365], [240, 190]]);
-  const chartProbe = await probe(p2, `${SHOTS}/chart-zoom.png`, [[323, 100], [323, 200], [440, 240], [100, 400]]);
+  await page.locator("#cards evcc-loadpoint-card .lp .dial").screenshot({ path: `${SHOTS}/dial-zoom.png` });
+  await page.locator("#cards evcc-history-card .chart").screenshot({ path: `${SHOTS}/chart-zoom.png` });
+  const dialProbe = await probe(page, `${SHOTS}/dial-zoom.png`, [[120, 12], [138, 14], [49, 183], [191, 183], [120, 95]]);
+  const chartProbe = await probe(page, `${SHOTS}/chart-zoom.png`, [[150, 50], [150, 100], [220, 120], [50, 200]]);
   await p2.locator("#cards evcc-loadpoint-card").screenshot({ path: `${SHOTS}/loadpoint-zoom.png` });
-  const fillPx = await countColor(p2, `${SHOTS}/dial-zoom.png`, [138, 148, 166], 25);
-  const trackPx = await countColor(p2, `${SHOTS}/dial-zoom.png`, [233, 233, 233], 6);
-  const greenPx = await countColor(p2, `${SHOTS}/chart-zoom.png`, [46, 196, 166], 25);
-  const bluePx = await countColor(p2, `${SHOTS}/chart-zoom.png`, [79, 157, 255], 25);
-  const iconPx = await countColor(p2, `${SHOTS}/loadpoint-zoom.png`, [60, 60, 60], 60);
-  await ctx.close();
+  const fillPx = await countColor(page, `${SHOTS}/dial-zoom.png`, [138, 148, 166], 25);
+  const trackPx = await countColor(page, `${SHOTS}/dial-zoom.png`, [233, 233, 233], 6);
+  const greenPx = await countColor(page, `${SHOTS}/chart-zoom.png`, [46, 196, 166], 25);
+  const bluePx = await countColor(page, `${SHOTS}/chart-zoom.png`, [79, 157, 255], 25);
+  await page.locator("#cards evcc-loadpoint-card").screenshot({ path: `${SHOTS}/loadpoint-zoom.png` });
+  const iconPx = await countColor(page, `${SHOTS}/loadpoint-zoom.png`, [60, 60, 60], 60);
 
   const pixelCounts = { fillPx, trackPx, greenPx, bluePx, iconPx };
   const diag = await page.evaluate(async ({ dialProbe, chartProbe, pixelCounts }) => {
