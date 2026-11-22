@@ -4,8 +4,7 @@ import { openDevPage } from "../helpers.mjs";
 test("Strategie liefert Config-Editor und Create-Suggestions", async ({ page }) => {
   const errors = await openDevPage(page);
   const res = await page.evaluate(() => {
-    const strat = document.querySelector("ll-strategy-dashboard-evcc");
-    const Cls = strat.constructor;
+    const Cls = customElements.get("ll-strategy-dashboard-evcc");
     const editor = Cls.getConfigElement();
     return {
       editorTag: editor.tagName.toLowerCase(),
@@ -24,7 +23,7 @@ test("Editor zeigt Modul-Checkboxen (erkannte aktiv) und feuert config-changed",
   const errors = await openDevPage(page);
   await page.evaluate(() => {
     const ed = document.createElement("evcc-strategy-editor");
-    ed.setConfig({});
+    ed.setConfig({ modules: ["evcc"] });
     ed.hass = window.__hass;
     document.body.appendChild(ed);
     window.__ed = ed;
