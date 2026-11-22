@@ -139,6 +139,8 @@ function evccHistoryEntities(evcc) {
 const StrategyBase = typeof HTMLElement !== "undefined" ? HTMLElement : class {};
 
 export class EvccDashboardStrategy extends StrategyBase {
+  static configRequired = true;
+
   static getConfigElement() {
     return document.createElement("evcc-strategy-editor");
   }

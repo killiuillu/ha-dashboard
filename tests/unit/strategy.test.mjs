@@ -75,3 +75,9 @@ test("generate respektiert konfigurierbaren Titel und Präfix", async () => {
   assert.equal(dash.title, "Meine Wallbox");
   assert.equal(dash.views[0].sections[0].cards[0].entities.pv_power, "sensor.wallbox_pv_power");
 });
+
+test("Strategie-Klasse hat static configRequired = true (HA zeigt den Editor vor dem Anlegen, ab HA 2026.5)", () => {
+  assert.equal(EvccDashboardStrategy.configRequired, true);
+  assert.equal(typeof EvccDashboardStrategy.getConfigElement, "function");
+  assert.equal(typeof EvccDashboardStrategy.getCreateSuggestions, "function");
+});
