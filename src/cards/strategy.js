@@ -68,13 +68,33 @@ export function detectModules(hass, prefix = "evcc") {
     .filter((e) => e.entity_id.startsWith("light.") && e.platform === "hue")
     .map((e) => e.entity_id);
   det.hue = (hueOnly.length ? hueOnly : lights).slice(0, 12);
-  det.calendar = Object.keys(states).filter((id) => id.startsWith("calendar.")).slice(0, 5);
-  det.muell = Object.values(entities)
-    .filter((e) => e.platform === "waste_collection_schedule" || /waste|muell|tonne/i.test(e.entity_id))
-    .map((e) => e.entity_id)
-    .slice(0, 10);
+  det.calendar = Object.keys(states).filter((id) => id.startsWith("calendar.")).slice(0, 10);
+  const wasteIds = new Set();
+  for (const e of Object.values(entities)) {
+    if (e.platform === "waste_collection_schedule" || /waste|muell|tonne/i.test(e.entity_id)) wasteIds.add(e.entity_id);
+  }
+  for (const [id, st] of Object.entries(states)) {
+    if (!id.startsWith("sensor.")) continue;
+    const a = (st && st.attributes) || {};
+    if (a.daysTo !== undefined || a.next_date || a.next_collection || /waste|muell|tonne/i.test(id)) wasteIds.add(id);
+  }
+  det.muell = [...wasteIds].slice(0, 10);
   return det;
 }
+
+export function moduleCfg(config, ...keys) {
+  for (const k of keys) {
+    const c = config?.[k];
+    if (c && typeof c === "object" && !Array.isArray(c)) return c;
+  }
+  return {};
+}
+
+const cfgEntities = (cfg, fallback) => {
+  const e = cfg.entities;
+  if (Array.isArray(e) && e.length) return e;
+  return fallback;
+};
 
 function evccCards(evcc, config, title) {
   const overviewEntities = {};
@@ -157,21 +177,45 @@ export class EvccDashboardStrategy extends StrategyBase {
         cards: [{ type: "entities", title: t("Lichter"), entities: det.hue }],
       });
     }
-    if (modules.includes("calendar") && det.calendar.length) {
-      sections.push({
-        type: "grid",
-        column_span: 3,
-        title: t("Kalender"),
-        cards: [{ type: "calendar", title: t("Kalender"), entities: det.calendar, grid_options: { columns: "full" } }],
-      });
+    if (modules.includes("calendar")) {
+      const calCfg = moduleCfg(config, "calendar", "kalender");
+      const calEntities = cfgEntities(calCfg, det.calendar);
+      if (calEntities.length) {
+        sections.push({
+          type: "grid",
+          column_span: 3,
+          title: t("Kalender"),
+          cards: [
+            {
+              type: "custom:modular-calendar-card",
+              title: t("Kalender"),
+              entities: calEntities,
+              view: calCfg.view === "calendar" ? "calendar" : "list",
+              ...(calCfg.days ? { days: calCfg.days } : {}),
+              grid_options: { columns: "full" },
+            },
+          ],
+        });
+      }
     }
-    if (modules.includes("muell") && det.muell.length) {
-      sections.push({
-        type: "grid",
-        column_span: 3,
-        title: t("Müllabfuhr"),
-        cards: [{ type: "entities", title: t("Müllabfuhr"), entities: det.muell }],
-      });
+    if (modules.includes("muell")) {
+      const wasteCfg = moduleCfg(config, "waste", "muell", "muelltonnen");
+      const wasteEntities = cfgEntities(wasteCfg, det.muell);
+      if (wasteEntities.length) {
+        sections.push({
+          type: "grid",
+          column_span: 3,
+          title: t("Müllabfuhr"),
+          cards: [
+            {
+              type: "custom:modular-waste-card",
+              title: t("Mülltonnen"),
+              entities: wasteEntities,
+              grid_options: { columns: "full" },
+            },
+          ],
+        });
+      }
     }
     if (!sections.length) {
       sections.push({ type: "grid", column_span: 3, cards: [{ type: "custom:evcc-overview-card", title, entities: {}, grid_options: { columns: "full" } }] });

@@ -1,74 +1,401 @@
 {
   "states": {
-    "sensor.evcc_pv_power": { "state": "3450", "attributes": { "unit_of_measurement": "W", "friendly_name": "PV-Leistung" }, "last_changed": "2026-11-21T12:00:00+00:00" },
-    "sensor.evcc_grid_power": { "state": "-1200", "attributes": { "unit_of_measurement": "W", "friendly_name": "Netzleistung" }, "last_changed": "2026-11-21T12:00:00+00:00" },
-    "sensor.evcc_home_power": { "state": "2250", "attributes": { "unit_of_measurement": "W", "friendly_name": "Hausverbrauch" }, "last_changed": "2026-11-21T12:00:00+00:00" },
-    "sensor.evcc_battery_soc": { "state": "67", "attributes": { "unit_of_measurement": "%", "friendly_name": "Batterie-Ladestand" }, "last_changed": "2026-11-21T12:00:00+00:00" },
-    "sensor.evcc_battery_power": { "state": "0", "attributes": { "unit_of_measurement": "W", "friendly_name": "Batterie-Leistung" }, "last_changed": "2026-11-21T12:00:00+00:00" },
-    "sensor.evcc_loadpoint_1_charge_power": { "state": "0", "attributes": { "unit_of_measurement": "W", "friendly_name": "Ladepunkt 1 Ladeleistung" }, "last_changed": "2026-11-21T12:00:00+00:00" },
-    "sensor.evcc_loadpoint_1_vehicle_soc": { "state": "54", "attributes": { "unit_of_measurement": "%", "friendly_name": "Fahrzeug-Ladestand" }, "last_changed": "2026-11-21T12:00:00+00:00" },
-    "sensor.evcc_loadpoint_1_status": { "state": "A", "attributes": { "friendly_name": "Ladepunkt 1 Status" }, "last_changed": "2026-11-21T12:00:00+00:00" },
-    "sensor.evcc_loadpoint_1_vehicle_range": { "state": "231", "attributes": { "unit_of_measurement": "km", "friendly_name": "Reichweite" }, "last_changed": "2026-11-21T12:00:00+00:00" },
-    "sensor.evcc_pv_today": { "state": "18.4", "attributes": { "unit_of_measurement": "kWh", "friendly_name": "PV heute" }, "last_changed": "2026-11-21T12:00:00+00:00" },
-    "sensor.evcc_grid_import_today": { "state": "3.2", "attributes": { "unit_of_measurement": "kWh", "friendly_name": "Netzbezug heute" }, "last_changed": "2026-11-21T12:00:00+00:00" },
-    "sensor.evcc_grid_export_today": { "state": "9.8", "attributes": { "unit_of_measurement": "kWh", "friendly_name": "Einspeisung heute" }, "last_changed": "2026-11-21T12:00:00+00:00" },
-    "sensor.evcc_home_today": { "state": "11.6", "attributes": { "unit_of_measurement": "kWh", "friendly_name": "Hausverbrauch heute" }, "last_changed": "2026-11-21T12:00:00+00:00" },
-    "sensor.evcc_price": { "state": "0.2987", "attributes": { "unit_of_measurement": "EUR/kWh", "friendly_name": "Strompreis" }, "last_changed": "2026-11-21T12:00:00+00:00" },
-    "climate.wohnzimmer": { "state": "19.0", "attributes": { "friendly_name": "Wohnzimmer", "current_temperature": 19.0, "temperature": 22 }, "last_changed": "2026-11-21T12:00:00+00:00" },
-    "light.wohnzimmer": { "state": "on", "attributes": { "friendly_name": "Wohnzimmer Lampe" }, "last_changed": "2026-11-21T12:00:00+00:00" },
-    "light.kueche": { "state": "off", "attributes": { "friendly_name": "Küchenlicht" }, "last_changed": "2026-11-21T12:00:00+00:00" },
-    "calendar.familie": { "state": "off", "attributes": { "friendly_name": "Familienkalender", "message": "Zahnarzt", "start_time": "2026-11-22T09:00:00+00:00", "end_time": "2026-11-22T10:00:00+00:00" }, "last_changed": "2026-11-21T12:00:00+00:00" },
-    "sensor.muelltonnen_restmuell": { "state": "2026-11-24", "attributes": { "friendly_name": "Restmülltonne", "next_collection": "2026-11-24" }, "last_changed": "2026-11-21T12:00:00+00:00" }
+    "sensor.evcc_pv_power": {
+      "state": "3450",
+      "attributes": {
+        "unit_of_measurement": "W",
+        "friendly_name": "PV-Leistung"
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "sensor.evcc_grid_power": {
+      "state": "-1200",
+      "attributes": {
+        "unit_of_measurement": "W",
+        "friendly_name": "Netzleistung"
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "sensor.evcc_home_power": {
+      "state": "2250",
+      "attributes": {
+        "unit_of_measurement": "W",
+        "friendly_name": "Hausverbrauch"
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "sensor.evcc_battery_soc": {
+      "state": "67",
+      "attributes": {
+        "unit_of_measurement": "%",
+        "friendly_name": "Batterie-Ladestand"
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "sensor.evcc_battery_power": {
+      "state": "0",
+      "attributes": {
+        "unit_of_measurement": "W",
+        "friendly_name": "Batterie-Leistung"
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "sensor.evcc_loadpoint_1_charge_power": {
+      "state": "0",
+      "attributes": {
+        "unit_of_measurement": "W",
+        "friendly_name": "Ladepunkt 1 Ladeleistung"
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "sensor.evcc_loadpoint_1_vehicle_soc": {
+      "state": "54",
+      "attributes": {
+        "unit_of_measurement": "%",
+        "friendly_name": "Fahrzeug-Ladestand"
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "sensor.evcc_loadpoint_1_status": {
+      "state": "A",
+      "attributes": {
+        "friendly_name": "Ladepunkt 1 Status"
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "sensor.evcc_loadpoint_1_vehicle_range": {
+      "state": "231",
+      "attributes": {
+        "unit_of_measurement": "km",
+        "friendly_name": "Reichweite"
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "sensor.evcc_pv_today": {
+      "state": "18.4",
+      "attributes": {
+        "unit_of_measurement": "kWh",
+        "friendly_name": "PV heute"
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "sensor.evcc_grid_import_today": {
+      "state": "3.2",
+      "attributes": {
+        "unit_of_measurement": "kWh",
+        "friendly_name": "Netzbezug heute"
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "sensor.evcc_grid_export_today": {
+      "state": "9.8",
+      "attributes": {
+        "unit_of_measurement": "kWh",
+        "friendly_name": "Einspeisung heute"
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "sensor.evcc_home_today": {
+      "state": "11.6",
+      "attributes": {
+        "unit_of_measurement": "kWh",
+        "friendly_name": "Hausverbrauch heute"
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "sensor.evcc_price": {
+      "state": "0.2987",
+      "attributes": {
+        "unit_of_measurement": "EUR/kWh",
+        "friendly_name": "Strompreis"
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "climate.wohnzimmer": {
+      "state": "19.0",
+      "attributes": {
+        "friendly_name": "Wohnzimmer",
+        "current_temperature": 19.0,
+        "temperature": 22
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "light.wohnzimmer": {
+      "state": "on",
+      "attributes": {
+        "friendly_name": "Wohnzimmer Lampe"
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "light.kueche": {
+      "state": "off",
+      "attributes": {
+        "friendly_name": "Küchenlicht"
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "calendar.familie": {
+      "state": "off",
+      "attributes": {
+        "friendly_name": "Familienkalender",
+        "message": "Zahnarzt",
+        "start_time": "2026-11-22T09:00:00+00:00",
+        "end_time": "2026-11-22T10:00:00+00:00"
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "sensor.waste_collection_schedule_restmuell": {
+      "state": "2",
+      "attributes": {
+        "friendly_name": "Restmüll",
+        "next_date": "2026-11-24",
+        "daysTo": 2
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "sensor.waste_collection_schedule_bio": {
+      "state": "1",
+      "attributes": {
+        "friendly_name": "Biotonne",
+        "next_date": "2026-11-23",
+        "daysTo": 1
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "sensor.waste_collection_schedule_papier": {
+      "state": "0",
+      "attributes": {
+        "friendly_name": "Papier",
+        "next_date": "2026-11-22",
+        "daysTo": 0
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "sensor.waste_collection_schedule_gelbe_tonne": {
+      "state": "8",
+      "attributes": {
+        "friendly_name": "Gelbe Tonne",
+        "next_date": "2026-11-30",
+        "daysTo": 8
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "calendar.arbeit": {
+      "state": "off",
+      "attributes": {
+        "friendly_name": "Arbeitskalender"
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    }
   },
   "entities": {
-    "sensor.evcc_pv_power": { "entity_id": "sensor.evcc_pv_power", "platform": "evcc", "domain": "sensor" },
-    "sensor.evcc_grid_power": { "entity_id": "sensor.evcc_grid_power", "platform": "evcc", "domain": "sensor" },
-    "sensor.evcc_home_power": { "entity_id": "sensor.evcc_home_power", "platform": "evcc", "domain": "sensor" },
-    "sensor.evcc_battery_soc": { "entity_id": "sensor.evcc_battery_soc", "platform": "evcc", "domain": "sensor" },
-    "sensor.evcc_battery_power": { "entity_id": "sensor.evcc_battery_power", "platform": "evcc", "domain": "sensor" },
-    "sensor.evcc_loadpoint_1_charge_power": { "entity_id": "sensor.evcc_loadpoint_1_charge_power", "platform": "evcc", "domain": "sensor" },
-    "sensor.evcc_loadpoint_1_vehicle_soc": { "entity_id": "sensor.evcc_loadpoint_1_vehicle_soc", "platform": "evcc", "domain": "sensor" },
-    "sensor.evcc_loadpoint_1_status": { "entity_id": "sensor.evcc_loadpoint_1_status", "platform": "evcc", "domain": "sensor" },
-    "sensor.evcc_loadpoint_1_vehicle_range": { "entity_id": "sensor.evcc_loadpoint_1_vehicle_range", "platform": "evcc", "domain": "sensor" },
-    "sensor.evcc_pv_today": { "entity_id": "sensor.evcc_pv_today", "platform": "evcc", "domain": "sensor" },
-    "sensor.evcc_grid_import_today": { "entity_id": "sensor.evcc_grid_import_today", "platform": "evcc", "domain": "sensor" },
-    "sensor.evcc_grid_export_today": { "entity_id": "sensor.evcc_grid_export_today", "platform": "evcc", "domain": "sensor" },
-    "sensor.evcc_home_today": { "entity_id": "sensor.evcc_home_today", "platform": "evcc", "domain": "sensor" },
-    "sensor.evcc_price": { "entity_id": "sensor.evcc_price", "platform": "evcc", "domain": "sensor" },
-    "climate.wohnzimmer": { "entity_id": "climate.wohnzimmer", "platform": "raumklima", "domain": "climate" },
-    "light.wohnzimmer": { "entity_id": "light.wohnzimmer", "platform": "hue", "domain": "light" },
-    "light.kueche": { "entity_id": "light.kueche", "platform": "hue", "domain": "light" },
-    "calendar.familie": { "entity_id": "calendar.familie", "platform": "calendar", "domain": "calendar" },
-    "sensor.muelltonnen_restmuell": { "entity_id": "sensor.muelltonnen_restmuell", "platform": "waste_collection_schedule", "domain": "sensor" }
+    "sensor.evcc_pv_power": {
+      "entity_id": "sensor.evcc_pv_power",
+      "platform": "evcc",
+      "domain": "sensor"
+    },
+    "sensor.evcc_grid_power": {
+      "entity_id": "sensor.evcc_grid_power",
+      "platform": "evcc",
+      "domain": "sensor"
+    },
+    "sensor.evcc_home_power": {
+      "entity_id": "sensor.evcc_home_power",
+      "platform": "evcc",
+      "domain": "sensor"
+    },
+    "sensor.evcc_battery_soc": {
+      "entity_id": "sensor.evcc_battery_soc",
+      "platform": "evcc",
+      "domain": "sensor"
+    },
+    "sensor.evcc_battery_power": {
+      "entity_id": "sensor.evcc_battery_power",
+      "platform": "evcc",
+      "domain": "sensor"
+    },
+    "sensor.evcc_loadpoint_1_charge_power": {
+      "entity_id": "sensor.evcc_loadpoint_1_charge_power",
+      "platform": "evcc",
+      "domain": "sensor"
+    },
+    "sensor.evcc_loadpoint_1_vehicle_soc": {
+      "entity_id": "sensor.evcc_loadpoint_1_vehicle_soc",
+      "platform": "evcc",
+      "domain": "sensor"
+    },
+    "sensor.evcc_loadpoint_1_status": {
+      "entity_id": "sensor.evcc_loadpoint_1_status",
+      "platform": "evcc",
+      "domain": "sensor"
+    },
+    "sensor.evcc_loadpoint_1_vehicle_range": {
+      "entity_id": "sensor.evcc_loadpoint_1_vehicle_range",
+      "platform": "evcc",
+      "domain": "sensor"
+    },
+    "sensor.evcc_pv_today": {
+      "entity_id": "sensor.evcc_pv_today",
+      "platform": "evcc",
+      "domain": "sensor"
+    },
+    "sensor.evcc_grid_import_today": {
+      "entity_id": "sensor.evcc_grid_import_today",
+      "platform": "evcc",
+      "domain": "sensor"
+    },
+    "sensor.evcc_grid_export_today": {
+      "entity_id": "sensor.evcc_grid_export_today",
+      "platform": "evcc",
+      "domain": "sensor"
+    },
+    "sensor.evcc_home_today": {
+      "entity_id": "sensor.evcc_home_today",
+      "platform": "evcc",
+      "domain": "sensor"
+    },
+    "sensor.evcc_price": {
+      "entity_id": "sensor.evcc_price",
+      "platform": "evcc",
+      "domain": "sensor"
+    },
+    "climate.wohnzimmer": {
+      "entity_id": "climate.wohnzimmer",
+      "platform": "raumklima",
+      "domain": "climate"
+    },
+    "light.wohnzimmer": {
+      "entity_id": "light.wohnzimmer",
+      "platform": "hue",
+      "domain": "light"
+    },
+    "light.kueche": {
+      "entity_id": "light.kueche",
+      "platform": "hue",
+      "domain": "light"
+    },
+    "calendar.familie": {
+      "entity_id": "calendar.familie",
+      "platform": "calendar",
+      "domain": "calendar"
+    },
+    "sensor.waste_collection_schedule_restmuell": {
+      "entity_id": "sensor.waste_collection_schedule_restmuell",
+      "platform": "waste_collection_schedule",
+      "domain": "sensor"
+    },
+    "sensor.waste_collection_schedule_bio": {
+      "entity_id": "sensor.waste_collection_schedule_bio",
+      "platform": "waste_collection_schedule",
+      "domain": "sensor"
+    },
+    "sensor.waste_collection_schedule_papier": {
+      "entity_id": "sensor.waste_collection_schedule_papier",
+      "platform": "waste_collection_schedule",
+      "domain": "sensor"
+    },
+    "sensor.waste_collection_schedule_gelbe_tonne": {
+      "entity_id": "sensor.waste_collection_schedule_gelbe_tonne",
+      "platform": "waste_collection_schedule",
+      "domain": "sensor"
+    },
+    "calendar.arbeit": {
+      "entity_id": "calendar.arbeit",
+      "platform": "calendar",
+      "domain": "calendar"
+    }
   },
   "ws": {
     "recorder/statistics_during_period": {
       "sensor.evcc_pv_power": [
-        { "start": "2026-11-21T06:00:00+00:00", "mean": 0 },
-        { "start": "2026-11-21T08:00:00+00:00", "mean": 800 },
-        { "start": "2026-11-21T10:00:00+00:00", "mean": 2600 },
-        { "start": "2026-11-21T12:00:00+00:00", "mean": 3800 },
-        { "start": "2026-11-21T14:00:00+00:00", "mean": 3400 },
-        { "start": "2026-11-21T16:00:00+00:00", "mean": 1800 },
-        { "start": "2026-11-21T18:00:00+00:00", "mean": 200 }
+        {
+          "start": "2026-11-21T06:00:00+00:00",
+          "mean": 0
+        },
+        {
+          "start": "2026-11-21T08:00:00+00:00",
+          "mean": 800
+        },
+        {
+          "start": "2026-11-21T10:00:00+00:00",
+          "mean": 2600
+        },
+        {
+          "start": "2026-11-21T12:00:00+00:00",
+          "mean": 3800
+        },
+        {
+          "start": "2026-11-21T14:00:00+00:00",
+          "mean": 3400
+        },
+        {
+          "start": "2026-11-21T16:00:00+00:00",
+          "mean": 1800
+        },
+        {
+          "start": "2026-11-21T18:00:00+00:00",
+          "mean": 200
+        }
       ],
       "sensor.evcc_grid_power": [
-        { "start": "2026-11-21T06:00:00+00:00", "mean": 400 },
-        { "start": "2026-11-21T08:00:00+00:00", "mean": 300 },
-        { "start": "2026-11-21T10:00:00+00:00", "mean": -1200 },
-        { "start": "2026-11-21T12:00:00+00:00", "mean": -2600 },
-        { "start": "2026-11-21T14:00:00+00:00", "mean": -2200 },
-        { "start": "2026-11-21T16:00:00+00:00", "mean": -900 },
-        { "start": "2026-11-21T18:00:00+00:00", "mean": 250 }
+        {
+          "start": "2026-11-21T06:00:00+00:00",
+          "mean": 400
+        },
+        {
+          "start": "2026-11-21T08:00:00+00:00",
+          "mean": 300
+        },
+        {
+          "start": "2026-11-21T10:00:00+00:00",
+          "mean": -1200
+        },
+        {
+          "start": "2026-11-21T12:00:00+00:00",
+          "mean": -2600
+        },
+        {
+          "start": "2026-11-21T14:00:00+00:00",
+          "mean": -2200
+        },
+        {
+          "start": "2026-11-21T16:00:00+00:00",
+          "mean": -900
+        },
+        {
+          "start": "2026-11-21T18:00:00+00:00",
+          "mean": 250
+        }
       ],
       "sensor.evcc_home_power": [
-        { "start": "2026-11-21T06:00:00+00:00", "mean": 600 },
-        { "start": "2026-11-21T08:00:00+00:00", "mean": 800 },
-        { "start": "2026-11-21T10:00:00+00:00", "mean": 1400 },
-        { "start": "2026-11-21T12:00:00+00:00", "mean": 1200 },
-        { "start": "2026-11-21T14:00:00+00:00", "mean": 1300 },
-        { "start": "2026-11-21T16:00:00+00:00", "mean": 2200 },
-        { "start": "2026-11-21T18:00:00+00:00", "mean": 1800 }
+        {
+          "start": "2026-11-21T06:00:00+00:00",
+          "mean": 600
+        },
+        {
+          "start": "2026-11-21T08:00:00+00:00",
+          "mean": 800
+        },
+        {
+          "start": "2026-11-21T10:00:00+00:00",
+          "mean": 1400
+        },
+        {
+          "start": "2026-11-21T12:00:00+00:00",
+          "mean": 1200
+        },
+        {
+          "start": "2026-11-21T14:00:00+00:00",
+          "mean": 1300
+        },
+        {
+          "start": "2026-11-21T16:00:00+00:00",
+          "mean": 2200
+        },
+        {
+          "start": "2026-11-21T18:00:00+00:00",
+          "mean": 1800
+        }
       ]
     }
   }

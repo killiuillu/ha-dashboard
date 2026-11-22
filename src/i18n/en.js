@@ -75,4 +75,30 @@ export const EN = {
   evcc: "evcc",
   "Baut das Dashboard modular auf – Module per Dialog wählbar (evcc, Raumklima, Hue, Kalender, Müll)":
     "Builds the dashboard modularly – modules selectable in the dialog (evcc, room climate, Hue, calendar, waste)",
+  "Modular – Kalender": "Modular – calendar",
+  "Termine der gewählten Kalender als Liste oder Monatsansicht": "Events of the selected calendars as list or month view",
+  "Modular – Mülltonnen": "Modular – waste bins",
+  "Nächste Abholungen je Tonne mit Tagen bis zur Abholung, nächster Termin hervorgehoben":
+    "Next collections per bin with days until collection, next date highlighted",
+  "Zeigt die Termine der gewählten Kalender als Liste oder Monatsansicht. Daten read-only über die HA-Kalender-API. Nur Anzeige – es wird nichts gesteuert.":
+    "Shows the events of the selected calendars as list or month view. Data read-only via the HA calendar API. Display only – nothing is controlled.",
+  "Zeigt die nächsten Abholungen der gewählten Tonnen. Die große Zahl ist die Anzahl der Tage bis zur nächsten Abholung, der hervorgehobene Eintrag ist der nächste Termin. Nur Anzeige – es wird nichts gesteuert.":
+    "Shows the next collections of the selected bins. The big number is the number of days until the next collection, the highlighted entry is the next date. Display only – nothing is controlled.",
+  Mülltonnen: "Waste bins",
+  "als Nächstes": "next up",
+  Tage: "days",
+  "Die Zahl ist die Anzahl der Tage bis zur nächsten Abholung – der erste Eintrag ist der nächste Termin.":
+    "The number is the count of days until the next collection – the first entry is the next date.",
+  Morgen: "Tomorrow",
+  "in {n} Tagen": "in {n} days",
+  unbekannt: "unknown",
+  ganztägig: "all day",
+  "Keine Termine in den nächsten {n} Tagen": "No events in the next {n} days",
+  "Keine Termine an diesem Tag": "No events on this day",
+  "Keine Abholungen gefunden": "No collections found",
+  "Kalender auswählen": "Select calendars",
+  "Abzuholende Tonnen": "Waste types to show",
+  Ansicht: "View",
+  Listenansicht: "List view",
+  Kalenderansicht: "Calendar view",
 };

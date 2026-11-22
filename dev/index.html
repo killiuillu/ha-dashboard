@@ -60,7 +60,9 @@
   <pre id="strategy" class="type" style="overflow:auto;max-height:320px;font-size:.75rem"></pre>
 
   <script type="module">
+    import { buildApi, callApiMock } from "./mock-api.mjs";
     const fixture = await (await fetch("fixture.json")).json();
+    const api = buildApi(new Date());
     const lang = new URLSearchParams(location.search).get("lang") || "de";
     window.__hass = {
       states: fixture.states,
@@ -70,6 +72,7 @@
       user: { is_admin: true, name: "Test" },
       themes: { darkMode: false },
       callWS: async (msg) => (msg.type in (fixture.ws || {}) ? structuredClone(fixture.ws[msg.type]) : {}),
+      callApi: callApiMock(api),
       callService: async () => ({}),
       connection: { subscribeMessage: async () => () => {} },
       formatEntityState: (s) => s.state,
@@ -132,10 +135,27 @@
           price: "sensor.evcc_price",
         },
       },
+      "custom:modular-calendar-card": {
+        title: "Kalender",
+        entities: ["calendar.familie", "calendar.arbeit"],
+        view: "list",
+        days: 14,
+      },
+      "custom:modular-waste-card": {
+        title: "Mülltonnen",
+        entities: [
+          "sensor.waste_collection_schedule_restmuell",
+          "sensor.waste_collection_schedule_bio",
+          "sensor.waste_collection_schedule_papier",
+          "sensor.waste_collection_schedule_gelbe_tonne",
+        ],
+      },
     };
 
     const cards = document.getElementById("cards");
-    const registered = (window.customCards || []).filter((c) => c.type.startsWith("custom:evcc-"));
+    const registered = (window.customCards || []).filter(
+      (c) => c.type.startsWith("custom:evcc-") || c.type.startsWith("custom:modular-"),
+    );
     if (registered.length) document.getElementById("nocards").style.display = "none";
 
     const strat = document.createElement("ll-strategy-dashboard-evcc");

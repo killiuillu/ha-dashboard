@@ -1,6 +1,6 @@
 import { LitElement, css, html, nothing } from "lit";
 import { t } from "../i18n/index.js";
-import { MODULES, detectModules } from "./strategy.js";
+import { MODULES, detectModules, normalizeModules } from "./strategy.js";
 
 const MODULE_META = {
   evcc: { icon: "mdi:solar-power", label: "evcc" },
@@ -27,7 +27,7 @@ export class EvccStrategyEditor extends LitElement {
 
   get _selected() {
     const m = this.config?.modules;
-    if (Array.isArray(m) && m.length) return new Set(m);
+    if (Array.isArray(m) && m.length) return new Set(normalizeModules(m));
     const det = this._det || {};
     return new Set(MODULES.filter((k) => k === "evcc" ? det.evcc && Object.values(det.evcc).some((v) => typeof v === "string") || (det.evcc && det.evcc.loadpoints.length) : (det[k] || []).length));
   }
@@ -50,6 +50,97 @@ export class EvccStrategyEditor extends LitElement {
     return !!(det[key] && det[key].length);
   }
 
+  get _calCfg() {
+    const c = this.config?.calendar;
+    return c && typeof c === "object" && !Array.isArray(c) ? c : {};
+  }
+
+  get _calSelected() {
+    const e = this._calCfg.entities;
+    const list = Array.isArray(e) && e.length ? e : this._det?.calendar || [];
+    return new Set(list.map((x) => (typeof x === "string" ? x : x?.entity)).filter(Boolean));
+  }
+
+  get _calView() {
+    return this._calCfg.view === "calendar" ? "calendar" : "list";
+  }
+
+  get _wasteCfg() {
+    const c = this.config?.waste ?? this.config?.muell;
+    return c && typeof c === "object" && !Array.isArray(c) ? c : {};
+  }
+
+  get _wasteSelected() {
+    const e = this._wasteCfg.entities;
+    const list = Array.isArray(e) && e.length ? e : this._det?.muell || [];
+    return new Set(list.map((x) => (typeof x === "string" ? x : x?.entity)).filter(Boolean));
+  }
+
+  _fname(id) {
+    return this._hass?.states?.[id]?.attributes?.friendly_name || id;
+  }
+
+  _toggleCal(id, on) {
+    const sel = new Set(this._calSelected);
+    if (on) sel.add(id);
+    else sel.delete(id);
+    this._fire({ calendar: { ...this._calCfg, entities: [...sel], view: this._calView } });
+  }
+
+  _setCalView(view) {
+    this._fire({ calendar: { ...this._calCfg, entities: [...this._calSelected], view } });
+  }
+
+  _toggleWaste(id, on) {
+    const sel = new Set(this._wasteSelected);
+    if (on) sel.add(id);
+    else sel.delete(id);
+    this._fire({ waste: { ...this._wasteCfg, entities: [...sel] } });
+  }
+
+  _renderCalendarOpts() {
+    const det = (this._det && this._det.calendar) || [];
+    return html`
+      <div class="sub">
+        <div class="subhead">${t("Kalender auswählen")}</div>
+        ${det.map(
+          (id) => html`
+            <label class="opt">
+              <input type="checkbox" .checked=${this._calSelected.has(id)} @change=${(ev) => this._toggleCal(id, ev.target.checked)} />
+              <span>${this._fname(id)}</span>
+            </label>
+          `,
+        )}
+        <div class="subhead">${t("Ansicht")}</div>
+        <label class="opt">
+          <input type="radio" name="calview" .checked=${this._calView === "list"} @change=${() => this._setCalView("list")} />
+          <span>${t("Listenansicht")}</span>
+        </label>
+        <label class="opt">
+          <input type="radio" name="calview" .checked=${this._calView === "calendar"} @change=${() => this._setCalView("calendar")} />
+          <span>${t("Kalenderansicht")}</span>
+        </label>
+      </div>
+    `;
+  }
+
+  _renderWasteOpts() {
+    const det = (this._det && this._det.muell) || [];
+    return html`
+      <div class="sub">
+        <div class="subhead">${t("Abzuholende Tonnen")}</div>
+        ${det.map(
+          (id) => html`
+            <label class="opt">
+              <input type="checkbox" .checked=${this._wasteSelected.has(id)} @change=${(ev) => this._toggleWaste(id, ev.target.checked)} />
+              <span>${this._fname(id)}</span>
+            </label>
+          `,
+        )}
+      </div>
+    `;
+  }
+
   render() {
     const cfg = this.config || {};
     return html`
@@ -68,6 +159,8 @@ export class EvccStrategyEditor extends LitElement {
             </label>
           `;
         })}
+        ${this._selected.has("calendar") ? this._renderCalendarOpts() : nothing}
+        ${this._selected.has("muell") ? this._renderWasteOpts() : nothing}
         <label class="fld">
           <span>${t("Titel")}</span>
           <input type="text" .value=${cfg.title || ""} placeholder="Modulares Dashboard" @input=${(ev) => this._fire({ title: ev.target.value || undefined })} />
@@ -108,5 +201,30 @@ export class EvccStrategyEditor extends LitElement {
       background: transparent;
       color: var(--primary-text-color, #212121);
     }
+    .sub {
+      border-top: 1px solid color-mix(in srgb, var(--primary-text-color, #212121) 12%, transparent);
+      padding-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .subhead {
+      font-size: .78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--secondary-text-color, #727272);
+      margin-top: 6px;
+    }
+    .opt {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: .9rem;
+      padding: 4px 6px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .opt:hover { background: color-mix(in srgb, var(--primary-text-color, #212121) 6%, transparent); }
   `;
 }
