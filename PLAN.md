@@ -142,6 +142,7 @@ strategy:
 - **M7 – HACS/Marketplace-Verpackung:** erledigt in PR #6/#7 (`hacs.json`, Release-Workflow liefert `hacs.json` + `ha-dashboard.js`(+`.gz`) als Assets, Artefakt heißt wie das Repo)
 - **M8 – `custom:evcc-vehicle-card`:** erledigt in PR #8 (Fahrzeug-Karte mit Bild (`image:`, Fallback `mdi:car-electric`), großem SoC, Reichweite km (`entities.range` oder SoC × `capacity_kwh`); in der Strategie automatisch bei `vehicle_soc`)
 - **M9 – Optik-Feinabgleich an Raumklima 2 (PR #9):** `rcard`-Akzentleiste oben (4px + Verlauf), Dial exakt wie Referenz (viewBox 240x200, R=100, 135°+270°, Strich 14, Doppel-Knopf, Skalenlabels), `.center` wie Referenz; SVG-Strokes über CSS-Klassen (var() in Präsentationsattributen rendert nicht); Screenshot-Vergleich in der CI (unsere Karten + Raumklima-Demo/-Raumkarte als Artifact `shots`, inkl. Pixel-Diagnose)
+- **M10 – Modulare Dashboard-Strategie (PR #10):** `modules:` in der Strategy-Config (evcc/raumklima/hue/calendar/muell, Aliase wie „Mülltonnen“); Default = Auto-Erkennung aller Module (`detectModules`: raumklima über Platform `raumklima`, hue-Lichter, `calendar.*`, waste_collection_schedule-Sensoren); Raumklima-Modul nutzt `custom:raumklima-*`-Karten wenn registriert, sonst Entity-Liste
 
 ## Randbedingungen
 
