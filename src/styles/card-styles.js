@@ -13,6 +13,7 @@ export const cardStyles = css`
     border-radius: var(--evc-radius-card);
     padding: var(--evc-spacing-cardPadding);
     isolation: isolate;
+    container-type: inline-size;
     background: var(--evc-color-ha-cardBackground);
     transition: box-shadow .3s;
   }
@@ -530,4 +531,42 @@ export const cardStyles = css`
   .tk ha-icon { --mdc-icon-size: 17px; color: var(--tone); }
   .sep { color: var(--evc-color-ha-textSecondary); }
   @keyframes evc-tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* Kompakt-Modus: schmale Kacheln (z. B. 4er-Reihe im Hauptdashboard) werden flacher */
+  @container (max-width: 700px) {
+    ha-card { padding: 10px 12px; }
+    .name { font-size: .95rem; }
+    .chips { margin-top: 4px; gap: 4px; }
+    .chip { font-size: .7rem; padding: 3px 8px; gap: 4px; }
+    .chip ha-icon { --mdc-icon-size: 13px; }
+    .chip.compact { font-size: .66rem; padding: 2px 7px; }
+    .main { margin: 6px 0 0; }
+    .now { font-size: clamp(1.5rem, 12cqw, 2rem); }
+    .target { margin-top: 2px; font-size: .74rem; }
+    .stats { margin-top: 8px; gap: 6px; }
+    .stat { padding: 6px 8px; }
+    .stat .l { font-size: .58rem; }
+    .stat .v { font-size: .88rem; margin-top: 1px; }
+    .dial { width: min(150px, 72%); margin: 2px auto 0; aspect-ratio: 1 / 0.8; }
+    .dial .scale { display: none; }
+    .lps { grid-template-columns: 1fr; gap: 8px; margin-top: 6px; }
+    .modes { margin-top: 5px; gap: 4px; }
+    .mode { padding: 4px 2px; font-size: .7rem; }
+    .carwrap { margin-top: 6px; gap: 10px; }
+    .carimg { width: 84px; height: 56px; }
+    .caricon { --mdc-icon-size: 52px; }
+    .range { font-size: 1.15rem; margin-top: 2px; }
+    .evlist { gap: 5px; margin-top: 7px; }
+    .evrow { padding: 6px 9px; gap: 8px; }
+    .wrow { padding: 6px 9px; }
+    .lrow { padding: 6px 9px; }
+    .banner { margin-top: 8px; padding: 8px 10px; }
+    .tleg { margin-top: 7px; gap: 8px; font-size: .7rem; }
+    .rooms { gap: 7px; margin-top: 8px; }
+    .room { min-width: 88px; padding: 7px 9px; gap: 2px; }
+    .room ha-icon { --mdc-icon-size: 18px; }
+    .rname { font-size: .8rem; }
+    .rmeta { font-size: .7rem; gap: 6px; }
+    .helpbox { margin: 6px 0 2px; padding: 8px 10px; font-size: .8rem; }
+  }
 `;
