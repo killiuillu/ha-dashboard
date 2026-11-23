@@ -67,10 +67,12 @@ export class MainStrategyEditor extends LitElement {
         </label>
         <label class="fld">
           <span>${t("Kalender-Anordnung")}</span>
-          <select @change=${(ev) => this._fire({ calendar_columns: ev.target.value === "full" ? "full" : Number(ev.target.value) })}>
-            ${["3", "6", "full"].map((v) => {
-              const cur = [3, 6].includes(Number(cfg.calendar_columns)) ? String(Number(cfg.calendar_columns)) : "full";
-              return html`<option value="${v}" ?selected=${cur === v}>${v === "3" ? t("4 nebeneinander") : v === "6" ? t("2 nebeneinander") : t("vollbreit untereinander")}</option>`;
+          <select @change=${(ev) => this._fire({ calendar_columns: ev.target.value === "full" ? "full" : ev.target.value === "auto" ? undefined : Number(ev.target.value) })}>
+            ${["auto", "12", "24", "full"].map((v) => {
+              const raw = cfg.calendar_columns;
+              const num = Number(raw);
+              const cur = raw === "full" || num === 48 ? "full" : num === 3 || num === 12 ? "12" : num === 6 || num === 24 ? "24" : "auto";
+              return html`<option value="${v}" ?selected=${cur === v}>${v === "auto" ? t("Automatisch – volle Breite") : v === "12" ? t("4 nebeneinander") : v === "24" ? t("2 nebeneinander") : t("vollbreit untereinander")}</option>`;
             })}
           </select>
         </label>

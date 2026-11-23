@@ -155,4 +155,5 @@ export const EN = {
     "Shows the selected lights with status and brightness in room-climate style (on = warm, off = gray). Display only – nothing is switched.",
   "Termine der gewählten Kalender als Liste (optional gruppiert je Kalender, Anzahl begrenzbar) oder Monatsansicht":
     "Events of the selected calendars as list (optionally grouped per calendar, count limitable) or month view",
+  "Automatisch – volle Breite": "Automatic – full width",
 };
