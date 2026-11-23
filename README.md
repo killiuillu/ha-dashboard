@@ -89,6 +89,8 @@ entities:
   status: sensor.evcc_loadpoint_1_status
 ```
 
+Hinweis (M28): Die evcc-Kacheln (Übersicht, Ladepunkt, Fahrzeug, Energie & Kosten) stehen im modularen Dashboard **nebeneinander in einer Zeile** und füllen die Breite automatisch (4 Kacheln = je ⅓ der Abschnittsbreite). Ladesteuerung: `charge_control: true` in der Strategie bzw. Checkbox „Ladesteuerung“ im Dialog (Default: read-only).
+
 Kalender- und Mülltonnen-Karte (M13):
 
 ```yaml

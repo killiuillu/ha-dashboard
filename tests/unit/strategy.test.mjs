@@ -57,6 +57,11 @@ test("generate baut Übersicht- und Verlaufsansicht aus den Entities", async () 
   const lp = dash.views[0].sections[0].cards[1];
   assert.equal(lp.entities.loadpoints.length, 1);
   assert.equal(dash.views[1].sections[0].cards[0].type, "custom:evcc-history-card");
+  assert.ok(dash.views[0].sections[0].cards.every((c) => c.grid_options.columns === 12));
+  assert.equal(lp.control, undefined);
+  const dashCC = await EvccDashboardStrategy.generate({ prefix: "evcc", charge_control: true }, hass(states));
+  const lpCC = dashCC.views[0].sections[0].cards.find((c) => c.type === "custom:evcc-loadpoint-card");
+  assert.equal(lpCC.control, true);
 });
 
 test("generate ohne evcc-Entities liefert eine leere Übersicht mit Hinweis-Karte", async () => {

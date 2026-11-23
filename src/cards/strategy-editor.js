@@ -272,6 +272,12 @@ export class EvccStrategyEditor extends LitElement {
             </label>
           `;
         })}
+        ${this._selected.has("evcc")
+          ? html`<label class="opt">
+              <input type="checkbox" .checked=${cfg.charge_control === true} @change=${(ev) => this._fire({ charge_control: ev.target.checked ? true : undefined })} />
+              <span>${t("Ladesteuerung (Aus/Schnell/Smart) am Ladepunkt")}</span>
+            </label>`
+          : nothing}
         ${this._selected.has("calendar") ? this._renderCalendarOpts() : nothing}
         ${this._selected.has("hue") ? this._renderHueOpts() : nothing}
         ${this._selected.has("muell") ? this._renderWasteOpts() : nothing}

@@ -88,7 +88,12 @@ const cfgEntities = (cfg, fallback) => {
   return fallback;
 };
 
-export function evccCards(evcc, config, title) {
+export function autoGridCols(span, count, maxPerRow = 4) {
+  const per = Math.max(1, Math.min(count, maxPerRow));
+  return per <= 1 ? "full" : Math.floor((12 * span) / per);
+}
+
+export function evccCards(evcc, config, title, span = 3) {
   const overviewEntities = {};
   for (const k of LIVE_KEYS) if (evcc[k]) overviewEntities[k] = evcc[k];
   const cards = [];
@@ -121,7 +126,8 @@ export function evccCards(evcc, config, title) {
   if (Object.keys(energyEntities).length) {
     cards.push({ type: "custom:evcc-energy-card", title: t("Energie & Kosten"), entities: energyEntities, grid_options: { columns: "full" } });
   }
-  return cards;
+  const cols = autoGridCols(span, cards.length);
+  return cards.map((c) => ({ ...c, grid_options: { columns: cols } }));
 }
 
 function evccHistoryEntities(evcc) {
