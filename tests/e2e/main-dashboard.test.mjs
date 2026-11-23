@@ -68,7 +68,11 @@ test("Ticker-Karte: Laufband mit Müll/Paket/Terminen (Track doppelt für nahtlo
   const texts = await card.locator(".tk").allTextContents();
   const joined = texts.join(" ");
   expect(joined).toContain("Papier");
-  expect(joined).toContain("DHL Paket");
+  expect(joined).toContain("DHL: unterwegs");
+  expect(joined).toContain("Hermes: 1 Paket");
+  expect(joined).toContain("Amazon: 2 Pakete");
+  expect(joined).not.toContain("GLS");
+  expect(joined).not.toContain("DPD");
   expect(joined).toContain("Zahnarzt");
   expect(await card.locator(".tk").count()).toBeGreaterThanOrEqual(6);
   const anim = await card.locator(".track").evaluate((el) => getComputedStyle(el).animationName);

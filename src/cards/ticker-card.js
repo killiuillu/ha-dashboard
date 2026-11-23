@@ -2,8 +2,9 @@ import { html, nothing } from "lit";
 import { EvccBaseCard } from "./base-card.js";
 import { t } from "../i18n/index.js";
 import { toneVar } from "../tokens/apply-tokens.js";
-import { tickerItems, tickerCalendarItems } from "../util/ticker.js";
+import { tickerItems, tickerCalendarItems, packageSensors } from "../util/ticker.js";
 import { dayKey } from "../util/calendar.js";
+import { sig } from "../util/hass.js";
 
 export class ModularTickerCard extends EvccBaseCard {
   static properties = { ...EvccBaseCard.properties, _help: { state: true }, _items: { state: true } };
@@ -35,7 +36,7 @@ export class ModularTickerCard extends EvccBaseCard {
   willUpdate(changed) {
     if (!this.hass || !changed.has("hass")) return;
     const now = new Date();
-    const key = `${dayKey(now)}|${this._cals.join(",")}|${this._days}`;
+    const key = `${dayKey(now)}|${this._cals.join(",")}|${this._days}|${sig(this.hass, packageSensors(this.hass))}`;
     if (key === this.__tickKey) return;
     this.__tickKey = key;
     const base = tickerItems(this.hass, { days: this._days, now });

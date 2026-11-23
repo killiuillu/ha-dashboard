@@ -129,6 +129,7 @@ export const EN = {
   "Laufband mit Ereignissen: Termine, Müll bald fällig, erwartete Pakete":
     "Ticker with events: appointments, waste due soon, expected packages",
   Paket: "Package",
+  Pakete: "packages",
   erwartet: "expected",
   Hauptdashboard: "Main dashboard",
   "Hauptdashboard (Tablet)": "Main dashboard (tablet)",
