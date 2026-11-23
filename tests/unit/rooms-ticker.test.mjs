@@ -57,6 +57,16 @@ test("tickerItems: Müll <= Schwelle + Pakete, nur wenn wirklich Pakete kommen",
     "sensor.dpd_lieferung",
   ]);
 });
+test("tickerItems: niedrige Batterie (<= Schwelle) als erstes Item, hohe nicht", () => {
+  const now = new Date();
+  const low = tickerItems(hass, { days: 2, now, battery_soc: "sensor.evcc_battery_soc", battery_threshold: 80 });
+  assert.ok(low[0].text.includes("Batterie-Ladestand") && low[0].text.includes("67"));
+  assert.equal(low[0].icon, "mdi:battery-alert");
+  const high = tickerItems(hass, { days: 2, now, battery_soc: "sensor.evcc_battery_soc", battery_threshold: 20 });
+  assert.ok(!high.some((i) => i.text.includes("Batterie")));
+  assert.ok(!tickerItems(hass, { days: 2, now }).some((i) => i.text.includes("Batterie")));
+});
+
 
 test("tickerCalendarItems: Termine heute/morgen aus Mock-API", async () => {
   const items = await tickerCalendarItems(hass, ["calendar.familie"], new Date());
@@ -124,9 +134,12 @@ test("MainDashboardStrategy.generate: Tablet-Layout (Räume oben, evcc, Kalender
   assert.equal(ticker.type, "custom:modular-ticker-card");
   assert.equal(ticker.grid_options.columns, "full");
   assert.equal(ticker.events, undefined);
-  const dashEv = await MainDashboardStrategy.generate({ prefix: "evcc", ticker_events: true }, hass);
+  assert.equal(ticker.battery_soc, "sensor.evcc_battery_soc");
+  assert.equal(ticker.battery_threshold, undefined);
+  const dashEv = await MainDashboardStrategy.generate({ prefix: "evcc", ticker_events: true, ticker_battery_threshold: 30 }, hass);
   const tickerEv = dashEv.views[0].sections[3].cards[0];
   assert.equal(tickerEv.events, true);
+  assert.equal(tickerEv.battery_threshold, 30);
 
   assert.ok(dash.views.some((v) => v.path === "verlauf"));
 });

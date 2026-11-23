@@ -85,6 +85,10 @@ export class MainDashboardStrategy extends StrategyBase {
             type: "custom:modular-ticker-card",
             title: t("Ereignisse"),
             ...(config.ticker_events === true ? { events: true } : {}),
+            ...(det.evcc.battery_soc ? { battery_soc: det.evcc.battery_soc } : {}),
+            ...(Number.isFinite(Number(config.ticker_battery_threshold)) && Number(config.ticker_battery_threshold) >= 0
+              ? { battery_threshold: Math.floor(Number(config.ticker_battery_threshold)) }
+              : {}),
             grid_options: { columns: "full" },
           },
         ],

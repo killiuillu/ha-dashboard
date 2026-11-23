@@ -162,7 +162,7 @@ eigener Konfigurator mit Titel/Präfix/Auto-Bild/Ticker/Räume-steuerbar):
 - **Mitte:** kompakte evcc-Zeile – Übersicht, Ladepunkt, Fahrzeug/Reichweite **nebeneinander** (gleiche Breite je Kachel, M28/M30). **Energie & Kosten** liegt auf der zweiten Ansicht **„Verlauf“** (dort auch der Tagesverlauf), vollbreit (M31).
 - **Darunter:** eine Kalender-Kachel **pro Kalender** nebeneinander, die Reihe füllt die volle Breite (Default „Automatisch“; 4 Kalender = 4 pro Zeile, 2 Kalender = 2×½; je `view: list`, `max: 5`). Anordnung über `calendar_columns:` bzw. Select im Dialog; Auswahl über `calendars:` bzw. Checkboxen im Dialog.
 - **Ganz unten:** `custom:modular-ticker-card` – Laufband (links→rechts, pausiert bei Hover) mit
-  Müll bald fällig (`days <= 2`) und erwarteten Paketen – **keine Termine** im Laufband (Termine nur opt-in: `events: true` an der Ticker-Karte bzw. `ticker_events: true` in `custom:main`; M32). Paket-Sensoren werden an
+  Müll bald fällig (`days <= 2`) und erwarteten Paketen, **niedriger Batteriestand** (`battery_soc` + `battery_threshold`, Default 20 %; in `custom:main` automatisch mit `ticker_battery_threshold` schwellenwert) – **keine Termine** im Laufband (Termine nur opt-in: `events: true` an der Ticker-Karte bzw. `ticker_events: true` in `custom:main`; M32). Paket-Sensoren werden an
   der Entity-ID erkannt (DHL, GLS, Hermes, DPD, UPS, Amazon, FedEx bzw. paket/package/lieferung/delivery) und
   erscheinen **nur, wenn wirklich Pakete kommen** (State eine Zahl > 0 bzw. ein Status ungleich
   0/keine/unavailable/geliefert; alternativ Anzahl über Attribute wie `expected_count` oder eine

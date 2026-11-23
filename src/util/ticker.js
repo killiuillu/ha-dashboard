@@ -1,5 +1,5 @@
 import { t } from "../i18n/index.js";
-import { num } from "./format.js";
+import { fmtInt, num } from "./format.js";
 import { stateOf } from "./hass.js";
 import { detectWasteSensors, parseWasteEntities, wasteEntries, daysLabel } from "./waste.js";
 import { fetchCalendarEvents, parseCalendarEntities, fmtEventTime } from "./calendar.js";
@@ -74,8 +74,19 @@ export function packageEntries(hass) {
     .filter(Boolean);
 }
 
-export function tickerItems(hass, { days = 2, now = new Date() } = {}) {
+export function batteryItem(hass, entity, threshold = 20) {
+  if (!entity) return null;
+  const s = stateOf(hass, entity);
+  const soc = num(s);
+  if (s === null || soc === null || soc > threshold) return null;
+  const name = s.attributes?.friendly_name || t("Batterie");
+  return { icon: "mdi:battery-alert", text: `${name}: ${fmtInt(soc)} %` };
+}
+
+export function tickerItems(hass, { days = 2, now = new Date(), battery_soc, battery_threshold } = {}) {
   const items = [];
+  const b = batteryItem(hass, battery_soc, battery_threshold ?? 20);
+  if (b) items.push(b);
   for (const e of wasteEntries(hass, parseWasteEntities(detectWasteSensors(hass)), now)) {
     if (e.days !== null && e.days <= days) {
       items.push({ icon: e.icon, text: `${e.name}: ${daysLabel(e.days)}` });

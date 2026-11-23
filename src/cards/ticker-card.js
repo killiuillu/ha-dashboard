@@ -37,13 +37,22 @@ export class ModularTickerCard extends EvccBaseCard {
     return this._config?.events === true;
   }
 
+  get _batterySoc() {
+    return typeof this._config?.battery_soc === "string" ? this._config.battery_soc : null;
+  }
+
+  get _batteryThreshold() {
+    const n = Number(this._config?.battery_threshold);
+    return Number.isFinite(n) && n >= 0 ? Math.floor(n) : 20;
+  }
+
   willUpdate(changed) {
     if (!this.hass || !changed.has("hass")) return;
     const now = new Date();
-    const key = `${dayKey(now)}|${this._events ? this._cals.join(",") : "-"}|${this._days}|${sig(this.hass, packageSensors(this.hass))}`;
+    const key = `${dayKey(now)}|${this._events ? this._cals.join(",") : "-"}|${this._days}|${this._batterySoc}|${this._batteryThreshold}|${sig(this.hass, [...packageSensors(this.hass), ...(this._batterySoc ? [this._batterySoc] : [])])}`;
     if (key === this.__tickKey) return;
     this.__tickKey = key;
-    const base = tickerItems(this.hass, { days: this._days, now });
+    const base = tickerItems(this.hass, { days: this._days, now, battery_soc: this._batterySoc, battery_threshold: this._batteryThreshold });
     if (!this._events) {
       this._items = [...base];
       return;
