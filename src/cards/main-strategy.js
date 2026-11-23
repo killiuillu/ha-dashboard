@@ -39,9 +39,16 @@ export class MainDashboardStrategy extends StrategyBase {
     });
 
     const hasEvcc = Object.values(det.evcc || {}).some((v) => typeof v === "string") || (det.evcc?.loadpoints || []).length;
+    let energyCard = null;
     if (hasEvcc) {
-      const cards = evccCards(det.evcc, config, "evcc", 4);
-      sections.push({ type: "grid", column_span: 4, title: "evcc", cards });
+      const all = evccCards(det.evcc, config, "evcc", 4);
+      energyCard = all.find((c) => c.type === "custom:evcc-energy-card") || null;
+      let cards = all.filter((c) => c.type !== "custom:evcc-energy-card");
+      if (cards.length) {
+        const cols = autoGridCols(4, cards.length);
+        cards = cards.map((c) => ({ ...c, grid_options: { columns: cols } }));
+        sections.push({ type: "grid", column_span: 4, title: "evcc", cards });
+      }
     }
 
     const allCals = Object.keys(hass?.states || {}).filter((id) => id.startsWith("calendar."));
@@ -91,7 +98,12 @@ export class MainDashboardStrategy extends StrategyBase {
     const histKeys = ["pv_power", "grid_power", "battery_power", "home_power"];
     const hist = {};
     for (const k of histKeys) if (det.evcc[k]) hist[k] = det.evcc[k];
+    const histCards = [];
     if (Object.keys(hist).length) {
+      histCards.push({ type: "custom:evcc-history-card", title: t("Tagesverlauf"), entities: hist, grid_options: { columns: "full" } });
+    }
+    if (energyCard) histCards.push({ ...energyCard, grid_options: { columns: "full" } });
+    if (histCards.length) {
       views.push({
         title: t("Verlauf"),
         path: "verlauf",
@@ -102,7 +114,7 @@ export class MainDashboardStrategy extends StrategyBase {
           {
             type: "grid",
             column_span: 4,
-            cards: [{ type: "custom:evcc-history-card", title: t("Tagesverlauf"), entities: hist, grid_options: { columns: "full" } }],
+            cards: histCards,
           },
         ],
       });

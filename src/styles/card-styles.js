@@ -3,12 +3,14 @@ import { css } from "lit";
 export const cardStyles = css`
   :host {
     display: block;
+    height: 100%;
     font-family: var(--evc-typography-fontFamily, inherit);
   }
   ha-card {
     display: block;
     position: relative;
     box-sizing: border-box;
+    height: 100%;
     overflow: hidden;
     border-radius: var(--evc-radius-card);
     padding: var(--evc-spacing-cardPadding);

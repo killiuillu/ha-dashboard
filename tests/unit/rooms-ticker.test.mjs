@@ -86,16 +86,22 @@ test("MainDashboardStrategy.generate: Tablet-Layout (Räume oben, evcc, Kalender
   assert.ok(evccTypes.includes("custom:evcc-overview-card"));
   assert.ok(evccTypes.includes("custom:evcc-loadpoint-card"));
   assert.ok(evccTypes.includes("custom:evcc-vehicle-card"));
+  assert.ok(!evccTypes.includes("custom:evcc-energy-card"));
   const overview = view.sections[1].cards.find((c) => c.type === "custom:evcc-overview-card");
-  assert.equal(overview.grid_options.columns, 12);
-  assert.equal(view.sections[1].cards.find((c) => c.type === "custom:evcc-loadpoint-card").grid_options.columns, 12);
-  assert.equal(view.sections[1].cards.find((c) => c.type === "custom:evcc-vehicle-card").grid_options.columns, 12);
-  assert.equal(view.sections[1].cards.find((c) => c.type === "custom:evcc-energy-card").grid_options.columns, 12);
+  assert.equal(overview.grid_options.columns, 16);
+  assert.equal(view.sections[1].cards.find((c) => c.type === "custom:evcc-loadpoint-card").grid_options.columns, 16);
+  assert.equal(view.sections[1].cards.find((c) => c.type === "custom:evcc-vehicle-card").grid_options.columns, 16);
   assert.equal(view.sections[1].cards.find((c) => c.type === "custom:evcc-loadpoint-card").control, undefined);
   const dashCC = await MainDashboardStrategy.generate({ prefix: "evcc", charge_control: true }, hass);
   const lpCard = dashCC.views[0].sections[1].cards.find((c) => c.type === "custom:evcc-loadpoint-card");
   assert.equal(lpCard.control, true);
   assert.equal(lpCard.entities.loadpoints[0].charge_mode, "select.evcc_loadpoint_1_charge_mode");
+  const verlauf = dash.views.find((v) => v.path === "verlauf");
+  const verlaufTypes = verlauf.sections[0].cards.map((c) => c.type);
+  assert.ok(verlaufTypes.includes("custom:evcc-history-card"));
+  const energyV = verlauf.sections[0].cards.find((c) => c.type === "custom:evcc-energy-card");
+  assert.ok(energyV);
+  assert.equal(energyV.grid_options.columns, "full");
 
   const calCards = view.sections[2].cards;
   assert.equal(calCards.length, 2);
