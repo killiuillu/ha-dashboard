@@ -210,7 +210,7 @@ strategy:
 ```
 
 Die Strategie `ll-strategy-dashboard-modular` (im UI-Dialog: **„Modulares Dashboard“**) erkennt
-`sensor.<prefix>_*` (PV/Netz/Haus/Batterie, Tageswerte, Preis, `loadpoint_<n>_*`) und erzeugt die Views
+`sensor.<prefix>_*` (PV/Netz/Haus/Batterie, Tageswerte, Preis) und Ladepunkte automatisch – erkannt werden `sensor|select.<prefix>_<loadpoint>_(charge_power|vehicle_soc|status|range|vehicle_range|charge_mode|mode)` mit beliebigem Loadpoint-Slug (z. B. `sensor.evcc_wallbox_charge_power`, `select.evcc_wallbox_mode` aus ha-evcc; auch `loadpoint_<n>_` und ohne Slug `sensor.evcc_charge_power`). Manueller Override pro Strategie: `loadpoints: [{ name, charge_power, vehicle_soc, status, charge_mode }]` (Top-Level oder unter `evcc:`). Lademodus-Steuerung: `charge_control: true` bzw. Checkbox „Ladesteuerung“ (Karte: `control: true` + `charge_mode`).
 **Übersicht** und **Verlauf** (Tagesverlauf). Reine Anzeige. Der alte Typ `custom:evcc`
 (`ll-strategy-dashboard-evcc`) bleibt als Alias definiert – bestehende YAML-Dashboards laufen weiter.
 

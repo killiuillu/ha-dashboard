@@ -15,14 +15,26 @@ export function detectEvcc(states, prefix = "evcc") {
   for (const k of LIVE_KEYS) out[k] = find(k);
   for (const k of TODAY_KEYS) out[k] = find(k);
   const lps = {};
-  const re = new RegExp(`^(?:sensor|select)\\.${prefix}_loadpoint_(\\d+)_(charge_power|vehicle_soc|status|range|vehicle_range|charge_mode)$`);
+  const getLp = (slug) => (lps[slug] = lps[slug] || { name: slug ? `${t("Ladepunkt")} ${slug.replace(/_/g, " ")}` : t("Ladepunkt") });
+  const re = new RegExp(`^(sensor|select)\\.${prefix}_(?:loadpoint_)?([A-Za-z0-9_]+?)_(charge_power|vehicle_soc|status|range|vehicle_range|charge_mode|mode)$`);
   for (const id of Object.keys(states)) {
     const m = id.match(re);
     if (!m) continue;
-    const [, idx, rawKey] = m;
-    const key = rawKey === "vehicle_range" ? "range" : rawKey;
-    lps[idx] = lps[idx] || { name: `${t("Ladepunkt")} ${idx}` };
-    lps[idx][key] = id;
+    const [, domain, slug, rawKey] = m;
+    let key = rawKey === "vehicle_range" ? "range" : rawKey;
+    if (key === "mode") {
+      if (domain !== "select") continue;
+      key = "charge_mode";
+    }
+    getLp(slug)[key] = id;
+  }
+  for (const k of ["charge_power", "vehicle_soc", "status", "range", "vehicle_range"]) {
+    const exact = `sensor.${prefix}_${k}`;
+    if (states[exact]) getLp("")[k === "vehicle_range" ? "range" : k] = exact;
+  }
+  for (const k of ["charge_mode", "mode"]) {
+    const exact = `select.${prefix}_${k}`;
+    if (states[exact]) getLp("").charge_mode = exact;
   }
   out.loadpoints = Object.values(lps).filter((lp) => lp.charge_power);
   return out;
@@ -101,15 +113,22 @@ export function evccCards(evcc, config, title, span = 3) {
     cards.push({ type: "custom:evcc-overview-card", title, entities: overviewEntities, grid_options: { columns: "full" } });
   }
   const lpControl = config?.charge_control === true || config?.evcc?.control === true;
-  if (evcc.loadpoints.length) {
+  const cfgLps =
+    Array.isArray(config?.loadpoints) && config.loadpoints.length
+      ? config.loadpoints
+      : config?.evcc && Array.isArray(config.evcc.loadpoints) && config.evcc.loadpoints.length
+        ? config.evcc.loadpoints
+        : null;
+  const lps = cfgLps || evcc.loadpoints;
+  if (lps.length) {
     cards.push({
       type: "custom:evcc-loadpoint-card",
-      title: evcc.loadpoints.length > 1 ? t("Ladepunkte") : t("Ladepunkt"),
-      entities: { loadpoints: evcc.loadpoints },
+      title: lps.length > 1 ? t("Ladepunkte") : t("Ladepunkt"),
+      entities: { loadpoints: lps },
       ...(lpControl ? { control: true } : {}),
       grid_options: { columns: "full" },
     });
-    const veh = evcc.loadpoints.find((lp) => lp.vehicle_soc);
+    const veh = lps.find((lp) => lp.vehicle_soc);
     if (veh) {
       cards.push({
         type: "custom:evcc-vehicle-card",

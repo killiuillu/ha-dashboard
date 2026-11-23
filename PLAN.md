@@ -157,6 +157,8 @@ strategy:
 
 - **M28 – Kompakte evcc-Zeile auch im modularen Dashboard + Ladesteuerung dort:** `autoGridCols(span, count)` in strategy.js – evcc-Kacheln nebeneinander, Breite füllt automatisch (modular: Abschnitt span 3 ⇒ 36 Grid-Spalten, 4 Kacheln = je 9; main: span 4 ⇒ 48, je 12); `evccCards(evcc, config, title, span)`; main-strategy nutzt dasselbe (cols-Map entfernt); Editor `evcc-strategy-editor` bekommt Checkbox „Ladesteuerung“ (nur bei evcc-Modul) → `charge_control`; Unit- (modular cols 12 bei 3 Kacheln, control-Passthrough) + E2E-Tests; README.
 
+- **M29 – Ladepunkt-Erkennung auf beliebige Slugs erweitert + YAML-Override:** `detectEvcc` matcht jetzt `sensor|select.<prefix>_(loadpoint_)?<slug>_(charge_power|vehicle_soc|status|range|vehicle_range|charge_mode|mode)` (ha-evcc nennt Entities z. B. `select.evcc_wallbox_mode`), plus Fallback ohne Slug (`sensor.evcc_charge_power`); `mode` (select) wird zu `charge_mode` gemappt; `evccCards` respektiert `loadpoints:`-Override (Top-Level oder unter `evcc:`); Karte akzeptiert `mode` als Alias für `charge_mode`; Unit-Tests; README.
+
 ## Randbedingungen
 
 - UI-Texte Deutsch, i18n wie Raumklima (de als Schlüssel, `en.js`-Tabelle, `t()`/`tmap()`, Sprache folgt `hass.locale`)

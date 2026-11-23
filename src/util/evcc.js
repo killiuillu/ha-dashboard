@@ -35,7 +35,11 @@ export function normalizeLoadpoints(cfg) {
   const em = (cfg && cfg.entities) || {};
   if (Array.isArray(em.loadpoints)) return em.loadpoints.filter((x) => x && typeof x === "object");
   const lp = {};
-  for (const k of ["charge_power", "vehicle_soc", "status", "charge_mode"]) if (em[k]) lp[k] = em[k];
+  for (const k of ["charge_power", "vehicle_soc", "status", "charge_mode", "mode"]) if (em[k]) lp[k] = em[k];
+  if (lp.mode && !lp.charge_mode) {
+    lp.charge_mode = lp.mode;
+    delete lp.mode;
+  }
   if (!Object.keys(lp).length) return [];
   return [{ name: (cfg && cfg.name) || "", ...lp }];
 }

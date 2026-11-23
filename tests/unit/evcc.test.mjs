@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { setLang } from "../../src/i18n/index.js";
-import { chargeModeMap, modeActive, overviewStatus, splitPower } from "../../src/util/evcc.js";
+import { chargeModeMap, modeActive, normalizeLoadpoints, overviewStatus, splitPower } from "../../src/util/evcc.js";
 import { detectEvcc } from "../../src/cards/strategy.js";
 import { readFileSync } from "node:fs";
 
@@ -53,4 +53,10 @@ test("chargeModeMap mappt Optionen auf Aus/Schnell/Smart (off/now/pv), minpv nic
   const none = chargeModeMap(hass, "select.unbekannt");
   assert.equal(none.off, null);
   assert.equal(none.smart, null);
+});
+
+test("normalizeLoadpoints: mode wird zu charge_mode gemappt", () => {
+  const lps = normalizeLoadpoints({ entities: { charge_power: "sensor.x", mode: "select.evcc_mode" } });
+  assert.equal(lps[0].charge_mode, "select.evcc_mode");
+  assert.equal(lps[0].mode, undefined);
 });

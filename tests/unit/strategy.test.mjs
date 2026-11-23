@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { setLang } from "../../src/i18n/index.js";
-import { EvccDashboardStrategy, detectEvcc } from "../../src/cards/strategy.js";
+import { EvccDashboardStrategy, detectEvcc, evccCards } from "../../src/cards/strategy.js";
 
 const hass = (states) => ({ states, locale: { language: "de" } });
 
@@ -31,6 +31,40 @@ test("detectEvcc findet Live-/Tages-Entities und Ladepunkte am Präfix", () => {
   assert.equal(det.loadpoints[0].charge_power, "sensor.evcc_loadpoint_1_charge_power");
   assert.equal(det.loadpoints[0].vehicle_soc, "sensor.evcc_loadpoint_1_vehicle_soc");
   assert.equal(det.loadpoints[1].name, "Ladepunkt 2");
+});
+
+test("detectEvcc: beliebiger Loadpoint-Slug, select ..._mode als charge_mode, Fallback ohne Slug", () => {
+  const states = {
+    "sensor.evcc_pv_power": {},
+    "sensor.evcc_wallbox_charge_power": {},
+    "sensor.evcc_wallbox_vehicle_soc": {},
+    "sensor.evcc_wallbox_status": {},
+    "select.evcc_wallbox_mode": {},
+    "sensor.evcc_charge_power": {},
+    "sensor.evcc_battery_soc": {},
+  };
+  const det = detectEvcc(states, "evcc");
+  assert.equal(det.loadpoints.length, 2);
+  const wb = det.loadpoints.find((l) => l.charge_power === "sensor.evcc_wallbox_charge_power");
+  assert.equal(wb.name, "Ladepunkt wallbox");
+  assert.equal(wb.charge_mode, "select.evcc_wallbox_mode");
+  assert.equal(wb.vehicle_soc, "sensor.evcc_wallbox_vehicle_soc");
+  const plain = det.loadpoints.find((l) => l.charge_power === "sensor.evcc_charge_power");
+  assert.equal(plain.name, "Ladepunkt");
+  assert.equal(det.battery_soc, "sensor.evcc_battery_soc");
+});
+
+test("evccCards: loadpoints-Override aus der Config gewinnt vor Auto-Erkennung", () => {
+  setLang({ language: "de" });
+  const cards = evccCards(
+    { loadpoints: [{ name: "Auto", charge_power: "sensor.auto_detected" }] },
+    { loadpoints: [{ name: "Manuell", charge_power: "sensor.manuell", charge_mode: "select.manuell_mode" }] },
+    "evcc",
+  );
+  const lp = cards.find((c) => c.type === "custom:evcc-loadpoint-card");
+  assert.equal(lp.entities.loadpoints.length, 1);
+  assert.equal(lp.entities.loadpoints[0].charge_power, "sensor.manuell");
+  assert.equal(lp.entities.loadpoints[0].charge_mode, "select.manuell_mode");
 });
 
 test("generate baut Übersicht- und Verlaufsansicht aus den Entities", async () => {
