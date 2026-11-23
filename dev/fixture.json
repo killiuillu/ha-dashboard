@@ -205,6 +205,35 @@
       },
       "last_changed": "2026-11-21T12:00:00+00:00"
     },
+    "sensor.hermes_paket": {
+      "state": "1",
+      "attributes": {
+        "friendly_name": "Hermes Paket",
+        "expected_date": "2026-11-25"
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "sensor.amazon_packages": {
+      "state": "2",
+      "attributes": {
+        "friendly_name": "Amazon Pakete"
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "sensor.gls_pakete": {
+      "state": "0",
+      "attributes": {
+        "friendly_name": "GLS Pakete"
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "sensor.dpd_lieferung": {
+      "state": "keine",
+      "attributes": {
+        "friendly_name": "DPD Lieferung"
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
     "sensor.schlafzimmer_temperatur": {
       "state": "21.5",
       "attributes": {
@@ -346,6 +375,26 @@
     },
     "sensor.dhl_paket_1": {
       "entity_id": "sensor.dhl_paket_1",
+      "platform": "rest",
+      "domain": "sensor"
+    },
+    "sensor.hermes_paket": {
+      "entity_id": "sensor.hermes_paket",
+      "platform": "rest",
+      "domain": "sensor"
+    },
+    "sensor.amazon_packages": {
+      "entity_id": "sensor.amazon_packages",
+      "platform": "rest",
+      "domain": "sensor"
+    },
+    "sensor.gls_pakete": {
+      "entity_id": "sensor.gls_pakete",
+      "platform": "rest",
+      "domain": "sensor"
+    },
+    "sensor.dpd_lieferung": {
+      "entity_id": "sensor.dpd_lieferung",
       "platform": "rest",
       "domain": "sensor"
     },

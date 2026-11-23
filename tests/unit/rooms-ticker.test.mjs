@@ -36,7 +36,7 @@ test("detectAreas: Räume mit Lichtern, Klima, Media, Temperatur und lightsOn", 
   assert.equal(schlafzimmer.temp, 21.5);
 });
 
-test("tickerItems: Müll <= Schwelle + Pakete, unavailable raus", () => {
+test("tickerItems: Müll <= Schwelle + Pakete, nur wenn wirklich Pakete kommen", () => {
   const now = new Date();
   const items = tickerItems(hass, { days: 2, now });
   const texts = items.map((i) => i.text).join(" | ");
@@ -44,9 +44,18 @@ test("tickerItems: Müll <= Schwelle + Pakete, unavailable raus", () => {
   assert.ok(texts.includes("Biotonne: Morgen"));
   assert.ok(texts.includes("Restmüll: in 2 Tagen"));
   assert.ok(!texts.includes("Gelbe Tonne"));
-  assert.ok(texts.includes("DHL Paket"));
-  assert.ok(texts.includes("unterwegs"));
-  assert.deepEqual(packageSensors(hass), ["sensor.dhl_paket_1"]);
+  assert.ok(texts.includes("DHL: unterwegs (erwartet 2026-11-24)"));
+  assert.ok(texts.includes("Hermes: 1 Paket (erwartet 2026-11-25)"));
+  assert.ok(texts.includes("Amazon: 2 Pakete"));
+  assert.ok(!texts.includes("GLS"));
+  assert.ok(!texts.includes("DPD"));
+  assert.deepEqual(packageSensors(hass), [
+    "sensor.dhl_paket_1",
+    "sensor.hermes_paket",
+    "sensor.amazon_packages",
+    "sensor.gls_pakete",
+    "sensor.dpd_lieferung",
+  ]);
 });
 
 test("tickerCalendarItems: Termine heute/morgen aus Mock-API", async () => {
