@@ -91,6 +91,8 @@ entities:
 
 Hinweis (M28): Die evcc-Kacheln (Übersicht, Ladepunkt, Fahrzeug, Energie & Kosten) stehen im modularen Dashboard **nebeneinander in einer Zeile** und füllen die Breite automatisch (4 Kacheln = je ⅓ der Abschnittsbreite). Ladesteuerung: `charge_control: true` in der Strategie bzw. Checkbox „Ladesteuerung“ im Dialog (Default: read-only).
 
+Hinweis (M30): Kacheln in schmalen Spalten (Container ≤ 700px, z. B. die evcc-4er-Reihe oder Kalender-Reihe im Hauptdashboard) schalten automatisch in einen **kompakten, flacheren Modus** (kleinere Werte/Paddings, kleinerer Dial, kompaktere Listen) – über `container-type: inline-size` + `@container` in `card-styles.js`. Gleiche Breite je Kachel automatisch über `autoGridCols`, gleiche Höhe je Zeile über das HA-Grid (Stretch).
+
 Kalender- und Mülltonnen-Karte (M13):
 
 ```yaml

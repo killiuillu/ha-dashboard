@@ -159,6 +159,8 @@ strategy:
 
 - **M29 – Ladepunkt-Erkennung auf beliebige Slugs erweitert + YAML-Override:** `detectEvcc` matcht jetzt `sensor|select.<prefix>_(loadpoint_)?<slug>_(charge_power|vehicle_soc|status|range|vehicle_range|charge_mode|mode)` (ha-evcc nennt Entities z. B. `select.evcc_wallbox_mode`), plus Fallback ohne Slug (`sensor.evcc_charge_power`); `mode` (select) wird zu `charge_mode` gemappt; `evccCards` respektiert `loadpoints:`-Override (Top-Level oder unter `evcc:`); Karte akzeptiert `mode` als Alias für `charge_mode`; Unit-Tests; README.
 
+- **M30 – Kacheln einheitlich breit & flach:** `ha-card` bekommt `container-type: inline-size`, `@container (max-width: 700px)` in card-styles.js schaltet kompakten Modus (kleinere Paddings/Schriftwerte, `.now` über cqw, Dial 150px, kompakte Chips/Stats/Listen/Modus-Knöpfe/Auto-Bild); Breite je Kachel einheitlich über `autoGridCols` (M28), Höhe je Zeile einheitlich über HA-Grid-Stretch. README.
+
 ## Randbedingungen
 
 - UI-Texte Deutsch, i18n wie Raumklima (de als Schlüssel, `en.js`-Tabelle, `t()`/`tmap()`, Sprache folgt `hass.locale`)
