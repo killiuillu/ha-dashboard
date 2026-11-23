@@ -74,19 +74,30 @@ export function packageEntries(hass) {
     .filter(Boolean);
 }
 
-export function batteryItem(hass, entity, threshold = 20) {
-  if (!entity) return null;
-  const s = stateOf(hass, entity);
-  const soc = num(s);
-  if (s === null || soc === null || soc > threshold) return null;
-  const name = s.attributes?.friendly_name || t("Batterie");
-  return { icon: "mdi:battery-alert", text: `${name}: ${fmtInt(soc)} %` };
+export function batterySensors(hass) {
+  return Object.keys(hass?.states || {})
+    .filter((id) => id.startsWith("sensor.") && hass.states[id]?.attributes?.device_class === "battery")
+    .slice(0, 20);
 }
 
-export function tickerItems(hass, { days = 2, now = new Date(), battery_soc, battery_threshold } = {}) {
+export function batteryItems(hass, { threshold = 20, all = true, list = [] } = {}) {
+  const ids = all ? batterySensors(hass) : [];
+  for (const e of list) if (e && !ids.includes(e)) ids.push(e);
+  const out = [];
+  for (const id of ids) {
+    const s = stateOf(hass, id);
+    const soc = num(s);
+    if (s === null || soc === null || soc > threshold) continue;
+    const name = s.attributes?.friendly_name || id.replace(/^sensor\./, "");
+    out.push({ icon: soc <= 10 ? "mdi:battery-low" : "mdi:battery-alert", text: `${name}: ${fmtInt(soc)} %` });
+  }
+  return out;
+}
+
+export function tickerItems(hass, { days = 2, now = new Date(), battery_soc, battery_socs, battery_threshold, battery_all = true } = {}) {
   const items = [];
-  const b = batteryItem(hass, battery_soc, battery_threshold ?? 20);
-  if (b) items.push(b);
+  const list = Array.isArray(battery_socs) && battery_socs.length ? battery_socs : battery_soc ? [battery_soc] : [];
+  items.push(...batteryItems(hass, { threshold: battery_threshold ?? 20, all: battery_all, list }));
   for (const e of wasteEntries(hass, parseWasteEntities(detectWasteSensors(hass)), now)) {
     if (e.days !== null && e.days <= days) {
       items.push({ icon: e.icon, text: `${e.name}: ${daysLabel(e.days)}` });

@@ -28,7 +28,8 @@
       "state": "67",
       "attributes": {
         "unit_of_measurement": "%",
-        "friendly_name": "Batterie-Ladestand"
+        "friendly_name": "Batterie-Ladestand",
+        "device_class": "battery"
       },
       "last_changed": "2026-11-21T12:00:00+00:00"
     },
@@ -253,6 +254,15 @@
           "pv"
         ],
         "friendly_name": "Ladepunkt 1 Lademodus"
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "sensor.haustuer_batterie": {
+      "state": "12",
+      "attributes": {
+        "unit_of_measurement": "%",
+        "device_class": "battery",
+        "friendly_name": "Haustür"
       },
       "last_changed": "2026-11-21T12:00:00+00:00"
     }

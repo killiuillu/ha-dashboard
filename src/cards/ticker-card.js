@@ -2,7 +2,7 @@ import { html, nothing } from "lit";
 import { EvccBaseCard } from "./base-card.js";
 import { t } from "../i18n/index.js";
 import { toneVar } from "../tokens/apply-tokens.js";
-import { tickerItems, tickerCalendarItems, packageSensors } from "../util/ticker.js";
+import { tickerItems, tickerCalendarItems, packageSensors, batterySensors } from "../util/ticker.js";
 import { dayKey } from "../util/calendar.js";
 import { sig } from "../util/hass.js";
 
@@ -37,8 +37,14 @@ export class ModularTickerCard extends EvccBaseCard {
     return this._config?.events === true;
   }
 
-  get _batterySoc() {
-    return typeof this._config?.battery_soc === "string" ? this._config.battery_soc : null;
+  get _batteryAll() {
+    return this._config?.battery_all !== false;
+  }
+
+  get _batteryList() {
+    const c = this._config || {};
+    if (Array.isArray(c.battery_socs) && c.battery_socs.length) return c.battery_socs;
+    return typeof c.battery_soc === "string" ? [c.battery_soc] : [];
   }
 
   get _batteryThreshold() {
@@ -49,10 +55,17 @@ export class ModularTickerCard extends EvccBaseCard {
   willUpdate(changed) {
     if (!this.hass || !changed.has("hass")) return;
     const now = new Date();
-    const key = `${dayKey(now)}|${this._events ? this._cals.join(",") : "-"}|${this._days}|${this._batterySoc}|${this._batteryThreshold}|${sig(this.hass, [...packageSensors(this.hass), ...(this._batterySoc ? [this._batterySoc] : [])])}`;
+    const bIds = [...(this._batteryAll ? batterySensors(this.hass) : []), ...this._batteryList];
+    const key = `${dayKey(now)}|${this._events ? this._cals.join(",") : "-"}|${this._days}|${this._batteryAll}|${this._batteryThreshold}|${bIds.join(",")}|${sig(this.hass, [...packageSensors(this.hass), ...bIds])}`;
     if (key === this.__tickKey) return;
     this.__tickKey = key;
-    const base = tickerItems(this.hass, { days: this._days, now, battery_soc: this._batterySoc, battery_threshold: this._batteryThreshold });
+    const base = tickerItems(this.hass, {
+      days: this._days,
+      now,
+      battery_all: this._batteryAll,
+      battery_socs: this._batteryList,
+      battery_threshold: this._batteryThreshold,
+    });
     if (!this._events) {
       this._items = [...base];
       return;
