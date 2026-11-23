@@ -94,17 +94,19 @@ test("MainDashboardStrategy.generate: Tablet-Layout (Räume oben, evcc, Kalender
 
   const calCards = view.sections[2].cards;
   assert.equal(calCards.length, 2);
-  assert.ok(calCards.every((c) => c.type === "custom:modular-calendar-card" && c.grid_options.columns === 6 && c.view === "list"));
+  assert.ok(calCards.every((c) => c.type === "custom:modular-calendar-card" && c.grid_options.columns === 24 && c.view === "list"));
   const dashFull = await MainDashboardStrategy.generate({ prefix: "evcc", calendar_columns: "full" }, hass);
   assert.ok(dashFull.views[0].sections.find((x) => x.title === "Kalender").cards.every((c) => c.grid_options.columns === "full"));
   const dash3 = await MainDashboardStrategy.generate({ prefix: "evcc", calendar_columns: 3 }, hass);
-  assert.ok(dash3.views[0].sections.find((x) => x.title === "Kalender").cards.every((c) => c.grid_options.columns === 3));
+  assert.ok(dash3.views[0].sections.find((x) => x.title === "Kalender").cards.every((c) => c.grid_options.columns === 12));
   const dash6 = await MainDashboardStrategy.generate({ prefix: "evcc", calendar_columns: 6 }, hass);
-  assert.ok(dash6.views[0].sections.find((x) => x.title === "Kalender").cards.every((c) => c.grid_options.columns === 6));
+  assert.ok(dash6.views[0].sections.find((x) => x.title === "Kalender").cards.every((c) => c.grid_options.columns === 24));
   const dash12 = await MainDashboardStrategy.generate({ prefix: "evcc", calendar_columns: 12 }, hass);
-  assert.ok(dash12.views[0].sections.find((x) => x.title === "Kalender").cards.every((c) => c.grid_options.columns === "full"));
-  const dashFullStr = await MainDashboardStrategy.generate({ prefix: "evcc", calendar_columns: "full" }, hass);
-  assert.ok(dashFullStr.views[0].sections.find((x) => x.title === "Kalender").cards.every((c) => c.grid_options.columns === "full"));
+  assert.ok(dash12.views[0].sections.find((x) => x.title === "Kalender").cards.every((c) => c.grid_options.columns === 12));
+  const dash24 = await MainDashboardStrategy.generate({ prefix: "evcc", calendar_columns: 24 }, hass);
+  assert.ok(dash24.views[0].sections.find((x) => x.title === "Kalender").cards.every((c) => c.grid_options.columns === 24));
+  const dashOne = await MainDashboardStrategy.generate({ prefix: "evcc", calendars: ["calendar.arbeit"] }, hass);
+  assert.ok(dashOne.views[0].sections.find((x) => x.title === "Kalender").cards.every((c) => c.grid_options.columns === "full"));
   assert.deepEqual(calCards[0].entities, ["calendar.familie"]);
 
   const ticker = view.sections[3].cards[0];

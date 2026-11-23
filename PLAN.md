@@ -151,7 +151,7 @@ strategy:
 
 - **M24 – Kalender im Hauptdashboard vollbreit (Default):** `calendar_columns` default jetzt `"full"` (Kacheln gestapelt über die ganze Breite, wie Räume/Ticker); `3` = 4 nebeneinander und `6` = 2 nebeneinander bleiben wählbar (Editor-Select default „vollbreit untereinander“); Unit-Tests + README angepasst.
 
-- **M25 – Kalender nebeneinander als Default (2 pro Zeile):** `calendar_columns` default wieder `6` (2 Kacheln nebeneinander à halbe Breite, nicht 4×¼ gestaucht); `"full"` (vollbreit gestapelt) und `3` (4 nebeneinander) bleiben wählbar; Editor-Select default „2 nebeneinander“; Unit-Tests + README angepasst.
+- **M26 – Kalender-Reihe füllt automatisch die volle Breite:** Grid-Mathe in HA 2026 (Abschnitt `column_span: 4` ⇒ 48 Grid-Spalten): `calendar_columns` ohne Wert = automatisch `48/Anzahl` (max. 4 pro Zeile, also 4 Kalender = 4×¼ volle Breite, 1 Kalender = vollbreit); `"full"` = gestapelt, `12` = 4 pro Zeile, `24` = 2 pro Zeile (Legacy-Werte 3/6 werden auf 12/24 gemappt); Editor-Select „Kalender-Anordnung“ mit Option „Automatisch – volle Breite“ (Default); i18n-en, Unit-Tests, README.
 
 ## Randbedingungen
 
