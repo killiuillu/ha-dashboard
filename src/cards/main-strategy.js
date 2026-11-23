@@ -60,7 +60,7 @@ export class MainDashboardStrategy extends StrategyBase {
     const calList = cfgCals.length ? cfgCals : allCals.slice(0, 4);
     if (calList.length) {
       const cc = config.calendar_columns;
-      const calCols = cc === "full" || Number(cc) === 12 ? "full" : [3, 6].includes(Number(cc)) ? Number(cc) : 6;
+      const calCols = [3, 6].includes(Number(cc)) ? Number(cc) : "full";
       const cards = calList.map((id) => ({
         type: "custom:modular-calendar-card",
         title: calTitle(hass, id),

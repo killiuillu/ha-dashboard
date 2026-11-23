@@ -149,6 +149,8 @@ strategy:
 
 - **M23 – Kalender-Auswahl im Hauptdashboard `custom:main`:** `calendars: [calendar.familie, …]` in der Strategy-Config begrenzt die Kalender-Kacheln auf die Auswahl (Default: alle erkannten `calendar.*`, max. 4); Editor `main-strategy-editor` bekommt Checkboxen „Kalender auswählen“ (Default: alle) neben „Kalender-Anordnung“; Unit- + E2E-Tests, README.
 
+- **M24 – Kalender im Hauptdashboard vollbreit (Default):** `calendar_columns` default jetzt `"full"` (Kacheln gestapelt über die ganze Breite, wie Räume/Ticker); `3` = 4 nebeneinander und `6` = 2 nebeneinander bleiben wählbar (Editor-Select default „vollbreit untereinander“); Unit-Tests + README angepasst.
+
 ## Randbedingungen
 
 - UI-Texte Deutsch, i18n wie Raumklima (de als Schlüssel, `en.js`-Tabelle, `t()`/`tmap()`, Sprache folgt `hass.locale`)
