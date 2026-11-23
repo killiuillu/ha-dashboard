@@ -57,6 +57,20 @@ test("tickerItems: Müll <= Schwelle + Pakete, nur wenn wirklich Pakete kommen",
     "sensor.dpd_lieferung",
   ]);
 });
+test("tickerItems: ALLE Batterie-Sensoren (device_class battery) unter Schwelle im Ticker", () => {
+  const now = new Date();
+  const items = tickerItems(hass, { days: 2, now });
+  assert.ok(items.some((i) => i.text.includes("Haust\u00fcr") && i.text.includes("12") && i.icon === "mdi:battery-alert"));
+  assert.ok(!items.some((i) => i.text.includes("Batterie-Ladestand")));
+  const low = tickerItems(hass, { days: 2, now, battery_threshold: 80 });
+  assert.ok(low.some((i) => i.text.includes("Batterie-Ladestand") && i.text.includes("67")));
+  assert.ok(low.some((i) => i.text.includes("Haust\u00fcr") && i.text.includes("12")));
+  const off = tickerItems(hass, { days: 2, now, battery_all: false });
+  assert.ok(!off.some((i) => i.text.includes("Haust\u00fcr") || i.text.includes("Batterie-Ladestand")));
+  const single = tickerItems(hass, { days: 2, now, battery_all: false, battery_soc: "sensor.evcc_battery_soc", battery_threshold: 80 });
+  assert.deepEqual(single.filter((i) => i.text.includes("%")).map((i) => i.text), ["Batterie-Ladestand: 67 %"]);
+});
+
 
 test("tickerCalendarItems: Termine heute/morgen aus Mock-API", async () => {
   const items = await tickerCalendarItems(hass, ["calendar.familie"], new Date());
@@ -124,9 +138,13 @@ test("MainDashboardStrategy.generate: Tablet-Layout (Räume oben, evcc, Kalender
   assert.equal(ticker.type, "custom:modular-ticker-card");
   assert.equal(ticker.grid_options.columns, "full");
   assert.equal(ticker.events, undefined);
-  const dashEv = await MainDashboardStrategy.generate({ prefix: "evcc", ticker_events: true }, hass);
+  assert.equal(ticker.battery_all, true);
+  assert.equal(ticker.battery_threshold, undefined);
+  const dashEv = await MainDashboardStrategy.generate({ prefix: "evcc", ticker_events: true, ticker_battery_threshold: 30, ticker_battery_all: false }, hass);
   const tickerEv = dashEv.views[0].sections[3].cards[0];
   assert.equal(tickerEv.events, true);
+  assert.equal(tickerEv.battery_threshold, 30);
+  assert.equal(tickerEv.battery_all, false);
 
   assert.ok(dash.views.some((v) => v.path === "verlauf"));
 });

@@ -165,6 +165,10 @@ strategy:
 
 - **M32 – Ticker ohne Termine:** `custom:modular-ticker-card` zeigt nur Müll (bald fällig) + erwartete Pakete; Kalender-Termine nur noch opt-in via `events: true` (Karte) bzw. `ticker_events: true` (`custom:main`); Help-Text bedingt; E2E ohne Zahnarzt-Event, Unit für ticker_events; README.
 
+- **M33 – Niedriger Batteriestand im Ticker:** `batteryItem` in util/ticker.js (Icon `mdi:battery-alert`, Text „Batterie: x %“) als erstes Ticker-Item, wenn SoC <= Schwelle (Default 20); Ticker-Karte per `battery_soc`/`battery_threshold`, `custom:main` automatisch mit `det.evcc.battery_soc` + `ticker_battery_threshold`; Unit- (67 % bei Schwelle 80 ja / 20 nein) + E2E; i18n-en, README.
+
+- **M34 – Ticker meldet ALLE Batterie-Geräte unter Schwelle:** `batterySensors()` (alle `sensor.*` mit `device_class: battery`, max 20) + `batteryItems()` in util/ticker.js; Ticker-Karte: `battery_all` (Default true), `battery_threshold` (Default 20), einzelne Entities via `battery_soc`/`battery_socs`; `custom:main` setzt `battery_all: config.ticker_battery_all !== false` + `ticker_battery_threshold`; Fixture um `sensor.haustuer_batterie` (12 %) + device_class battery ergänzt; Unit 72/72 (alle unter Schwelle, battery_all:false, Einzelnachweis); README.
+
 ## Randbedingungen
 
 - UI-Texte Deutsch, i18n wie Raumklima (de als Schlüssel, `en.js`-Tabelle, `t()`/`tmap()`, Sprache folgt `hass.locale`)

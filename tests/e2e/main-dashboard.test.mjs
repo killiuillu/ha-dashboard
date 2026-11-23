@@ -80,6 +80,24 @@ test("Ticker-Karte: Laufband mit Müll/Paket/Terminen (Track doppelt für nahtlo
   expect(errors).toEqual([]);
 });
 
+test("Ticker-Karte mit battery_soc zeigt niedrigen Batteriestand im Laufband (Demo-Karte ohne battery_soc nicht)", async ({ page }) => {
+  const errors = await openDevPage(page);
+  await page.evaluate(() => {
+    const el = document.createElement("modular-ticker-card");
+    el.setConfig({ title: "Ereignisse", battery_soc: "sensor.evcc_battery_soc", battery_threshold: 80 });
+    el.hass = window.__hass;
+    document.getElementById("cards").appendChild(el);
+  });
+  const card2 = page.locator("#cards modular-ticker-card").nth(1);
+  await card2.locator(".ticker .track").waitFor({ state: "attached", timeout: 15000 });
+  const joined2 = (await card2.locator(".tk").allTextContents()).join(" ");
+  expect(joined2).toContain("Batterie-Ladestand");
+  expect(joined2).toContain("67");
+  const first = page.locator("#cards modular-ticker-card").nth(0);
+  expect((await first.locator(".tk").allTextContents()).join(" ")).not.toContain("Batterie");
+  expect(errors).toEqual([]);
+});
+
 test("Haupt-Strategie custom:main ist registriert und generiert Tablet-Layout", async ({ page }) => {
   const errors = await openDevPage(page);
   const res = await page.evaluate(async () => {

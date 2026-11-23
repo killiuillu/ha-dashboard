@@ -164,4 +164,5 @@ export const EN = {
   "Lademodus per Klick setzen (Aus/Schnell/Smart via select.select_option).": "Click sets the charge mode (off/fast/smart via select.select_option).",
   "Laufband mit Müllabfuhr (bald fällig) und erwarteten Paketen. Reine Anzeige.": "Marquee with waste collection (due soon) and expected packages. Display only.",
   "Zusätzlich Termine heute/morgen.": "Additionally appointments today/tomorrow.",
+  "Batterie": "Battery",
 };
