@@ -1,5 +1,5 @@
 import { setLang, t } from "../i18n/index.js";
-import { detectModules, evccCards } from "./strategy.js";
+import { autoGridCols, detectModules, evccCards } from "./strategy.js";
 
 const StrategyBase = typeof HTMLElement !== "undefined" ? HTMLElement : class {};
 
@@ -40,16 +40,7 @@ export class MainDashboardStrategy extends StrategyBase {
 
     const hasEvcc = Object.values(det.evcc || {}).some((v) => typeof v === "string") || (det.evcc?.loadpoints || []).length;
     if (hasEvcc) {
-      const cols = {
-        "custom:evcc-overview-card": 12,
-        "custom:evcc-loadpoint-card": 12,
-        "custom:evcc-vehicle-card": 12,
-        "custom:evcc-energy-card": 12,
-      };
-      const cards = evccCards(det.evcc, config, "evcc").map((c) => ({
-        ...c,
-        grid_options: { columns: cols[c.type] ?? "full" },
-      }));
+      const cards = evccCards(det.evcc, config, "evcc", 4);
       sections.push({ type: "grid", column_span: 4, title: "evcc", cards });
     }
 
@@ -65,10 +56,7 @@ export class MainDashboardStrategy extends StrategyBase {
       if (cc === "full" || n === 48) calCols = "full";
       else if (n === 3 || n === 12) calCols = 12;
       else if (n === 6 || n === 24) calCols = 24;
-      else {
-        const perRow = Math.min(calList.length, 4);
-        calCols = perRow <= 1 ? "full" : 48 / perRow;
-      }
+      else calCols = autoGridCols(4, calList.length);
       const cards = calList.map((id) => ({
         type: "custom:modular-calendar-card",
         title: calTitle(hass, id),

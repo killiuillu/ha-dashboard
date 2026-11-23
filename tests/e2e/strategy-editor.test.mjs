@@ -166,6 +166,27 @@ test("Editor: Auto-Bild-Feld feuert config-changed mit image-Pfad", async ({ pag
   expect(errors).toEqual([]);
 });
 
+test("Editor: Ladesteuerung-Checkbox nur bei evcc-Modul und feuert charge_control", async ({ page }) => {
+  const errors = await openDevPage(page);
+  await page.evaluate(() => {
+    const ed = document.createElement("evcc-strategy-editor");
+    ed.setConfig({ modules: ["evcc"] });
+    ed.hass = window.__hass;
+    document.body.appendChild(ed);
+    window.__ed3 = ed;
+  });
+  await page.waitForTimeout(200);
+  expect(await page.locator("evcc-strategy-editor .ed > .opt input[type=checkbox]").count()).toBe(1);
+  const changed = await page.evaluate(async () => {
+    const ed = window.__ed3;
+    const p = new Promise((res) => ed.addEventListener("config-changed", (e) => res(e.detail.config), { once: true }));
+    ed.shadowRoot.querySelector(".ed > .opt input[type=checkbox]").click();
+    return p;
+  });
+  expect(changed.charge_control).toBe(true);
+  expect(errors).toEqual([]);
+});
+
 test("customStrategies-Eintrag hat configRequired (Dialog fragt vor dem Anlegen)", async ({ page }) => {
   const errors = await openDevPage(page);
   const entry = await page.evaluate(() => (window.customStrategies || []).find((s) => s.type === "modular"));

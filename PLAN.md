@@ -155,6 +155,8 @@ strategy:
 
 - **M27 – Kompakte evcc-Zeile + Ladesteuerung im Hauptdashboard:** evcc-Kacheln in `custom:main` stehen nebeneinander in einer Zeile (je `columns: 12` à ¼ Breite); `custom:evcc-loadpoint-card` bekommt opt-in `control: true` mit Knöpfen **Aus/Schnell/Smart** (`select.select_option` auf `charge_mode`, Auto-Erkennung `select.<prefix>_loadpoint_<n>_charge_mode`, Mapping über `chargeModeMap`); `custom:main` mit `charge_control: true` (Default read-only) + Checkbox im Editor; Styles `.modes/.mode`; Fixture um Lademodus-Select ergänzt; Unit- (detectEvcc/chargeModeMap/Main-Strategy) + E2E-Tests; README.
 
+- **M28 – Kompakte evcc-Zeile auch im modularen Dashboard + Ladesteuerung dort:** `autoGridCols(span, count)` in strategy.js – evcc-Kacheln nebeneinander, Breite füllt automatisch (modular: Abschnitt span 3 ⇒ 36 Grid-Spalten, 4 Kacheln = je 9; main: span 4 ⇒ 48, je 12); `evccCards(evcc, config, title, span)`; main-strategy nutzt dasselbe (cols-Map entfernt); Editor `evcc-strategy-editor` bekommt Checkbox „Ladesteuerung“ (nur bei evcc-Modul) → `charge_control`; Unit- (modular cols 12 bei 3 Kacheln, control-Passthrough) + E2E-Tests; README.
+
 ## Randbedingungen
 
 - UI-Texte Deutsch, i18n wie Raumklima (de als Schlüssel, `en.js`-Tabelle, `t()`/`tmap()`, Sprache folgt `hass.locale`)
