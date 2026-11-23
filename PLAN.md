@@ -161,6 +161,8 @@ strategy:
 
 - **M30 – Kacheln einheitlich breit & flach:** `ha-card` bekommt `container-type: inline-size`, `@container (max-width: 700px)` in card-styles.js schaltet kompakten Modus (kleinere Paddings/Schriftwerte, `.now` über cqw, Dial 150px, kompakte Chips/Stats/Listen/Modus-Knöpfe/Auto-Bild); Breite je Kachel einheitlich über `autoGridCols` (M28), Höhe je Zeile einheitlich über HA-Grid-Stretch. README.
 
+- **M31 – Kacheln in einer Zeile gleich hoch + Energie & Kosten auf die Verlauf-Seite:** `:host`/`ha-card` mit `height: 100%` (füllt das HA-Grid-Item, Zeile streckt auf höchste Kachel); `custom:main`: Energie-&-Kosten-Karte wandert aus der evcc-Zeile (jetzt 3 Kacheln à 16/48) in die Ansicht `verlauf` (vollbreit neben dem Tagesverlauf); Unit-Tests angepasst; README.
+
 ## Randbedingungen
 
 - UI-Texte Deutsch, i18n wie Raumklima (de als Schlüssel, `en.js`-Tabelle, `t()`/`tmap()`, Sprache folgt `hass.locale`)

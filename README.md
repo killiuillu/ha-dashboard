@@ -159,7 +159,7 @@ eigener Konfigurator mit Titel/Präfix/Auto-Bild/Ticker/Räume-steuerbar):
   und Licht-Indikator (Punkt amber = Licht an). **Klick auf einen Raum** öffnet ein **Popup** mit der Steuerung:
   Lichter (`custom:modular-lights-card` mit `control: true`), Klima (`hui-climate-card`),
   Media Player (`hui-media-control-card`), weitere Entities – in HA direkt bedienbar.
-- **Mitte:** kompakte evcc-Zeile – Übersicht, Ladepunkt, Fahrzeug/Reichweite und Energie & Kosten **nebeneinander** (je ¼ Breite, eine Zeile; M27).
+- **Mitte:** kompakte evcc-Zeile – Übersicht, Ladepunkt, Fahrzeug/Reichweite **nebeneinander** (gleiche Breite je Kachel, M28/M30). **Energie & Kosten** liegt auf der zweiten Ansicht **„Verlauf“** (dort auch der Tagesverlauf), vollbreit (M31).
 - **Darunter:** eine Kalender-Kachel **pro Kalender** nebeneinander, die Reihe füllt die volle Breite (Default „Automatisch“; 4 Kalender = 4 pro Zeile, 2 Kalender = 2×½; je `view: list`, `max: 5`). Anordnung über `calendar_columns:` bzw. Select im Dialog; Auswahl über `calendars:` bzw. Checkboxen im Dialog.
 - **Ganz unten:** `custom:modular-ticker-card` – Laufband (links→rechts, pausiert bei Hover) mit
   Terminen heute/morgen, Müll bald fällig (`days <= 2`) und erwarteten Paketen. Paket-Sensoren werden an
