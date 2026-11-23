@@ -162,4 +162,6 @@ export const EN = {
   "Ladesteuerung (Aus/Schnell/Smart) am Ladepunkt": "Charge control (off/fast/smart) at the loadpoint",
   "Zeigt Ladeleistung und Fahrzeug-Ladestand am Ladepunkt.": "Shows charge power and vehicle SoC at the loadpoint.",
   "Lademodus per Klick setzen (Aus/Schnell/Smart via select.select_option).": "Click sets the charge mode (off/fast/smart via select.select_option).",
+  "Laufband mit Müllabfuhr (bald fällig) und erwarteten Paketen. Reine Anzeige.": "Marquee with waste collection (due soon) and expected packages. Display only.",
+  "Zusätzlich Termine heute/morgen.": "Additionally appointments today/tomorrow.",
 };

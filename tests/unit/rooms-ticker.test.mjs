@@ -123,6 +123,10 @@ test("MainDashboardStrategy.generate: Tablet-Layout (Räume oben, evcc, Kalender
   const ticker = view.sections[3].cards[0];
   assert.equal(ticker.type, "custom:modular-ticker-card");
   assert.equal(ticker.grid_options.columns, "full");
+  assert.equal(ticker.events, undefined);
+  const dashEv = await MainDashboardStrategy.generate({ prefix: "evcc", ticker_events: true }, hass);
+  const tickerEv = dashEv.views[0].sections[3].cards[0];
+  assert.equal(tickerEv.events, true);
 
   assert.ok(dash.views.some((v) => v.path === "verlauf"));
 });

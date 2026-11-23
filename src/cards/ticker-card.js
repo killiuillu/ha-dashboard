@@ -33,13 +33,21 @@ export class ModularTickerCard extends EvccBaseCard {
     return Object.keys(this.hass?.states || {}).filter((id) => id.startsWith("calendar."));
   }
 
+  get _events() {
+    return this._config?.events === true;
+  }
+
   willUpdate(changed) {
     if (!this.hass || !changed.has("hass")) return;
     const now = new Date();
-    const key = `${dayKey(now)}|${this._cals.join(",")}|${this._days}|${sig(this.hass, packageSensors(this.hass))}`;
+    const key = `${dayKey(now)}|${this._events ? this._cals.join(",") : "-"}|${this._days}|${sig(this.hass, packageSensors(this.hass))}`;
     if (key === this.__tickKey) return;
     this.__tickKey = key;
     const base = tickerItems(this.hass, { days: this._days, now });
+    if (!this._events) {
+      this._items = [...base];
+      return;
+    }
     tickerCalendarItems(this.hass, this._cals, now).then((cal) => {
       this._items = [...cal, ...base];
     });
@@ -58,7 +66,7 @@ export class ModularTickerCard extends EvccBaseCard {
           <button class="qm" style="--g:${tone}" title="?" aria-label="?" @click=${() => (this._help = !this._help)}>?</button>
         </div>
         ${this._help
-          ? html`<div class="helpbox" style="--g:${tone}">${t("Laufband mit wichtigen Ereignissen (Termine heute/morgen, Müll bald fällig, erwartete Pakete). Reine Anzeige.")}</div>`
+          ? html`<div class="helpbox" style="--g:${tone}">${t("Laufband mit Müllabfuhr (bald fällig) und erwarteten Paketen. Reine Anzeige.")}${this._events ? " " + t("Zusätzlich Termine heute/morgen.") : ""}</div>`
           : nothing}
         ${items.length
           ? html`<div class="ticker"><div class="track">

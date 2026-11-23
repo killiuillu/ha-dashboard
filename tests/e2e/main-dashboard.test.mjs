@@ -73,7 +73,7 @@ test("Ticker-Karte: Laufband mit Müll/Paket/Terminen (Track doppelt für nahtlo
   expect(joined).toContain("Amazon: 2 Pakete");
   expect(joined).not.toContain("GLS");
   expect(joined).not.toContain("DPD");
-  expect(joined).toContain("Zahnarzt");
+  expect(joined).not.toContain("Zahnarzt");
   expect(await card.locator(".tk").count()).toBeGreaterThanOrEqual(6);
   const anim = await card.locator(".track").evaluate((el) => getComputedStyle(el).animationName);
   expect(anim).toBe("evc-tick");
