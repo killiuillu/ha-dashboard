@@ -53,10 +53,15 @@ export class MainDashboardStrategy extends StrategyBase {
       sections.push({ type: "grid", column_span: 4, title: "evcc", cards });
     }
 
-    if (det.calendar.length) {
+    const allCals = Object.keys(hass?.states || {}).filter((id) => id.startsWith("calendar."));
+    const cfgCals = (Array.isArray(config.calendars) ? config.calendars : []).filter(
+      (id) => typeof id === "string" && id.startsWith("calendar."),
+    );
+    const calList = cfgCals.length ? cfgCals : allCals.slice(0, 4);
+    if (calList.length) {
       const cc = config.calendar_columns;
       const calCols = cc === "full" || Number(cc) === 12 ? "full" : [3, 6].includes(Number(cc)) ? Number(cc) : 6;
-      const cards = det.calendar.slice(0, 4).map((id) => ({
+      const cards = calList.map((id) => ({
         type: "custom:modular-calendar-card",
         title: calTitle(hass, id),
         entities: [id],

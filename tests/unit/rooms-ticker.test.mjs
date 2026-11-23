@@ -106,3 +106,15 @@ test("MainDashboardStrategy: ticker:false blendet Ticker-Sektion aus, configRequ
   assert.ok(!titles.includes("Ereignisse"));
   assert.equal(dash.views[0].sections[0].cards[0].control, false);
 });
+
+test("MainDashboardStrategy: calendars-Konfig wählt die Kalender-Kacheln aus", async () => {
+  const dash = await MainDashboardStrategy.generate({ prefix: "evcc", calendars: ["calendar.arbeit"] }, hass);
+  const cal = dash.views[0].sections.find((s) => s.title === "Kalender");
+  assert.equal(cal.cards.length, 1);
+  assert.deepEqual(cal.cards[0].entities, ["calendar.arbeit"]);
+  assert.equal(cal.cards[0].title, "Arbeitskalender");
+  const def = await MainDashboardStrategy.generate({ prefix: "evcc" }, hass);
+  assert.equal(def.views[0].sections.find((s) => s.title === "Kalender").cards.length, 2);
+  const bad = await MainDashboardStrategy.generate({ prefix: "evcc", calendars: ["sensor.kein_kalender"] }, hass);
+  assert.equal(bad.views[0].sections.find((s) => s.title === "Kalender").cards.length, 2);
+});

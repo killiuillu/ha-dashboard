@@ -141,7 +141,7 @@ eigener Konfigurator mit Titel/Präfix/Auto-Bild/Ticker/Räume-steuerbar):
   Lichter (`custom:modular-lights-card` mit `control: true`), Klima (`hui-climate-card`),
   Media Player (`hui-media-control-card`), weitere Entities – in HA direkt bedienbar.
 - **Mitte:** evcc-Übersicht (Übersicht vollbreit, Ladepunkt/Fahrzeug/Reichweite + Energie & Kosten nebeneinander).
-- **Darunter:** eine Kalender-Kachel **pro Kalender** nebeneinander (4-Spalten-Grid, je `view: list`, `max: 5`).
+- **Darunter:** eine Kalender-Kachel **pro Kalender** nebeneinander (4-Spalten-Grid, je `view: list`, `max: 5`); Auswahl über `calendars:` bzw. Checkboxen im Dialog.
 - **Ganz unten:** `custom:modular-ticker-card` – Laufband (links→rechts, pausiert bei Hover) mit
   Terminen heute/morgen, Müll bald fällig (`days <= 2`) und erwarteten Paketen (Sensor-IDs mit
   paket/dhl/dpd/…). Reine Anzeige.
@@ -155,6 +155,7 @@ strategy:
   rooms_control: true   # Räume per Klick steuerbar (Default: an)
   rooms: [wohnzimmer, kueche]   # optional – nur diese Räume anzeigen (Default: alle; Dialog: Checkboxen)
   calendar_columns: 6   # 3 = 4 Kacheln nebeneinander, 6 = 2 nebeneinander (Default), "full" = vollbreit gestapelt
+  calendars: [calendar.familie, calendar.arbeit]   # optional – nur diese Kalender-Kacheln (Default: alle erkannten, max. 4; Dialog: Checkboxen „Kalender auswählen“)
 ```
 
 ## Dashboard-Strategie (M6)
