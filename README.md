@@ -141,7 +141,7 @@ eigener Konfigurator mit Titel/Präfix/Auto-Bild/Ticker/Räume-steuerbar):
   Lichter (`custom:modular-lights-card` mit `control: true`), Klima (`hui-climate-card`),
   Media Player (`hui-media-control-card`), weitere Entities – in HA direkt bedienbar.
 - **Mitte:** evcc-Übersicht (Übersicht vollbreit, Ladepunkt/Fahrzeug/Reichweite + Energie & Kosten nebeneinander).
-- **Darunter:** eine Kalender-Kachel **pro Kalender** vollbreit gestapelt (je `view: list`, `max: 5`; Anordnung über `calendar_columns:` bzw. Select im Dialog, Default vollbreit); Auswahl über `calendars:` bzw. Checkboxen im Dialog.
+- **Darunter:** eine Kalender-Kachel **pro Kalender** nebeneinander (Default 2 pro Zeile, je `view: list`, `max: 5`; Anordnung über `calendar_columns:` bzw. Select im Dialog); Auswahl über `calendars:` bzw. Checkboxen im Dialog.
 - **Ganz unten:** `custom:modular-ticker-card` – Laufband (links→rechts, pausiert bei Hover) mit
   Terminen heute/morgen, Müll bald fällig (`days <= 2`) und erwarteten Paketen. Paket-Sensoren werden an
   der Entity-ID erkannt (DHL, GLS, Hermes, DPD, UPS, Amazon, FedEx bzw. paket/package/lieferung/delivery) und
@@ -158,7 +158,7 @@ strategy:
   ticker: true          # Ereignis-Ticker unten (Default: an)
   rooms_control: true   # Räume per Klick steuerbar (Default: an)
   rooms: [wohnzimmer, kueche]   # optional – nur diese Räume anzeigen (Default: alle; Dialog: Checkboxen)
-  calendar_columns: "full"   # "full" = vollbreit gestapelt (Default), 3 = 4 Kacheln nebeneinander, 6 = 2 nebeneinander
+  calendar_columns: 6   # 6 = 2 Kacheln nebeneinander (Default), 3 = 4 nebeneinander, "full" = vollbreit gestapelt
   calendars: [calendar.familie, calendar.arbeit]   # optional – nur diese Kalender-Kacheln (Default: alle erkannten, max. 4; Dialog: Checkboxen „Kalender auswählen“)
 ```
 

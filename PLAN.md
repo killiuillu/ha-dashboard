@@ -151,6 +151,8 @@ strategy:
 
 - **M24 – Kalender im Hauptdashboard vollbreit (Default):** `calendar_columns` default jetzt `"full"` (Kacheln gestapelt über die ganze Breite, wie Räume/Ticker); `3` = 4 nebeneinander und `6` = 2 nebeneinander bleiben wählbar (Editor-Select default „vollbreit untereinander“); Unit-Tests + README angepasst.
 
+- **M25 – Kalender nebeneinander als Default (2 pro Zeile):** `calendar_columns` default wieder `6` (2 Kacheln nebeneinander à halbe Breite, nicht 4×¼ gestaucht); `"full"` (vollbreit gestapelt) und `3` (4 nebeneinander) bleiben wählbar; Editor-Select default „2 nebeneinander“; Unit-Tests + README angepasst.
+
 ## Randbedingungen
 
 - UI-Texte Deutsch, i18n wie Raumklima (de als Schlüssel, `en.js`-Tabelle, `t()`/`tmap()`, Sprache folgt `hass.locale`)
