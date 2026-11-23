@@ -69,7 +69,7 @@ export class MainStrategyEditor extends LitElement {
           <span>${t("Kalender-Anordnung")}</span>
           <select @change=${(ev) => this._fire({ calendar_columns: ev.target.value === "full" ? "full" : Number(ev.target.value) })}>
             ${["3", "6", "full"].map((v) => {
-              const cur = cfg.calendar_columns === "full" || Number(cfg.calendar_columns) === 12 ? "full" : [3, 6].includes(Number(cfg.calendar_columns)) ? String(Number(cfg.calendar_columns)) : "6";
+              const cur = [3, 6].includes(Number(cfg.calendar_columns)) ? String(Number(cfg.calendar_columns)) : "full";
               return html`<option value="${v}" ?selected=${cur === v}>${v === "3" ? t("4 nebeneinander") : v === "6" ? t("2 nebeneinander") : t("vollbreit untereinander")}</option>`;
             })}
           </select>
