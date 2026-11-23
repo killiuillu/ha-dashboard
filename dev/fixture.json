@@ -242,6 +242,19 @@
         "device_class": "temperature"
       },
       "last_changed": "2026-11-21T12:00:00+00:00"
+    },
+    "select.evcc_loadpoint_1_charge_mode": {
+      "state": "pv",
+      "attributes": {
+        "options": [
+          "off",
+          "now",
+          "minpv",
+          "pv"
+        ],
+        "friendly_name": "Ladepunkt 1 Lademodus"
+      },
+      "last_changed": "2026-11-21T12:00:00+00:00"
     }
   },
   "entities": {

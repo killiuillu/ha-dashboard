@@ -15,7 +15,7 @@ export function detectEvcc(states, prefix = "evcc") {
   for (const k of LIVE_KEYS) out[k] = find(k);
   for (const k of TODAY_KEYS) out[k] = find(k);
   const lps = {};
-  const re = new RegExp(`^sensor\\.${prefix}_loadpoint_(\\d+)_(charge_power|vehicle_soc|status|range|vehicle_range)$`);
+  const re = new RegExp(`^(?:sensor|select)\\.${prefix}_loadpoint_(\\d+)_(charge_power|vehicle_soc|status|range|vehicle_range|charge_mode)$`);
   for (const id of Object.keys(states)) {
     const m = id.match(re);
     if (!m) continue;
@@ -95,11 +95,13 @@ export function evccCards(evcc, config, title) {
   if (Object.keys(overviewEntities).length) {
     cards.push({ type: "custom:evcc-overview-card", title, entities: overviewEntities, grid_options: { columns: "full" } });
   }
+  const lpControl = config?.charge_control === true || config?.evcc?.control === true;
   if (evcc.loadpoints.length) {
     cards.push({
       type: "custom:evcc-loadpoint-card",
       title: evcc.loadpoints.length > 1 ? t("Ladepunkte") : t("Ladepunkt"),
       entities: { loadpoints: evcc.loadpoints },
+      ...(lpControl ? { control: true } : {}),
       grid_options: { columns: "full" },
     });
     const veh = evcc.loadpoints.find((lp) => lp.vehicle_soc);

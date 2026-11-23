@@ -4,7 +4,7 @@ import { t } from "../i18n/index.js";
 import { toneVar } from "../tokens/apply-tokens.js";
 import { fmtInt, num } from "../util/format.js";
 import { stateOf, unitOf } from "../util/hass.js";
-import { dialGeometry, loadpointStatus, normalizeLoadpoints, splitPower } from "../util/evcc.js";
+import { chargeModeMap, dialGeometry, loadpointStatus, modeActive, normalizeLoadpoints, splitPower } from "../util/evcc.js";
 
 export class EvccLoadpointCard extends EvccBaseCard {
   static properties = { ...EvccBaseCard.properties, _help: { state: true } };
@@ -15,6 +15,26 @@ export class EvccLoadpointCard extends EvccBaseCard {
 
   getCardSize() {
     return 4;
+  }
+
+  get _control() {
+    return this._config?.control === true;
+  }
+
+  _setMode(entity, option) {
+    if (typeof this.hass?.callService === "function") {
+      this.hass.callService("select", "select_option", { entity_id: entity, option });
+    }
+  }
+
+  _modeRow(lp) {
+    if (!this._control || !lp.charge_mode) return nothing;
+    const m = chargeModeMap(this.hass, lp.charge_mode);
+    const btn = (label, opt) =>
+      opt
+        ? html`<button class="mode${modeActive(m.current, opt) ? " on" : ""}" @click=${() => this._setMode(lp.charge_mode, opt)}>${label}</button>`
+        : nothing;
+    return html`<div class="modes">${btn(t("Aus"), m.off)}${btn(t("Schnell"), m.now)}${btn(t("Smart"), m.smart)}</div>`;
   }
 
   _renderLp(lp) {
@@ -49,6 +69,7 @@ export class EvccLoadpointCard extends EvccBaseCard {
             <div class="target">${pct === null ? st.label : html`${t("Ladestand")} <b>${fmtInt(soc)} %</b>`}</div>
           </div>
         </div>
+        ${this._modeRow(lp)}
       </div>`;
   }
 
@@ -71,7 +92,7 @@ export class EvccLoadpointCard extends EvccBaseCard {
           <button class="qm" style="--g:${tone}" title="?" aria-label="?" @click=${() => (this._help = !this._help)}>?</button>
         </div>
         ${this._help
-          ? html`<div class="helpbox" style="--g:${tone}">${t("Zeigt Ladeleistung und Fahrzeug-Ladestand am Ladepunkt. Nur Anzeige – es wird nichts gesteuert.")}</div>`
+          ? html`<div class="helpbox" style="--g:${tone}">${t("Zeigt Ladeleistung und Fahrzeug-Ladestand am Ladepunkt.")} ${this._control ? t("Lademodus per Klick setzen (Aus/Schnell/Smart via select.select_option).") : t("Nur Anzeige – es wird nichts gesteuert.")}</div>`
           : nothing}
         <div class="lps">${lps.map((lp) => this._renderLp(lp))}</div>
       </ha-card>`;

@@ -93,6 +93,10 @@ export class MainStrategyEditor extends LitElement {
           <input type="checkbox" .checked=${cfg.rooms_control !== false} @change=${(ev) => this._fire({ rooms_control: ev.target.checked ? undefined : false })} />
           <span>${t("Räume steuerbar (Lichter/Klima/Media per Klick)")}</span>
         </label>
+        <label class="opt">
+          <input type="checkbox" .checked=${cfg.charge_control === true} @change=${(ev) => this._fire({ charge_control: ev.target.checked ? true : undefined })} />
+          <span>${t("Ladesteuerung (Aus/Schnell/Smart) am Ladepunkt")}</span>
+        </label>
         <div class="subhead">${t("Räume anzeigen")}</div>
         ${this._areaIds.map((id) => html`
           <label class="opt">

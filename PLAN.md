@@ -153,6 +153,8 @@ strategy:
 
 - **M26 – Kalender-Reihe füllt automatisch die volle Breite:** Grid-Mathe in HA 2026 (Abschnitt `column_span: 4` ⇒ 48 Grid-Spalten): `calendar_columns` ohne Wert = automatisch `48/Anzahl` (max. 4 pro Zeile, also 4 Kalender = 4×¼ volle Breite, 1 Kalender = vollbreit); `"full"` = gestapelt, `12` = 4 pro Zeile, `24` = 2 pro Zeile (Legacy-Werte 3/6 werden auf 12/24 gemappt); Editor-Select „Kalender-Anordnung“ mit Option „Automatisch – volle Breite“ (Default); i18n-en, Unit-Tests, README.
 
+- **M27 – Kompakte evcc-Zeile + Ladesteuerung im Hauptdashboard:** evcc-Kacheln in `custom:main` stehen nebeneinander in einer Zeile (je `columns: 12` à ¼ Breite); `custom:evcc-loadpoint-card` bekommt opt-in `control: true` mit Knöpfen **Aus/Schnell/Smart** (`select.select_option` auf `charge_mode`, Auto-Erkennung `select.<prefix>_loadpoint_<n>_charge_mode`, Mapping über `chargeModeMap`); `custom:main` mit `charge_control: true` (Default read-only) + Checkbox im Editor; Styles `.modes/.mode`; Fixture um Lademodus-Select ergänzt; Unit- (detectEvcc/chargeModeMap/Main-Strategy) + E2E-Tests; README.
+
 ## Randbedingungen
 
 - UI-Texte Deutsch, i18n wie Raumklima (de als Schlüssel, `en.js`-Tabelle, `t()`/`tmap()`, Sprache folgt `hass.locale`)
