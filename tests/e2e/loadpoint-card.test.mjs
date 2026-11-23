@@ -81,6 +81,47 @@ test("Mehrere Ladepunkte über entities.loadpoints rendern je einen Dial", async
   expect(errors).toEqual([]);
 });
 
+test("Ladepunkt-Karte mit control:true zeigt Aus/Schnell/Smart und schaltet per select.select_option", async ({ page }) => {
+  const errors = await openDevPage(page);
+  await page.evaluate(() => {
+    window.__calls = [];
+    window.__hass.callService = async (d, svc, t) => {
+      window.__calls.push([d, svc, t]);
+      return {};
+    };
+    const el = document.createElement("evcc-loadpoint-card");
+    el.setConfig({
+      title: "Wallbox",
+      control: true,
+      entities: {
+        loadpoints: [
+          {
+            name: "LP 1",
+            charge_power: "sensor.evcc_loadpoint_1_charge_power",
+            vehicle_soc: "sensor.evcc_loadpoint_1_vehicle_soc",
+            status: "sensor.evcc_loadpoint_1_status",
+            charge_mode: "select.evcc_loadpoint_1_charge_mode",
+          },
+        ],
+      },
+    });
+    el.hass = window.__hass;
+    document.getElementById("cards").appendChild(el);
+  });
+  const card2 = page.locator("#cards evcc-loadpoint-card").nth(1);
+  await card2.locator(".modes .mode").first().waitFor({ state: "attached" });
+  const labels = await card2.locator(".modes .mode").allTextContents();
+  expect(labels.map((x) => x.trim())).toEqual(["Aus", "Schnell", "Smart"]);
+  expect((await card2.locator(".modes .mode.on").textContent()).trim()).toBe("Smart");
+  expect(await page.locator("#cards evcc-loadpoint-card").nth(0).locator(".modes").count()).toBe(0);
+  await card2.locator(".modes .mode").nth(1).click();
+  await page.waitForTimeout(200);
+  expect(await page.evaluate(() => window.__calls)).toEqual([
+    ["select", "select_option", { entity_id: "select.evcc_loadpoint_1_charge_mode", option: "now" }],
+  ]);
+  expect(errors).toEqual([]);
+});
+
 test("?-Button klappt die Erklärung auf", async ({ page }) => {
   const errors = await openDevPage(page);
   await page.locator(`${card} ha-card`).waitFor({ state: "attached" });

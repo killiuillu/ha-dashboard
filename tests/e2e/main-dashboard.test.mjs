@@ -134,7 +134,7 @@ test("Haupt-Editor: Felder feuern config-changed (Titel, Ticker aus)", async ({ 
 
   const subheads = await page.locator("main-strategy-editor .subhead").allTextContents();
   expect(subheads).toEqual(["Kalender auswählen", "Räume anzeigen"]);
-  expect(await page.locator("main-strategy-editor .opt input[type=checkbox]").count()).toBe(7);
+  expect(await page.locator("main-strategy-editor .opt input[type=checkbox]").count()).toBe(8);
   const changedCal = await page.evaluate(async () => {
     const ed = window.__med;
     const p = new Promise((res) => ed.addEventListener("config-changed", (e) => res(e.detail.config), { once: true }));
@@ -143,11 +143,19 @@ test("Haupt-Editor: Felder feuern config-changed (Titel, Ticker aus)", async ({ 
     return p;
   });
   expect(changedCal.calendars).toEqual(["calendar.familie"]);
+  const changedCharge = await page.evaluate(async () => {
+    const ed = window.__med;
+    const p = new Promise((res) => ed.addEventListener("config-changed", (e) => res(e.detail.config), { once: true }));
+    const boxes = [...ed.shadowRoot.querySelectorAll(".opt input[type=checkbox]")];
+    boxes[4].click();
+    return p;
+  });
+  expect(changedCharge.charge_control).toBe(true);
   const changedRooms = await page.evaluate(async () => {
     const ed = window.__med;
     const p = new Promise((res) => ed.addEventListener("config-changed", (e) => res(e.detail.config), { once: true }));
     const boxes = [...ed.shadowRoot.querySelectorAll(".opt input[type=checkbox]")];
-    boxes[6].click();
+    boxes[7].click();
     return p;
   });
   expect(changedRooms.rooms).toEqual(["wohnzimmer", "kueche"]);

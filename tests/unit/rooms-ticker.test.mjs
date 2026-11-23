@@ -87,10 +87,15 @@ test("MainDashboardStrategy.generate: Tablet-Layout (Räume oben, evcc, Kalender
   assert.ok(evccTypes.includes("custom:evcc-loadpoint-card"));
   assert.ok(evccTypes.includes("custom:evcc-vehicle-card"));
   const overview = view.sections[1].cards.find((c) => c.type === "custom:evcc-overview-card");
-  assert.equal(overview.grid_options.columns, "full");
-  assert.equal(view.sections[1].cards.find((c) => c.type === "custom:evcc-loadpoint-card").grid_options.columns, 6);
-  assert.equal(view.sections[1].cards.find((c) => c.type === "custom:evcc-vehicle-card").grid_options.columns, 6);
-  assert.equal(view.sections[1].cards.find((c) => c.type === "custom:evcc-energy-card").grid_options.columns, "full");
+  assert.equal(overview.grid_options.columns, 12);
+  assert.equal(view.sections[1].cards.find((c) => c.type === "custom:evcc-loadpoint-card").grid_options.columns, 12);
+  assert.equal(view.sections[1].cards.find((c) => c.type === "custom:evcc-vehicle-card").grid_options.columns, 12);
+  assert.equal(view.sections[1].cards.find((c) => c.type === "custom:evcc-energy-card").grid_options.columns, 12);
+  assert.equal(view.sections[1].cards.find((c) => c.type === "custom:evcc-loadpoint-card").control, undefined);
+  const dashCC = await MainDashboardStrategy.generate({ prefix: "evcc", charge_control: true }, hass);
+  const lpCard = dashCC.views[0].sections[1].cards.find((c) => c.type === "custom:evcc-loadpoint-card");
+  assert.equal(lpCard.control, true);
+  assert.equal(lpCard.entities.loadpoints[0].charge_mode, "select.evcc_loadpoint_1_charge_mode");
 
   const calCards = view.sections[2].cards;
   assert.equal(calCards.length, 2);

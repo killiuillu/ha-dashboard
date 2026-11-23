@@ -50,7 +50,7 @@ npm test             # E2E: Rendern der Karten mit Fixture im Chromium, Konsolen
 | Typ | Inhalt | Status |
 | --- | --- | --- |
 | `custom:evcc-overview-card` | Übersicht PV / Netz / Haus / Batterie mit Ampel und „?“-Erklärung | gebaut (M3) |
-| `custom:evcc-loadpoint-card` | Ladepunkt(e): Ladeleistung, Fahrzeug-SoC als Ring, Status | gebaut (M4) |
+| `custom:evcc-loadpoint-card` | Ladepunkt(e): Ladeleistung, Fahrzeug-SoC als Ring, Status; optional steuerbar: `control: true` + `charge_mode` → Knöpfe **Aus/Schnell/Smart** | gebaut (M4), Ladesteuerung (M27) |
 | `custom:evcc-history-card` | Tagesverlauf PV/Netz/Haus als Chart mit Tooltip (Recorder-Statistiken) | gebaut (M5) |
 | `custom:evcc-energy-card` | Autarkie, Energie & Kosten heute (inkl. Preis aus dem HA-Energy-Dashboard) | gebaut (M5) |
 | `custom:evcc-vehicle-card` | Auto-Bild mit Ladestand (SoC) und Reichweite | gebaut (M8) |
@@ -61,6 +61,21 @@ npm test             # E2E: Rendern der Karten mit Fixture im Chromium, Konsolen
 | `custom:modular-ticker-card` | Ereignis-Laufband (Termine, Müll, Pakete) | gebaut (v1.0.0) |
 
 Fahrzeug-Karte – Bild optional, Reichweite als Entity oder berechnet (`capacity_kwh`):
+
+Ladepunkt-Karte – optional mit Lademodus-Steuerung (`control: true`, Default read-only; Modus-Select wird automatisch erkannt oder per `charge_mode` gesetzt):
+
+```yaml
+type: custom:evcc-loadpoint-card
+title: Wallbox
+control: true                 # optional – Knöpfe Aus/Schnell/Smart (select.select_option), Default: nur Anzeige
+entities:
+  loadpoints:
+    - name: LP 1
+      charge_power: sensor.evcc_loadpoint_1_charge_power
+      vehicle_soc: sensor.evcc_loadpoint_1_vehicle_soc
+      status: sensor.evcc_loadpoint_1_status
+      charge_mode: select.evcc_loadpoint_1_charge_mode   # optional, Auto-Erkennung: select.<prefix>_loadpoint_<n>_charge_mode
+```
 
 ```yaml
 type: custom:evcc-vehicle-card
@@ -140,7 +155,7 @@ eigener Konfigurator mit Titel/Präfix/Auto-Bild/Ticker/Räume-steuerbar):
   und Licht-Indikator (Punkt amber = Licht an). **Klick auf einen Raum** öffnet ein **Popup** mit der Steuerung:
   Lichter (`custom:modular-lights-card` mit `control: true`), Klima (`hui-climate-card`),
   Media Player (`hui-media-control-card`), weitere Entities – in HA direkt bedienbar.
-- **Mitte:** evcc-Übersicht (Übersicht vollbreit, Ladepunkt/Fahrzeug/Reichweite + Energie & Kosten nebeneinander).
+- **Mitte:** kompakte evcc-Zeile – Übersicht, Ladepunkt, Fahrzeug/Reichweite und Energie & Kosten **nebeneinander** (je ¼ Breite, eine Zeile; M27).
 - **Darunter:** eine Kalender-Kachel **pro Kalender** nebeneinander, die Reihe füllt die volle Breite (Default „Automatisch“; 4 Kalender = 4 pro Zeile, 2 Kalender = 2×½; je `view: list`, `max: 5`). Anordnung über `calendar_columns:` bzw. Select im Dialog; Auswahl über `calendars:` bzw. Checkboxen im Dialog.
 - **Ganz unten:** `custom:modular-ticker-card` – Laufband (links→rechts, pausiert bei Hover) mit
   Terminen heute/morgen, Müll bald fällig (`days <= 2`) und erwarteten Paketen. Paket-Sensoren werden an
@@ -157,6 +172,7 @@ strategy:
   prefix: evcc
   ticker: true          # Ereignis-Ticker unten (Default: an)
   rooms_control: true   # Räume per Klick steuerbar (Default: an)
+  charge_control: true   # optional – Lademodus-Knöpfe (Aus/Schnell/Smart) an der Ladepunkt-Karte (Default: read-only; Dialog: Checkbox „Ladesteuerung“)
   rooms: [wohnzimmer, kueche]   # optional – nur diese Räume anzeigen (Default: alle; Dialog: Checkboxen)
   calendar_columns: auto   # auto = volle Breite, Kacheln nebeneinander je nach Anzahl (Default, z. B. 4 Kalender = 4 pro Zeile à ¼); 12 = 4 pro Zeile, 24 = 2 pro Zeile, "full" = vollbreit gestapelt
   calendars: [calendar.familie, calendar.arbeit]   # optional – nur diese Kalender-Kacheln (Default: alle erkannten, max. 4; Dialog: Checkboxen „Kalender auswählen“)

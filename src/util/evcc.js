@@ -35,7 +35,7 @@ export function normalizeLoadpoints(cfg) {
   const em = (cfg && cfg.entities) || {};
   if (Array.isArray(em.loadpoints)) return em.loadpoints.filter((x) => x && typeof x === "object");
   const lp = {};
-  for (const k of ["charge_power", "vehicle_soc", "status"]) if (em[k]) lp[k] = em[k];
+  for (const k of ["charge_power", "vehicle_soc", "status", "charge_mode"]) if (em[k]) lp[k] = em[k];
   if (!Object.keys(lp).length) return [];
   return [{ name: (cfg && cfg.name) || "", ...lp }];
 }
@@ -96,4 +96,25 @@ export function dialGeometry(frac) {
     scaleStart: { x: sx, y: sy },
     scaleEnd: { x: ex, y: ey },
   };
+}
+
+export function chargeModeMap(hass, entityId) {
+  const st = hass?.states?.[entityId];
+  const opts = (st?.attributes?.options || []).map((o) => String(o));
+  const lower = opts.map((o) => o.toLowerCase());
+  const pick = (re) => {
+    const i = lower.findIndex((o) => re.test(o));
+    return i >= 0 ? opts[i] : null;
+  };
+  return {
+    current: String(st?.state ?? ""),
+    off: pick(/^(off|aus)\b/),
+    now: pick(/^(now|schnell|fast)\b/),
+    smart: pick(/\bsmart\b/) || pick(/(^|[^a-z])pv([^a-z]|$)/) || pick(/solar/),
+  };
+}
+
+export function modeActive(current, option) {
+  if (!option) return false;
+  return String(current ?? "").toLowerCase() === String(option).toLowerCase();
 }

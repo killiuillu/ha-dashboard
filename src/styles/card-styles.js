@@ -255,6 +255,27 @@ export const cardStyles = css`
     margin-top: 10px;
   }
   .lp { min-width: 0; }
+  .modes { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+  .mode {
+    flex: 1;
+    min-width: 0;
+    font: inherit;
+    font-size: .8rem;
+    padding: 6px 4px;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, var(--primary-text-color, #212121) 18%, transparent);
+    background: transparent;
+    color: var(--primary-text-color, #212121);
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .mode.on {
+    background: var(--tone, var(--evc-color-status-ok, #4caf50));
+    border-color: transparent;
+    color: #fff;
+  }
   .center { text-align: center; z-index: 1; margin-top: -6px; max-width: 58%; min-width: 0; }
   .gridline { stroke: color-mix(in srgb, var(--primary-text-color) 8%, transparent); stroke-dasharray: 3 5; }
   .ylabh {

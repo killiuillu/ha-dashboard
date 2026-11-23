@@ -156,4 +156,10 @@ export const EN = {
   "Termine der gewählten Kalender als Liste (optional gruppiert je Kalender, Anzahl begrenzbar) oder Monatsansicht":
     "Events of the selected calendars as list (optionally grouped per calendar, count limitable) or month view",
   "Automatisch – volle Breite": "Automatic – full width",
+  "Aus": "Off",
+  "Schnell": "Fast",
+  "Smart": "Smart",
+  "Ladesteuerung (Aus/Schnell/Smart) am Ladepunkt": "Charge control (off/fast/smart) at the loadpoint",
+  "Zeigt Ladeleistung und Fahrzeug-Ladestand am Ladepunkt.": "Shows charge power and vehicle SoC at the loadpoint.",
+  "Lademodus per Klick setzen (Aus/Schnell/Smart via select.select_option).": "Click sets the charge mode (off/fast/smart via select.select_option).",
 };
