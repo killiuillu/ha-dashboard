@@ -80,7 +80,14 @@ export class MainDashboardStrategy extends StrategyBase {
         type: "grid",
         column_span: 4,
         title: t("Ereignisse"),
-        cards: [{ type: "custom:modular-ticker-card", title: t("Ereignisse"), grid_options: { columns: "full" } }],
+        cards: [
+          {
+            type: "custom:modular-ticker-card",
+            title: t("Ereignisse"),
+            ...(config.ticker_events === true ? { events: true } : {}),
+            grid_options: { columns: "full" },
+          },
+        ],
       });
     }
 

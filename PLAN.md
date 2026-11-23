@@ -163,6 +163,8 @@ strategy:
 
 - **M31 – Kacheln in einer Zeile gleich hoch + Energie & Kosten auf die Verlauf-Seite:** `:host`/`ha-card` mit `height: 100%` (füllt das HA-Grid-Item, Zeile streckt auf höchste Kachel); `custom:main`: Energie-&-Kosten-Karte wandert aus der evcc-Zeile (jetzt 3 Kacheln à 16/48) in die Ansicht `verlauf` (vollbreit neben dem Tagesverlauf); Unit-Tests angepasst; README.
 
+- **M32 – Ticker ohne Termine:** `custom:modular-ticker-card` zeigt nur Müll (bald fällig) + erwartete Pakete; Kalender-Termine nur noch opt-in via `events: true` (Karte) bzw. `ticker_events: true` (`custom:main`); Help-Text bedingt; E2E ohne Zahnarzt-Event, Unit für ticker_events; README.
+
 ## Randbedingungen
 
 - UI-Texte Deutsch, i18n wie Raumklima (de als Schlüssel, `en.js`-Tabelle, `t()`/`tmap()`, Sprache folgt `hass.locale`)
