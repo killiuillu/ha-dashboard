@@ -27,6 +27,22 @@ export class MainStrategyEditor extends LitElement {
     this._fire({ rooms: this._areaIds.filter((a) => sel.has(a)) });
   }
 
+  get _calIds() {
+    return Object.keys(this.hass?.states || {}).filter((id) => id.startsWith("calendar."));
+  }
+
+  get _calSelected() {
+    const c = this.config?.calendars;
+    return new Set(Array.isArray(c) && c.length ? c : this._calIds);
+  }
+
+  _toggleCal(id, on) {
+    const sel = new Set(this._calSelected);
+    if (on) sel.add(id);
+    else sel.delete(id);
+    this._fire({ calendars: this._calIds.filter((c) => sel.has(c)) });
+  }
+
   _fire(patch) {
     const config = { ...this.config, ...patch };
     this.dispatchEvent(new CustomEvent("config-changed", { detail: { config }, bubbles: true, composed: true }));
@@ -58,6 +74,15 @@ export class MainStrategyEditor extends LitElement {
             })}
           </select>
         </label>
+        <div class="subhead">${t("Kalender auswählen")}</div>
+        ${this._calIds.map(
+          (id) => html`
+            <label class="opt">
+              <input type="checkbox" .checked=${this._calSelected.has(id)} @change=${(ev) => this._toggleCal(id, ev.target.checked)} />
+              <span class="grow">${this.hass?.states?.[id]?.attributes?.friendly_name || id}</span>
+            </label>
+          `,
+        )}
         <label class="opt">
           <input type="checkbox" .checked=${cfg.ticker !== false} @change=${(ev) => this._fire({ ticker: ev.target.checked ? undefined : false })} />
           <span>${t("Ereignis-Ticker unten anzeigen")}</span>
